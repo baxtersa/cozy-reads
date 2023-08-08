@@ -21,6 +21,7 @@ struct TBRView : View {
                 .environment(\.managedObjectContext, viewContext)
         }
         .background(Color("BackgroundColor"))
+        .animation(.linear(duration: 0.2))
     }
 }
 

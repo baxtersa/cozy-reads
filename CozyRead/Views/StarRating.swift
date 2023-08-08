@@ -13,18 +13,31 @@ struct StarRating: View {
     private let maxRating = 5
     
     var body: some View {
-        HStack {
-            ForEach(1..<maxRating + 1, id: \.self) { value in
-                Image(systemName: "star")
-                    .symbolVariant(value <= rating ? .fill : .none)
-                    .foregroundColor(.accentColor)
-                    .onTapGesture {
-                        if value != rating {
-                            rating = value
-                        } else {
-                            rating = 0
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .leading, endPoint: .topTrailing)
+                .mask {
+                    HStack {
+                        ForEach(1..<maxRating + 1, id: \.self) { value in
+                            Image(systemName: "star")
+                                .symbolVariant(value <= rating ? .fill : .none)
                         }
                     }
+                }
+            HStack {
+                ForEach(1..<maxRating + 1, id: \.self) { value in
+                    Image(systemName: "star")
+                        .symbolVariant(value <= rating ? .fill : .none)
+                        .foregroundColor(.clear)
+                        .contentShape(Circle())
+                        .onTapGesture {
+                            if value != rating {
+                                rating = value
+                            } else {
+                                rating = 0
+                            }
+                            print(rating)
+                        }
+                }
             }
         }
     }
