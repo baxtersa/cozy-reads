@@ -1,0 +1,655 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D30F76A92A813D1F00BEB8AF /* TBRListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30F76A82A813D1F00BEB8AF /* TBRListView.swift */; };
+		D3182E682A7BF622004A4B74 /* YearlyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3182E672A7BF622004A4B74 /* YearlyGoalsView.swift */; };
+		D3182E6A2A7C1967004A4B74 /* TBRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3182E692A7C1967004A4B74 /* TBRView.swift */; };
+		D31963962A79AFCE002A685E /* NavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963952A79AFCE002A685E /* NavBarView.swift */; };
+		D31963982A7AA6AE002A685E /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963972A7AA6AE002A685E /* DashboardView.swift */; };
+		D319639A2A7AAC77002A685E /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963992A7AAC77002A685E /* ChartView.swift */; };
+		D319639C2A7AB622002A685E /* CurrentlyReadingTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319639B2A7AB622002A685E /* CurrentlyReadingTile.swift */; };
+		D319639E2A7ABD08002A685E /* CurrentlyReadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319639D2A7ABD08002A685E /* CurrentlyReadingView.swift */; };
+		D31963A02A7AC73F002A685E /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319639F2A7AC73F002A685E /* GoalsView.swift */; };
+		D31963A22A7ACB96002A685E /* DailyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963A12A7ACB96002A685E /* DailyGoalsView.swift */; };
+		D31963A42A7ACC2C002A685E /* MonthlyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963A32A7ACC2C002A685E /* MonthlyGoalsView.swift */; };
+		D35FE9F92A79ADB1002B1987 /* CozyReadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35FE9F82A79ADB1002B1987 /* CozyReadApp.swift */; };
+		D35FE9FD2A79ADB2002B1987 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D35FE9FC2A79ADB2002B1987 /* Assets.xcassets */; };
+		D35FEA002A79ADB2002B1987 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D35FE9FF2A79ADB2002B1987 /* Preview Assets.xcassets */; };
+		D35FEA022A79ADB2002B1987 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35FEA012A79ADB2002B1987 /* Persistence.swift */; };
+		D35FEA052A79ADB2002B1987 /* CozyRead.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D35FEA032A79ADB2002B1987 /* CozyRead.xcdatamodeld */; };
+		D35FEA0F2A79ADB2002B1987 /* CozyReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35FEA0E2A79ADB2002B1987 /* CozyReadTests.swift */; };
+		D35FEA192A79ADB2002B1987 /* CozyReadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35FEA182A79ADB2002B1987 /* CozyReadUITests.swift */; };
+		D35FEA1B2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35FEA1A2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift */; };
+		D374E95A2A7C429700FF9E9F /* TBRForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D374E9592A7C429700FF9E9F /* TBRForm.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D35FEA0B2A79ADB2002B1987 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D35FE9ED2A79ADB1002B1987 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D35FE9F42A79ADB1002B1987;
+			remoteInfo = CozyRead;
+		};
+		D35FEA152A79ADB2002B1987 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D35FE9ED2A79ADB1002B1987 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D35FE9F42A79ADB1002B1987;
+			remoteInfo = CozyRead;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D30F76A82A813D1F00BEB8AF /* TBRListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBRListView.swift; sourceTree = "<group>"; };
+		D3182E672A7BF622004A4B74 /* YearlyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearlyGoalsView.swift; sourceTree = "<group>"; };
+		D3182E692A7C1967004A4B74 /* TBRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBRView.swift; sourceTree = "<group>"; };
+		D31963952A79AFCE002A685E /* NavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarView.swift; sourceTree = "<group>"; };
+		D31963972A7AA6AE002A685E /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		D31963992A7AAC77002A685E /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		D319639B2A7AB622002A685E /* CurrentlyReadingTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentlyReadingTile.swift; sourceTree = "<group>"; };
+		D319639D2A7ABD08002A685E /* CurrentlyReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentlyReadingView.swift; sourceTree = "<group>"; };
+		D319639F2A7AC73F002A685E /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
+		D31963A12A7ACB96002A685E /* DailyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalsView.swift; sourceTree = "<group>"; };
+		D31963A32A7ACC2C002A685E /* MonthlyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyGoalsView.swift; sourceTree = "<group>"; };
+		D35FE9F52A79ADB1002B1987 /* CozyRead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CozyRead.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D35FE9F82A79ADB1002B1987 /* CozyReadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyReadApp.swift; sourceTree = "<group>"; };
+		D35FE9FC2A79ADB2002B1987 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D35FE9FF2A79ADB2002B1987 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D35FEA012A79ADB2002B1987 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		D35FEA042A79ADB2002B1987 /* CozyRead.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CozyRead.xcdatamodel; sourceTree = "<group>"; };
+		D35FEA0A2A79ADB2002B1987 /* CozyReadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CozyReadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D35FEA0E2A79ADB2002B1987 /* CozyReadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyReadTests.swift; sourceTree = "<group>"; };
+		D35FEA142A79ADB2002B1987 /* CozyReadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CozyReadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D35FEA182A79ADB2002B1987 /* CozyReadUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyReadUITests.swift; sourceTree = "<group>"; };
+		D35FEA1A2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyReadUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D374E9592A7C429700FF9E9F /* TBRForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBRForm.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D35FE9F22A79ADB1002B1987 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D35FEA072A79ADB2002B1987 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D35FEA112A79ADB2002B1987 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D31963942A79AF92002A685E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D30F76A82A813D1F00BEB8AF /* TBRListView.swift */,
+				D374E9592A7C429700FF9E9F /* TBRForm.swift */,
+				D3182E692A7C1967004A4B74 /* TBRView.swift */,
+				D319639F2A7AC73F002A685E /* GoalsView.swift */,
+				D3182E672A7BF622004A4B74 /* YearlyGoalsView.swift */,
+				D31963A32A7ACC2C002A685E /* MonthlyGoalsView.swift */,
+				D31963A12A7ACB96002A685E /* DailyGoalsView.swift */,
+				D31963952A79AFCE002A685E /* NavBarView.swift */,
+				D31963972A7AA6AE002A685E /* DashboardView.swift */,
+				D319639D2A7ABD08002A685E /* CurrentlyReadingView.swift */,
+				D31963992A7AAC77002A685E /* ChartView.swift */,
+				D319639B2A7AB622002A685E /* CurrentlyReadingTile.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D35FE9EC2A79ADB1002B1987 = {
+			isa = PBXGroup;
+			children = (
+				D35FE9F72A79ADB1002B1987 /* CozyRead */,
+				D35FEA0D2A79ADB2002B1987 /* CozyReadTests */,
+				D35FEA172A79ADB2002B1987 /* CozyReadUITests */,
+				D35FE9F62A79ADB1002B1987 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D35FE9F62A79ADB1002B1987 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D35FE9F52A79ADB1002B1987 /* CozyRead.app */,
+				D35FEA0A2A79ADB2002B1987 /* CozyReadTests.xctest */,
+				D35FEA142A79ADB2002B1987 /* CozyReadUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D35FE9F72A79ADB1002B1987 /* CozyRead */ = {
+			isa = PBXGroup;
+			children = (
+				D35FE9F82A79ADB1002B1987 /* CozyReadApp.swift */,
+				D31963942A79AF92002A685E /* Views */,
+				D35FE9FC2A79ADB2002B1987 /* Assets.xcassets */,
+				D35FEA012A79ADB2002B1987 /* Persistence.swift */,
+				D35FEA032A79ADB2002B1987 /* CozyRead.xcdatamodeld */,
+				D35FE9FE2A79ADB2002B1987 /* Preview Content */,
+			);
+			path = CozyRead;
+			sourceTree = "<group>";
+		};
+		D35FE9FE2A79ADB2002B1987 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				D35FE9FF2A79ADB2002B1987 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D35FEA0D2A79ADB2002B1987 /* CozyReadTests */ = {
+			isa = PBXGroup;
+			children = (
+				D35FEA0E2A79ADB2002B1987 /* CozyReadTests.swift */,
+			);
+			path = CozyReadTests;
+			sourceTree = "<group>";
+		};
+		D35FEA172A79ADB2002B1987 /* CozyReadUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D35FEA182A79ADB2002B1987 /* CozyReadUITests.swift */,
+				D35FEA1A2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift */,
+			);
+			path = CozyReadUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D35FE9F42A79ADB1002B1987 /* CozyRead */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D35FEA1E2A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyRead" */;
+			buildPhases = (
+				D35FE9F12A79ADB1002B1987 /* Sources */,
+				D35FE9F22A79ADB1002B1987 /* Frameworks */,
+				D35FE9F32A79ADB1002B1987 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CozyRead;
+			productName = CozyRead;
+			productReference = D35FE9F52A79ADB1002B1987 /* CozyRead.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D35FEA092A79ADB2002B1987 /* CozyReadTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D35FEA212A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyReadTests" */;
+			buildPhases = (
+				D35FEA062A79ADB2002B1987 /* Sources */,
+				D35FEA072A79ADB2002B1987 /* Frameworks */,
+				D35FEA082A79ADB2002B1987 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D35FEA0C2A79ADB2002B1987 /* PBXTargetDependency */,
+			);
+			name = CozyReadTests;
+			productName = CozyReadTests;
+			productReference = D35FEA0A2A79ADB2002B1987 /* CozyReadTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D35FEA132A79ADB2002B1987 /* CozyReadUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D35FEA242A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyReadUITests" */;
+			buildPhases = (
+				D35FEA102A79ADB2002B1987 /* Sources */,
+				D35FEA112A79ADB2002B1987 /* Frameworks */,
+				D35FEA122A79ADB2002B1987 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D35FEA162A79ADB2002B1987 /* PBXTargetDependency */,
+			);
+			name = CozyReadUITests;
+			productName = CozyReadUITests;
+			productReference = D35FEA142A79ADB2002B1987 /* CozyReadUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D35FE9ED2A79ADB1002B1987 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					D35FE9F42A79ADB1002B1987 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					D35FEA092A79ADB2002B1987 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = D35FE9F42A79ADB1002B1987;
+					};
+					D35FEA132A79ADB2002B1987 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = D35FE9F42A79ADB1002B1987;
+					};
+				};
+			};
+			buildConfigurationList = D35FE9F02A79ADB1002B1987 /* Build configuration list for PBXProject "CozyRead" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D35FE9EC2A79ADB1002B1987;
+			productRefGroup = D35FE9F62A79ADB1002B1987 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D35FE9F42A79ADB1002B1987 /* CozyRead */,
+				D35FEA092A79ADB2002B1987 /* CozyReadTests */,
+				D35FEA132A79ADB2002B1987 /* CozyReadUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D35FE9F32A79ADB1002B1987 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D35FEA002A79ADB2002B1987 /* Preview Assets.xcassets in Resources */,
+				D35FE9FD2A79ADB2002B1987 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D35FEA082A79ADB2002B1987 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D35FEA122A79ADB2002B1987 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D35FE9F12A79ADB1002B1987 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D30F76A92A813D1F00BEB8AF /* TBRListView.swift in Sources */,
+				D35FEA022A79ADB2002B1987 /* Persistence.swift in Sources */,
+				D31963A02A7AC73F002A685E /* GoalsView.swift in Sources */,
+				D31963982A7AA6AE002A685E /* DashboardView.swift in Sources */,
+				D319639A2A7AAC77002A685E /* ChartView.swift in Sources */,
+				D31963A42A7ACC2C002A685E /* MonthlyGoalsView.swift in Sources */,
+				D3182E682A7BF622004A4B74 /* YearlyGoalsView.swift in Sources */,
+				D35FEA052A79ADB2002B1987 /* CozyRead.xcdatamodeld in Sources */,
+				D319639C2A7AB622002A685E /* CurrentlyReadingTile.swift in Sources */,
+				D31963962A79AFCE002A685E /* NavBarView.swift in Sources */,
+				D319639E2A7ABD08002A685E /* CurrentlyReadingView.swift in Sources */,
+				D31963A22A7ACB96002A685E /* DailyGoalsView.swift in Sources */,
+				D3182E6A2A7C1967004A4B74 /* TBRView.swift in Sources */,
+				D374E95A2A7C429700FF9E9F /* TBRForm.swift in Sources */,
+				D35FE9F92A79ADB1002B1987 /* CozyReadApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D35FEA062A79ADB2002B1987 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D35FEA0F2A79ADB2002B1987 /* CozyReadTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D35FEA102A79ADB2002B1987 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D35FEA1B2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift in Sources */,
+				D35FEA192A79ADB2002B1987 /* CozyReadUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D35FEA0C2A79ADB2002B1987 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D35FE9F42A79ADB1002B1987 /* CozyRead */;
+			targetProxy = D35FEA0B2A79ADB2002B1987 /* PBXContainerItemProxy */;
+		};
+		D35FEA162A79ADB2002B1987 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D35FE9F42A79ADB1002B1987 /* CozyRead */;
+			targetProxy = D35FEA152A79ADB2002B1987 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D35FEA1C2A79ADB2002B1987 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D35FEA1D2A79ADB2002B1987 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D35FEA1F2A79ADB2002B1987 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CozyRead/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.books.CozyRead;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D35FEA202A79ADB2002B1987 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CozyRead/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.books.CozyRead;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D35FEA222A79ADB2002B1987 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.books.CozyReadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CozyRead.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CozyRead";
+			};
+			name = Debug;
+		};
+		D35FEA232A79ADB2002B1987 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.books.CozyReadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CozyRead.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CozyRead";
+			};
+			name = Release;
+		};
+		D35FEA252A79ADB2002B1987 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.books.CozyReadUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CozyRead;
+			};
+			name = Debug;
+		};
+		D35FEA262A79ADB2002B1987 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.books.CozyReadUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CozyRead;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D35FE9F02A79ADB1002B1987 /* Build configuration list for PBXProject "CozyRead" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D35FEA1C2A79ADB2002B1987 /* Debug */,
+				D35FEA1D2A79ADB2002B1987 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D35FEA1E2A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyRead" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D35FEA1F2A79ADB2002B1987 /* Debug */,
+				D35FEA202A79ADB2002B1987 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D35FEA212A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyReadTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D35FEA222A79ADB2002B1987 /* Debug */,
+				D35FEA232A79ADB2002B1987 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D35FEA242A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyReadUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D35FEA252A79ADB2002B1987 /* Debug */,
+				D35FEA262A79ADB2002B1987 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D35FEA032A79ADB2002B1987 /* CozyRead.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D35FEA042A79ADB2002B1987 /* CozyRead.xcdatamodel */,
+			);
+			currentVersion = D35FEA042A79ADB2002B1987 /* CozyRead.xcdatamodel */;
+			path = CozyRead.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = D35FE9ED2A79ADB1002B1987 /* Project object */;
+}
