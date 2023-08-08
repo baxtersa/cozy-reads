@@ -15,13 +15,17 @@ struct TBRListView : View {
     @State var title: String = ""
     @State var author: String = ""
 
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.dateAdded, order: .reverse)]) var tbr: FetchedResults<TBREntry>
+    @FetchRequest(fetchRequest: BookCSVData.fetchRequest(
+        sortDescriptors: [SortDescriptor(\.dateAdded, order: .reverse)],
+        predicate: NSPredicate(format: "private_year == 'TBR'"))
+    ) var tbr: FetchedResults<BookCSVData>
+//    @FetchRequest(sortDescriptors: [SortDescriptor(\.dateAdded, order: .reverse)]) var tbr: FetchedResults<TBREntry>
 
     var body: some View {
         VStack {
             HStack {
                 Text("To Be Read")
-                    .font(.system(.title))
+                    .font(.system(.title2))
                     .padding([.horizontal, .top], 10)
                 Spacer()
                 Button {
@@ -40,10 +44,8 @@ struct TBRListView : View {
                 }
             }
             List {
-                ForEach(tbr) { entry in
-                    if let title = entry.title {
-                        Text(title)
-                    }
+                ForEach(tbr.compactMap{$0.title}, id: \.self) { title in
+                    Text(title)
                 }
                 .onDelete { indices in
                     removeFromTBR(indices)

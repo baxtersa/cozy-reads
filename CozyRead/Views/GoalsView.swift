@@ -9,12 +9,18 @@ import Foundation
 import SwiftUI
 
 struct GoalsView : View {
+    @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
+    @State private var current = 26
+
+    let target = 50
+    let currentYear: Int = Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Goals")
                     .font(.system(.title))
-                    .padding([.horizontal, .top], 10)
+                    .padding(.leading, 10)
                 Text("Daily Tracker")
                     .font(.system(.title2))
                     .padding([.leading], 10)
@@ -22,11 +28,11 @@ struct GoalsView : View {
                 Text("Monthly")
                     .font(.system(.title2))
                     .padding([.leading], 10)
-                MonthlyGoalsView(yearlyTarget: 50)
+                MonthlyGoalsView(yearlyTarget: target)
                 Text("Yearly")
                     .font(.system(.title2))
                     .padding([.leading], 10)
-                YearlyGoalsView(target: 50, current: 26)
+                YearlyGoalsView(target: target, current: books.filter{$0.year == .year(currentYear)}.count)
                 Spacer()
             }
         }

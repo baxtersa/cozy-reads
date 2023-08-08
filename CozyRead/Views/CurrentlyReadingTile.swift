@@ -15,57 +15,93 @@ struct ReadingModel {
 }
 
 struct CurrentlyReadingTile : View {
-    let data: ReadingModel
+    @Binding var book: BookCSVData
     
+    @State private var expand: Bool = false
+    @State private var rating: Int = 0
+    
+//    let data: ReadingModel
+
     var body: some View {
-        HStack {
-            if let url = data.bookCoverUrl {
-                AsyncImage(url: url) { image in
-                    image.image?.resizable()
-                }
-                .mask(Circle())
-                .aspectRatio(contentMode: .fit)
-                .frame(maxHeight: 150)
-                .padding(.leading)
-            } else {
-                EmptyView()
-            }
-            VStack(alignment: .leading) {
-                Text(data.title)
-                    .font(.system(.title2, weight: .bold))
-                Spacer()
-                HStack {
+        VStack {
+            HStack {
+//                if let url = data.bookCoverUrl {
+//                    AsyncImage(url: url) { image in
+//                        image.image?.resizable()
+//                    }
+//                    .mask(Circle())
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(maxHeight: 150)
+//                    .padding(.leading)
+//                } else {
+//                    EmptyView()
+//                }
+                VStack(alignment: .leading) {
+                    Text(book.title)
+                        .font(.system(.title2, weight: .bold))
+                        .padding(.leading)
                     Spacer()
-                    Text("by \(data.author)")
-                        .font(.system(.title3))
-                        .italic()
+                    HStack {
+                        Spacer()
+                        Text("by \(book.author)")
+                            .font(.system(.title3))
+                            .italic()
+                    }
+                }
+                .padding(.horizontal, 5)
+                .frame(maxHeight: 100)
+                .padding([.vertical, .trailing])
+            }
+            if expand {
+                VStack(spacing: 10) {
+                    StarRating(rating: $rating)
+                    Button {
+                        finishRead()
+                        
+                        expand.toggle()
+                    } label: {
+                        Label("Finished", systemImage: "checkmark")
+                            .padding()
+                            .background(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .topLeading, endPoint: .topTrailing))
+                            .cornerRadius(10)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.bottom)
                 }
             }
-            .padding(.horizontal, 5)
-            .frame(maxHeight: 100)
-            .padding(.vertical)
-            Spacer()
         }
-        .background(RoundedRectangle(cornerRadius: 20).fill(.white))
-        .cornerRadius(20)
-        .padding(.horizontal, 20)
-        .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
-        .swipeActions() {
-            Button(role: .destructive) {} label: {
-                Label("Complete", systemImage: "plus")
+        .background {
+            ZStack(alignment: .top) {
+                Rectangle()
+                    .fill(.white)
+                Rectangle()
+                    .frame(maxHeight: 10)
+                    .foregroundStyle(LinearGradient(gradient: Gradient( colors: [.clear, .clear, .clear, .blue, .purple, .purple]), startPoint: .leading, endPoint: .topTrailing))
             }
-                .tint(.green)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .cornerRadius(10)
+        .padding(.horizontal, 10)
+        .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
+        .animation(.linear(duration: 0.2), value: expand)
+        .onTapGesture {
+            expand.toggle()
         }
     }
-    
+
     private func finishRead() {
+        let currentYear: Int = Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023
+        book.setYear(.year(currentYear))
         
+        book.rating = rating
     }
 }
 
 struct CurrentlyReadingTile_Previews: PreviewProvider {
     static var data = ReadingModel(title: "The Long Way to a Small, Angry Planet", author: "Becky Chambers", bookCoverUrl: URL(string: "https://pictures.abebooks.com/isbn/9780062699220-us-300.jpg"))
+    @State static private var book = try? BookCSVData(from: ["Title": "The Long Way to a Small, Angry Planet", "Author": "Becky Chambers", "Genre": "Sci-fi"], context: PersistenceController.preview.container.viewContext)
+    
     static var previews: some View {
-        CurrentlyReadingTile(data: data)
+        CurrentlyReadingTile(book: Binding($book)!)
     }
 }

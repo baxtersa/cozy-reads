@@ -11,31 +11,34 @@ import SwiftUI
 private struct CheckCircle : View {
     @Environment(\.managedObjectContext) var viewContext
     
-    @State var entry: ReadingTrackerEntity?
+    @State var entry: ReadingTrackerEntity? = nil
     let date: Date
     
     var body: some View {
         ZStack {
             if entry != nil {
-                Circle()
-                    .inset(by: 2.5)
-                    .stroke(style: StrokeStyle(lineWidth: 5))
-                    .foregroundColor(.clear)
-                Circle()
-                    .fill(.green)
-                    .transition(.scale)
-                Image(systemName: "checkmark")
-                    .foregroundColor(.white)
-                    .fontWeight(.bold)
+                Group {
+                    Circle()
+                        .inset(by: 2.5)
+                        .stroke(style: StrokeStyle(lineWidth: 5))
+                        .foregroundColor(.clear)
+                    Circle()
+                        .fill(Gradient(colors: [.blue, .purple]))
+                        .transition(.scale)
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                }
             } else {
-                Circle()
-                    .inset(by: 2.5)
-                    .stroke(style: StrokeStyle(lineWidth: 5))
-                    .foregroundColor(.green)
-                    .opacity(0.3)
-                Image(systemName: "checkmark")
-                    .foregroundColor(.clear)
-                    .fontWeight(.bold)
+                Group {
+                    Circle()
+                        .inset(by: 2.5)
+                        .stroke(Gradient(colors: [.blue, .purple]), style: StrokeStyle(lineWidth: 5))
+                        .opacity(0.3)
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.clear)
+                        .fontWeight(.bold)
+                }
             }
         }
         .onTapGesture {
@@ -60,6 +63,7 @@ private struct CheckCircle : View {
 
 struct DailyGoalsView : View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var daysRead: FetchedResults<ReadingTrackerEntity>
+    @State private var dates: Set<DateComponents> = []
 
     var body: some View {
         VStack {

@@ -18,6 +18,13 @@
 		D31963A02A7AC73F002A685E /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319639F2A7AC73F002A685E /* GoalsView.swift */; };
 		D31963A22A7ACB96002A685E /* DailyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963A12A7ACB96002A685E /* DailyGoalsView.swift */; };
 		D31963A42A7ACC2C002A685E /* MonthlyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963A32A7ACC2C002A685E /* MonthlyGoalsView.swift */; };
+		D3531B812A817CA5001A49BC /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B802A817CA5001A49BC /* HistoryView.swift */; };
+		D3531B832A81B744001A49BC /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = D3531B822A81B744001A49BC /* data.csv */; };
+		D3531B862A81B7D6001A49BC /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B852A81B7D6001A49BC /* CSVReader.swift */; };
+		D3531B872A81B819001A49BC /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = D3531B822A81B744001A49BC /* data.csv */; };
+		D3531B892A827D93001A49BC /* BookDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B882A827D93001A49BC /* BookDataModel.swift */; };
+		D3531B8F2A828A40001A49BC /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B8E2A828A40001A49BC /* DataView.swift */; };
+		D3531B912A82B1C0001A49BC /* StarRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B902A82B1C0001A49BC /* StarRating.swift */; };
 		D35FE9F92A79ADB1002B1987 /* CozyReadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35FE9F82A79ADB1002B1987 /* CozyReadApp.swift */; };
 		D35FE9FD2A79ADB2002B1987 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D35FE9FC2A79ADB2002B1987 /* Assets.xcassets */; };
 		D35FEA002A79ADB2002B1987 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D35FE9FF2A79ADB2002B1987 /* Preview Assets.xcassets */; };
@@ -58,6 +65,12 @@
 		D319639F2A7AC73F002A685E /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
 		D31963A12A7ACB96002A685E /* DailyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalsView.swift; sourceTree = "<group>"; };
 		D31963A32A7ACC2C002A685E /* MonthlyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyGoalsView.swift; sourceTree = "<group>"; };
+		D3531B802A817CA5001A49BC /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		D3531B822A81B744001A49BC /* data.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = data.csv; sourceTree = "<group>"; };
+		D3531B852A81B7D6001A49BC /* CSVReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVReader.swift; sourceTree = "<group>"; };
+		D3531B882A827D93001A49BC /* BookDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDataModel.swift; sourceTree = "<group>"; };
+		D3531B8E2A828A40001A49BC /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
+		D3531B902A82B1C0001A49BC /* StarRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRating.swift; sourceTree = "<group>"; };
 		D35FE9F52A79ADB1002B1987 /* CozyRead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CozyRead.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D35FE9F82A79ADB1002B1987 /* CozyReadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyReadApp.swift; sourceTree = "<group>"; };
 		D35FE9FC2A79ADB2002B1987 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,6 +113,9 @@
 		D31963942A79AF92002A685E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D3531B902A82B1C0001A49BC /* StarRating.swift */,
+				D3531B8E2A828A40001A49BC /* DataView.swift */,
+				D3531B802A817CA5001A49BC /* HistoryView.swift */,
 				D30F76A82A813D1F00BEB8AF /* TBRListView.swift */,
 				D374E9592A7C429700FF9E9F /* TBRForm.swift */,
 				D3182E692A7C1967004A4B74 /* TBRView.swift */,
@@ -114,6 +130,15 @@
 				D319639B2A7AB622002A685E /* CurrentlyReadingTile.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D3531B842A81B74C001A49BC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D3531B822A81B744001A49BC /* data.csv */,
+			);
+			name = Resources;
+			path = ../Resources;
 			sourceTree = "<group>";
 		};
 		D35FE9EC2A79ADB1002B1987 = {
@@ -139,7 +164,10 @@
 		D35FE9F72A79ADB1002B1987 /* CozyRead */ = {
 			isa = PBXGroup;
 			children = (
+				D3531B842A81B74C001A49BC /* Resources */,
 				D35FE9F82A79ADB1002B1987 /* CozyReadApp.swift */,
+				D3531B852A81B7D6001A49BC /* CSVReader.swift */,
+				D3531B882A827D93001A49BC /* BookDataModel.swift */,
 				D31963942A79AF92002A685E /* Views */,
 				D35FE9FC2A79ADB2002B1987 /* Assets.xcassets */,
 				D35FEA012A79ADB2002B1987 /* Persistence.swift */,
@@ -280,6 +308,7 @@
 			files = (
 				D35FEA002A79ADB2002B1987 /* Preview Assets.xcassets in Resources */,
 				D35FE9FD2A79ADB2002B1987 /* Assets.xcassets in Resources */,
+				D3531B832A81B744001A49BC /* data.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3531B872A81B819001A49BC /* data.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,14 +338,19 @@
 				D35FEA022A79ADB2002B1987 /* Persistence.swift in Sources */,
 				D31963A02A7AC73F002A685E /* GoalsView.swift in Sources */,
 				D31963982A7AA6AE002A685E /* DashboardView.swift in Sources */,
+				D3531B892A827D93001A49BC /* BookDataModel.swift in Sources */,
 				D319639A2A7AAC77002A685E /* ChartView.swift in Sources */,
 				D31963A42A7ACC2C002A685E /* MonthlyGoalsView.swift in Sources */,
 				D3182E682A7BF622004A4B74 /* YearlyGoalsView.swift in Sources */,
+				D3531B862A81B7D6001A49BC /* CSVReader.swift in Sources */,
 				D35FEA052A79ADB2002B1987 /* CozyRead.xcdatamodeld in Sources */,
 				D319639C2A7AB622002A685E /* CurrentlyReadingTile.swift in Sources */,
+				D3531B812A817CA5001A49BC /* HistoryView.swift in Sources */,
 				D31963962A79AFCE002A685E /* NavBarView.swift in Sources */,
 				D319639E2A7ABD08002A685E /* CurrentlyReadingView.swift in Sources */,
+				D3531B912A82B1C0001A49BC /* StarRating.swift in Sources */,
 				D31963A22A7ACB96002A685E /* DailyGoalsView.swift in Sources */,
+				D3531B8F2A828A40001A49BC /* DataView.swift in Sources */,
 				D3182E6A2A7C1967004A4B74 /* TBRView.swift in Sources */,
 				D374E95A2A7C429700FF9E9F /* TBRForm.swift in Sources */,
 				D35FE9F92A79ADB1002B1987 /* CozyReadApp.swift in Sources */,

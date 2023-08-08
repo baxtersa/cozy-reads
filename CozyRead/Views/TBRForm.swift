@@ -14,14 +14,38 @@ struct TBRForm : View {
     @Binding var title: String
     @Binding var author: String
 
+    @State var seriesToggle: Bool = false
+    @State var series: String = ""
+
+    private static let genres = [
+        "Fantasy",
+        "Sci-fi",
+        "Horror",
+        "Contemporary"
+    ]
+    @State var selectedGenre: String = ""
+
     var body: some View {
         VStack {
             Form {
                 Section("Book Info") {
                     TextField("Title", text: $title)
                     TextField("Author", text: $author)
+                    Picker("Genre", selection: $selectedGenre) {
+                        ForEach(TBRForm.genres, id: \.self) { genre in
+                            Text(genre)
+                        }
+                    }
+                    .pickerStyle(.segmented)
                 }
                 
+                Section("Series Info") {
+                    Toggle("Belongs to a series", isOn: $seriesToggle)
+                    if seriesToggle {
+                        TextField("Series", text: $series)
+                    }
+                }
+
                 VStack {
                     Button {
                         if title.isEmpty || author.isEmpty {
@@ -29,11 +53,14 @@ struct TBRForm : View {
                             return
                         }
                         
-                        let newBook = TBREntry(context: viewContext)
+                        let newBook = BookCSVData(managedContext: viewContext)
                         newBook.dateAdded = Date.now
                         newBook.title = title
                         newBook.author = author
-                        newBook.isbn = "1234"
+                        
+                        if !series.isEmpty {
+                            newBook.series = series
+                        }
                         
                         PersistenceController.shared.save()
                         

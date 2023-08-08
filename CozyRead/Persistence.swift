@@ -27,7 +27,7 @@ struct PersistenceController {
             let entry = ReadingTrackerEntity(context: viewContext)
             entry.date = day
         }
-
+        
         do {
             try viewContext.save()
         } catch {
@@ -41,11 +41,14 @@ struct PersistenceController {
 
     let container: NSPersistentContainer
 
-    init(inMemory: Bool = false) {
+    private init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "CozyRead")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            let _: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: container.viewContext)
         }
+//        let _: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: container.viewContext)
+
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

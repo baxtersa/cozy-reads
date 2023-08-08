@@ -19,9 +19,9 @@ struct MonthProgressBar : View {
                     ZStack(alignment: .bottom) {
                         RoundedRectangle(cornerRadius: 5)
                             .opacity(0.3)
-                            .foregroundColor(.green)
+                            .foregroundStyle(Gradient(colors: [.blue, .purple]))
                         RoundedRectangle(cornerRadius: 5)
-                            .foregroundColor(.green)
+                            .foregroundStyle(Gradient(colors: [.blue, .purple]))
                             .frame(height: geometry.size.height * CGFloat(min(1.0, progress)))
                     }
                     if progress > 1.0 {

@@ -24,9 +24,9 @@ struct NavBarView: View {
                     .tabItem{
                         Label("Dashboard", systemImage: "square.grid.2x2")
                     }
-                Text(verbatim: "history")
+                HistoryView()
                     .tabItem{
-                        Label("History", systemImage: "clock")
+                        Label("History", systemImage: "clock.arrow.circlepath")
                     }
                 TBRView()
                     .tabItem {
@@ -37,7 +37,7 @@ struct NavBarView: View {
                     .tabItem{
                         Label("Goals", systemImage: "checkmark.square")
                     }
-                Text(verbatim: "data")
+                DataView()
                     .tabItem{
                         Label("Data", systemImage: "cylinder.split.1x2")
                     }

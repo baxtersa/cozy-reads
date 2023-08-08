@@ -9,6 +9,7 @@ import XCTest
 @testable import CozyRead
 
 final class CozyReadTests: XCTestCase {
+    let persistence = PersistenceController.shared
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -33,4 +34,8 @@ final class CozyReadTests: XCTestCase {
         }
     }
 
+    func testCSV() {
+        let data : [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: PersistenceController.shared.container.viewContext)
+        assert(!data.isEmpty)
+    }
 }
