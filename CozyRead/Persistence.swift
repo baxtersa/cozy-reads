@@ -14,12 +14,6 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
 
-        // Fake TBR Entry
-        let tbr = TBREntry(context: viewContext)
-        tbr.dateAdded = Date.now - 1
-        tbr.title = "The Galaxy and the Ground Within"
-        tbr.author = "Becky Chambers"
-
         // Fake some reading dates
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.startOfDay(for: .now))
         let dayBefore = Calendar.current.date(byAdding: .day, value: -2, to: Calendar.current.startOfDay(for: .now))

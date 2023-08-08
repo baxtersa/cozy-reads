@@ -9,12 +9,14 @@ import Foundation
 import SwiftUI
 
 struct CurrentlyReadingView : View {
-    private let reading = ReadingModel(title: "Record of a Spaceborn Few", author: "Becky Chambers", bookCoverUrl: URL(string: "https://pictures.abebooks.com/isbn/9780062699220-us-300.jpg"))
-    @State private var book = try? BookCSVData(from: ["Title": "The Long Way to a Small, Angry Planet", "Author": "Becky Chambers", "Genre": "Sci-fi"], context: PersistenceController.preview.container.viewContext)
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(fetchRequest: BookCSVData.fetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "private_year == 'Reading'"))) var books: FetchedResults<BookCSVData>
 
     var body: some View {
         VStack {
-            CurrentlyReadingTile(book: Binding($book)!)
+            ForEach(books.prefix(3), id: \.self) { book in
+                CurrentlyReadingTile(book: book)
+            }
         }
     }
 }
@@ -22,5 +24,6 @@ struct CurrentlyReadingView : View {
 struct CurrentlyReadingView_Previews: PreviewProvider {
     static var previews: some View {
         CurrentlyReadingView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

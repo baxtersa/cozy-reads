@@ -19,8 +19,6 @@ struct DashboardView : View {
             accum + Float(book.rating)
         }) / Float(readThisYear.count), symbol: "star")
 
-        let currentlyReading = books.filter{$0.year == .reading}
-
         VStack(alignment: .leading, spacing: 10) {
             Text("Overview")
                 .font(.system(.title))
@@ -31,9 +29,6 @@ struct DashboardView : View {
                 .font(.system(.title2))
                 .padding(.horizontal, 10)
             CurrentlyReadingView()
-            Text("To Be Read")
-                .font(.system(.title2))
-                .padding([.horizontal, .bottom], 10)
             Spacer()
         }
         .background(Color("BackgroundColor"))

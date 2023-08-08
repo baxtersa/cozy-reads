@@ -19,7 +19,6 @@ struct TBRListView : View {
         sortDescriptors: [SortDescriptor(\.dateAdded, order: .reverse)],
         predicate: NSPredicate(format: "private_year == 'TBR'"))
     ) var tbr: FetchedResults<BookCSVData>
-//    @FetchRequest(sortDescriptors: [SortDescriptor(\.dateAdded, order: .reverse)]) var tbr: FetchedResults<TBREntry>
 
     var body: some View {
         VStack {
@@ -44,11 +43,20 @@ struct TBRListView : View {
                 }
             }
             List {
-                ForEach(tbr.compactMap{$0.title}, id: \.self) { title in
-                    Text(title)
-                }
-                .onDelete { indices in
-                    removeFromTBR(indices)
+                ForEach(tbr, id: \.self) { book in
+                    Text(book.title)
+                        .swipeActions(allowsFullSwipe: false) {
+                            Button(role: .destructive) {
+                                removeFromTBR(book)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            Button {
+                                startReading(book)
+                            } label: {
+                                Text("Start")
+                            }
+                        }
                 }
                 if tbr.isEmpty {
                     Spacer()
@@ -59,12 +67,14 @@ struct TBRListView : View {
         }
     }
 
-    private func removeFromTBR(_ indices: IndexSet) {
-        for index in indices {
-            let entry = tbr[index]
-            viewContext.delete(entry)
-            PersistenceController.shared.save()
-        }
+    private func startReading(_ book: BookCSVData) {
+        book.setYear(.reading)
+        PersistenceController.shared.save()
+    }
+
+    private func removeFromTBR(_ book: BookCSVData) {
+        viewContext.delete(book)
+        PersistenceController.shared.save()
     }
 }
 

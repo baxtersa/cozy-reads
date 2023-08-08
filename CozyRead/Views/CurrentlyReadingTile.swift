@@ -15,7 +15,7 @@ struct ReadingModel {
 }
 
 struct CurrentlyReadingTile : View {
-    @Binding var book: BookCSVData
+    let book: BookCSVData
     
     @State private var expand: Bool = false
     @State private var rating: Int = 0
@@ -98,10 +98,9 @@ struct CurrentlyReadingTile : View {
 }
 
 struct CurrentlyReadingTile_Previews: PreviewProvider {
-    static var data = ReadingModel(title: "The Long Way to a Small, Angry Planet", author: "Becky Chambers", bookCoverUrl: URL(string: "https://pictures.abebooks.com/isbn/9780062699220-us-300.jpg"))
-    @State static private var book = try? BookCSVData(from: ["Title": "The Long Way to a Small, Angry Planet", "Author": "Becky Chambers", "Genre": "Sci-fi"], context: PersistenceController.preview.container.viewContext)
-    
+    static private var book = try! BookCSVData(from: ["Title": "The Long Way to a Small, Angry Planet", "Author": "Becky Chambers", "Genre": "Sci-fi"], context: PersistenceController.preview.container.viewContext)
+
     static var previews: some View {
-        CurrentlyReadingTile(book: Binding($book)!)
+        CurrentlyReadingTile(book: book)
     }
 }

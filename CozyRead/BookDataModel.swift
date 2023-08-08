@@ -121,7 +121,8 @@ public class BookCSVData : NSManagedObject, InitFromDictionary {
             throw ParseError.noGenre
         }
 
-        self.init(context: context)
+        let entity = NSEntityDescription.entity(forEntityName: "BookCSVData", in: context)!
+        self.init(entity: entity, insertInto: context)
 
         let rating = Int(from["Rating"] ?? "0") ?? 0
 
