@@ -37,9 +37,15 @@ struct CurrentlyReadingTile : View {
 //                    EmptyView()
 //                }
                 VStack(alignment: .leading) {
-                    Text(book.title)
-                        .font(.system(.title2, weight: .bold))
-                        .padding(.leading)
+                    HStack {
+                        Text(book.title)
+                            .font(.system(.title2, weight: .bold))
+                            .padding(.leading)
+                        Spacer()
+                        Image(systemName: "chevron.down")
+                            .animation(.easeInOut, value: expand)
+                            .rotationEffect(.degrees(expand ? 0 : -90))
+                    }
                     Spacer()
                     HStack {
                         Spacer()
@@ -55,6 +61,7 @@ struct CurrentlyReadingTile : View {
             if expand {
                 VStack(spacing: 10) {
                     StarRating(rating: $rating)
+                        .frame(width: 200)
                     Button {
                         finishRead()
                         
@@ -68,6 +75,8 @@ struct CurrentlyReadingTile : View {
                     }
                     .padding(.bottom)
                 }
+                .frame(maxHeight: 120)
+                .clipped()
             }
         }
         .background {
@@ -85,15 +94,20 @@ struct CurrentlyReadingTile : View {
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
         .animation(.linear(duration: 0.2), value: expand)
         .onTapGesture {
-            expand.toggle()
+            withAnimation {
+                expand.toggle()
+            }
         }
     }
 
     private func finishRead() {
         let currentYear: Int = Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023
         book.setYear(.year(currentYear))
-        
+
         book.rating = rating
+        book.dateCompleted = Date.now
+
+        PersistenceController.shared.save()
     }
 }
 
