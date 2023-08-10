@@ -9,14 +9,20 @@ import CoreData
 import Foundation
 import SwiftUI
 
-public enum Genre : String {
+public enum Genre : String, CaseIterable, Hashable, Identifiable {
     case fantasy = "Fantasy"
     case sci_fi = "Sci-fi"
     case contemporary = "Contemporary"
     case horror = "Horror"
+    case literary = "Literary Fiction"
+    case nonfiction = "Nonfiction"
+    case romance = "Romance"
+    case historical = "Historical Fiction"
+
+    public var id: Self { self }
 }
 
-public enum Year : Equatable {
+public enum Year : Equatable, Hashable, Comparable {
     case year(_: Int)
     case tbr
     case reading
@@ -52,11 +58,26 @@ public enum Year : Equatable {
     }
 }
 
-public enum ReadType : String {
+extension Year {
+    static public func > (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.reading, _): return true
+        case (.tbr, _): return false
+        case (.year(let left), .year(let right)): return left > right
+        case (.year(_), .tbr): return true
+        case (.year(_), .reading): return false
+        }
+    }
+}
+
+public enum ReadType : String, CaseIterable, Hashable, Identifiable {
     case owned_physical = "Owned - Physical"
     case owned_ebook = "Owned - Apple Books"
     case libby = "Libby"
     case library = "Library"
+    case audiobook = "Audiobook"
+
+    public var id: Self { self }
 }
 
 public enum ParseError : Error {
@@ -73,6 +94,8 @@ public class BookCSVData : NSManagedObject, InitFromDictionary {
 
     @NSManaged public var rating: NSInteger
     @NSManaged public var dateAdded: Date?
+    @NSManaged public var dateCompleted: Date?
+    @NSManaged public var dateStarted: Date?
 
     @NSManaged private var private_genre: String
     @nonobjc public var genre: Genre {
@@ -136,6 +159,8 @@ public class BookCSVData : NSManagedObject, InitFromDictionary {
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .none
         self.dateAdded = dateFormatter.date(from: from["DateAdded"] ?? "")
+        self.dateCompleted = dateFormatter.date(from: from["DateCompleted"] ?? "")
+        self.dateStarted = dateFormatter.date(from: from["DateStarted"] ?? "")
         self.private_readType = from["ReadType"] ?? ""
     }
 }
@@ -163,6 +188,14 @@ extension BookCSVData {
 
     @nonobjc func setYear(_ year: Year) {
         self.private_year = year.description
+    }
+
+    @nonobjc func setGenre(_ genre: Genre) {
+        self.private_genre = genre.rawValue
+    }
+
+    @nonobjc func setReadType(_ type: ReadType) {
+        self.private_readType = type.rawValue
     }
 }
 

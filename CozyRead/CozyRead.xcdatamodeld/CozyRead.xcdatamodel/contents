@@ -3,6 +3,8 @@
     <entity name="BookCSVData" representedClassName="BookCSVData" syncable="YES">
         <attribute name="author" optional="YES" attributeType="String"/>
         <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateCompleted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateStarted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="private_genre" optional="YES" attributeType="String"/>
         <attribute name="private_readType" optional="YES" attributeType="String"/>
         <attribute name="private_year" optional="YES" attributeType="String"/>
