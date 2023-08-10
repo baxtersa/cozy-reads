@@ -14,7 +14,7 @@ struct DashboardView : View {
 
     var body: some View {
         let readThisYear = books.filter{$0.year == .year(currentYear)}
-        let booksRead = Chart(title: "Books read", metric: Float(readThisYear.count), symbol: "book")
+        let booksRead = Chart(title: "Books read this year", metric: Float(readThisYear.count), symbol: "book")
         let avgRating = Chart(title: "Average rating", metric: readThisYear.reduce(0.0, { accum, book in
             accum + Float(book.rating)
         }) / Float(readThisYear.count), symbol: "star")

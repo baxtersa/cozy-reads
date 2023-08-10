@@ -22,6 +22,7 @@ struct ChartView : View {
             VStack(alignment: .leading) {
                 Text(chart.title)
                     .font(.system(.title3))
+                    .italic()
                 let formatter = NumberFormatter()
                 let _ = formatter.minimumFractionDigits = 0
                 let _ = formatter.maximumFractionDigits = 2
@@ -44,7 +45,7 @@ struct ChartView : View {
                     .fill(.white)
                 Rectangle()
                     .frame(maxHeight: 10)
-                    .foregroundStyle(LinearGradient(gradient: Gradient( colors: [.clear, .clear, .clear, .blue, .purple, .purple]), startPoint: .leading, endPoint: .topTrailing))
+                    .foregroundStyle(LinearGradient(gradient: Gradient( colors: [.blue, .purple, .purple, .clear, .clear, .clear]), startPoint: .leading, endPoint: .topTrailing))
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
         }

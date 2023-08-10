@@ -27,15 +27,10 @@ struct NavBarView: View {
                     .tabItem{
                         Label("Dashboard", systemImage: "square.grid.2x2")
                     }
-                HistoryView()
+                ShelvesView()
                     .tabItem{
-                        Label("History", systemImage: "clock.arrow.circlepath")
+                        Label("Shelves", systemImage: "books.vertical")
                     }
-                TBRView()
-                    .tabItem {
-                        Label("TBR", systemImage: "books.vertical")
-                    }
-                    .environment(\.managedObjectContext, viewContext)
                 GoalsView()
                     .tabItem{
                         Label("Goals", systemImage: "checkmark.square")
@@ -45,8 +40,8 @@ struct NavBarView: View {
                         Label("Data", systemImage: "cylinder.split.1x2")
                     }
             }
-            .background(Color("BackgroundColor"))
         }
+        .background(Color("BackgroundColor"))
     }
 }
 

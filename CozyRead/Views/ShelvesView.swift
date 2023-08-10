@@ -1,5 +1,5 @@
 //
-//  HistoryView.swift
+//  ShelvesView.swift
 //  CozyRead
 //
 //  Created by Samuel Baxter on 8/7/23.
@@ -33,7 +33,7 @@ private enum TileType {
     }
 }
 
-fileprivate struct HistoryTile : View {
+fileprivate struct ShelvesTile : View {
     fileprivate let type: TileType
     private let scaleOnTap = 1.2
     @State private var scale = 1.0
@@ -73,49 +73,35 @@ fileprivate struct HistoryTile : View {
     }
 }
 
-struct HistoryView : View {
+struct ShelvesView : View {
+//    @Environment(\.managedObjectContext) var viewContext
     @State private var showSheet: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("History")
+            Text("Shelves")
                 .font(.system(.title))
                 .padding(.leading, 10)
-            Spacer()
-                .frame(minHeight: 0)
-            Grid(horizontalSpacing: 10) {
-                GridRow {
-                    HistoryTile(type: .author)
-                    HistoryTile(type: .series)
-                }
-                GridRow {
-                    HistoryTile(type: .genre)
-                    HistoryTile(type: .year)
+            TBRView()
+                .frame(minHeight: 600)
+            ScrollView(.horizontal) {
+                HStack(spacing: 10) {
+                    ShelvesTile(type: .author)
+                    ShelvesTile(type: .series)
+                    ShelvesTile(type: .genre)
+                    ShelvesTile(type: .year)
+                    ShelvesTile(type: .series)
                 }
             }
             .padding(.horizontal, 10)
-//            HStack(alignment: .bottom) {
-//                Spacer()
-//                RoundedRectangle(cornerRadius: 10)
-//                    .fill(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .topLeading, endPoint: .topTrailing))
-//                    .frame(width: 50, height: 15)
-//                    .onTapGesture {
-//                        showSheet.toggle()
-//                    }
-//                Spacer()
-//            }
         }
         .background(Color("BackgroundColor"))
-//        .sheet(isPresented: $showSheet) {
-//            .background(Color("BackgroundColor"))
-//            .padding()
-//            .presentationDetents([.fraction(0.4)])
-//        }
     }
 }
 
-struct HistoryView_Previews : PreviewProvider {
+struct ShelvesView_Previews : PreviewProvider {
     static var previews: some View {
-        HistoryView()
+        ShelvesView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
