@@ -14,11 +14,14 @@ struct NavBarView: View {
     var body: some View {
         VStack {
             HStack {
-                Image(systemName: "book")
+                Image(systemName: "book.fill")
                     .font(.system(.largeTitle))
+                    .foregroundStyle(Gradient(colors: [.blue, .purple]))
                 Text("CozyReads")
                     .font(.system(.largeTitle))
+                    .foregroundStyle(Gradient(colors: [.blue, .purple]))
             }
+            .padding(.horizontal)
             TabView {
                 DashboardView()
                     .tabItem{
@@ -42,8 +45,8 @@ struct NavBarView: View {
                         Label("Data", systemImage: "cylinder.split.1x2")
                     }
             }
+            .background(Color("BackgroundColor"))
         }
-        .background(Color("BackgroundColor"))
     }
 }
 

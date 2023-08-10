@@ -19,17 +19,19 @@ struct DashboardView : View {
             accum + Float(book.rating)
         }) / Float(readThisYear.count), symbol: "star")
 
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Overview")
-                .font(.system(.title))
-                .padding(.leading, 10)
-            ChartView(chart: booksRead)
-            ChartView(chart: avgRating)
-            Text("Currently Reading")
-                .font(.system(.title2))
-                .padding(.horizontal, 10)
-            CurrentlyReadingView()
-            Spacer()
+        ScrollView {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Overview")
+                    .font(.system(.title))
+                    .padding(.leading, 10)
+                ChartView(chart: booksRead)
+                ChartView(chart: avgRating)
+                Text("Currently Reading")
+                    .font(.system(.title2))
+                    .padding(.horizontal, 10)
+                CurrentlyReadingView()
+                Spacer()
+            }
         }
         .background(Color("BackgroundColor"))
     }

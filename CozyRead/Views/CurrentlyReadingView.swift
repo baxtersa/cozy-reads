@@ -40,14 +40,16 @@ struct StartReadingView : View {
 
 struct CurrentlyReadingView : View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(fetchRequest: BookCSVData.fetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "private_year == 'Reading'"))) var books: FetchedResults<BookCSVData>
+    @FetchRequest(fetchRequest: BookCSVData.fetchRequest(sortDescriptors: [SortDescriptor(\.dateCompleted, order: .reverse)], predicate: NSPredicate(format: "private_year == 'Reading'"))) var books: FetchedResults<BookCSVData>
     
     var body: some View {
         VStack {
-            ForEach(books.prefix(3), id: \.self) { book in
-                CurrentlyReadingTile(book: book)
+            ScrollView {
+                ForEach(books, id: \.self) { book in
+                    CurrentlyReadingTile(book: book)
+                }
+                StartReadingView()
             }
-            StartReadingView()
         }
     }
 }
