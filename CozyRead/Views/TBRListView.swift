@@ -69,6 +69,7 @@ struct TBRListView : View {
 
     private func startReading(_ book: BookCSVData) {
         book.setYear(.reading)
+        book.dateStarted = Date.now
         PersistenceController.shared.save()
     }
 

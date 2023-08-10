@@ -18,6 +18,7 @@ struct TBRForm : View {
     @State var series: String = ""
 
     @State var selectedGenre: Genre = .fantasy
+    @State var readType: ReadType = .owned_physical
 
     var body: some View {
         VStack {
@@ -28,6 +29,11 @@ struct TBRForm : View {
                     Picker("Genre", selection: $selectedGenre) {
                         ForEach(Genre.allCases) { (genre: Genre) in
                             Text(genre.rawValue)
+                        }
+                    }
+                    Picker("Read Type", selection: $readType) {
+                        ForEach(ReadType.allCases) { (type: ReadType) in
+                            Text(type.rawValue)
                         }
                     }
                 }
@@ -56,6 +62,7 @@ struct TBRForm : View {
                         }
 
                         newBook.setGenre(selectedGenre)
+                        newBook.setReadType(readType)
 
                         PersistenceController.shared.save()
                         
