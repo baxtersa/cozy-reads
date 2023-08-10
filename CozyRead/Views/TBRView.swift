@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TBRView : View {
     @Environment(\.managedObjectContext) var viewContext
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Currently Reading")

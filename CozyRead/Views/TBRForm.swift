@@ -17,13 +17,7 @@ struct TBRForm : View {
     @State var seriesToggle: Bool = false
     @State var series: String = ""
 
-    private static let genres = [
-        "Fantasy",
-        "Sci-fi",
-        "Horror",
-        "Contemporary"
-    ]
-    @State var selectedGenre: String = ""
+    @State var selectedGenre: Genre = .fantasy
 
     var body: some View {
         VStack {
@@ -32,11 +26,10 @@ struct TBRForm : View {
                     TextField("Title", text: $title)
                     TextField("Author", text: $author)
                     Picker("Genre", selection: $selectedGenre) {
-                        ForEach(TBRForm.genres, id: \.self) { genre in
-                            Text(genre)
+                        ForEach(Genre.allCases) { (genre: Genre) in
+                            Text(genre.rawValue)
                         }
                     }
-                    .pickerStyle(.segmented)
                 }
                 
                 Section("Series Info") {
@@ -61,7 +54,9 @@ struct TBRForm : View {
                         if !series.isEmpty {
                             newBook.series = series
                         }
-                        
+
+                        newBook.setGenre(selectedGenre)
+
                         PersistenceController.shared.save()
                         
                         dismiss()
