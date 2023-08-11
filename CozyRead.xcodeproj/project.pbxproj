@@ -18,7 +18,7 @@
 		D31963A02A7AC73F002A685E /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D319639F2A7AC73F002A685E /* GoalsView.swift */; };
 		D31963A22A7ACB96002A685E /* DailyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963A12A7ACB96002A685E /* DailyGoalsView.swift */; };
 		D31963A42A7ACC2C002A685E /* MonthlyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963A32A7ACC2C002A685E /* MonthlyGoalsView.swift */; };
-		D3531B812A817CA5001A49BC /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B802A817CA5001A49BC /* HistoryView.swift */; };
+		D3531B812A817CA5001A49BC /* ShelvesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B802A817CA5001A49BC /* ShelvesView.swift */; };
 		D3531B832A81B744001A49BC /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = D3531B822A81B744001A49BC /* data.csv */; };
 		D3531B862A81B7D6001A49BC /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B852A81B7D6001A49BC /* CSVReader.swift */; };
 		D3531B872A81B819001A49BC /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = D3531B822A81B744001A49BC /* data.csv */; };
@@ -66,7 +66,7 @@
 		D319639F2A7AC73F002A685E /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
 		D31963A12A7ACB96002A685E /* DailyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalsView.swift; sourceTree = "<group>"; };
 		D31963A32A7ACC2C002A685E /* MonthlyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyGoalsView.swift; sourceTree = "<group>"; };
-		D3531B802A817CA5001A49BC /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		D3531B802A817CA5001A49BC /* ShelvesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelvesView.swift; sourceTree = "<group>"; };
 		D3531B822A81B744001A49BC /* data.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = data.csv; sourceTree = "<group>"; };
 		D3531B852A81B7D6001A49BC /* CSVReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVReader.swift; sourceTree = "<group>"; };
 		D3531B882A827D93001A49BC /* BookDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDataModel.swift; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 				D3A0442E2A84092600E6462D /* DataCardView.swift */,
 				D3531B902A82B1C0001A49BC /* StarRating.swift */,
 				D3531B8E2A828A40001A49BC /* DataView.swift */,
-				D3531B802A817CA5001A49BC /* HistoryView.swift */,
+				D3531B802A817CA5001A49BC /* ShelvesView.swift */,
 				D30F76A82A813D1F00BEB8AF /* TBRListView.swift */,
 				D374E9592A7C429700FF9E9F /* TBRForm.swift */,
 				D3182E692A7C1967004A4B74 /* TBRView.swift */,
@@ -349,7 +349,7 @@
 				D3531B862A81B7D6001A49BC /* CSVReader.swift in Sources */,
 				D35FEA052A79ADB2002B1987 /* CozyRead.xcdatamodeld in Sources */,
 				D319639C2A7AB622002A685E /* CurrentlyReadingTile.swift in Sources */,
-				D3531B812A817CA5001A49BC /* HistoryView.swift in Sources */,
+				D3531B812A817CA5001A49BC /* ShelvesView.swift in Sources */,
 				D31963962A79AFCE002A685E /* NavBarView.swift in Sources */,
 				D319639E2A7ABD08002A685E /* CurrentlyReadingView.swift in Sources */,
 				D3531B912A82B1C0001A49BC /* StarRating.swift in Sources */,
@@ -444,13 +444,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -498,12 +499,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -513,9 +515,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CozyRead/Preview Content\"";
+				DEVELOPMENT_TEAM = 53JMWJ74XL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -523,13 +527,16 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.books.CozyRead;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baxtersa.reads;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -541,9 +548,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CozyRead/Preview Content\"";
+				DEVELOPMENT_TEAM = 53JMWJ74XL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -551,13 +560,16 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.books.CozyRead;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baxtersa.reads;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
