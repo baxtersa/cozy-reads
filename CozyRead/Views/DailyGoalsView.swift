@@ -136,7 +136,7 @@ struct DailyGoalsView : View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var daysRead: FetchedResults<ReadingTrackerEntity>
 
     @State private var dates: Set<DateComponents> = []
-    @State private var displayPicker: Bool = true
+    @State private var displayPicker: Bool = false
 
     var body: some View {
         VStack {
