@@ -21,7 +21,7 @@ struct GoalsView : View {
                 Text("Goals")
                     .font(.system(.title))
                     .padding(.leading, 10)
-                Text("Daily Tracker")
+                Text("Daily")
                     .font(.system(.title2))
                     .padding([.leading], 10)
                 DailyGoalsView()
