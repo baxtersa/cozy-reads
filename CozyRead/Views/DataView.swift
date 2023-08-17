@@ -19,11 +19,11 @@ struct DataView : View {
     
     var body: some View {
         let dict: [Year:[BookCSVData]] = Dictionary(grouping: books, by: {$0.year})
-        let booksByYear = dict.sorted { $0.key > $1.key }.map { (year: Year, books: [BookCSVData]) in
-            books.filter{ (book: BookCSVData) in
+        let booksByYear = dict.sorted { $0.key > $1.key }.flatMap { (year: Year, books: [BookCSVData]) in
+            [year:books.filter{ (book: BookCSVData) in
                 book.title.lowercased().hasPrefix(searchText.lowercased()) ||
                 book.author.lowercased().hasPrefix(searchText.lowercased())
-            }
+            }]
         }
 
         VStack {
@@ -49,10 +49,7 @@ struct DataView : View {
             ZStack {
                 TabView(selection: $selectedCard) {
                     var index = 0
-                    ForEach(books.sorted {$0.year > $1.year}.filter{ (book: BookCSVData) in
-                        book.title.lowercased().hasPrefix(searchText.lowercased()) ||
-                        book.author.lowercased().hasPrefix(searchText.lowercased())
-                    }, id: \.self) { (book: BookCSVData) in
+                    ForEach(booksByYear.flatMap{$0.value}, id: \.self) { (book: BookCSVData) in
                         DataCardView(book: book)
                             .tag(index)
                         let _ = index += 1
@@ -62,7 +59,7 @@ struct DataView : View {
                     // TODO: Figure out why we need onChange in order for card index to increment properly
                 })
                 .tabViewStyle(.page(indexDisplayMode: .always))
-                let numItems = booksByYear.compactMap{$0.count}.reduce(0, +)
+                let numItems = booksByYear.compactMap{$0.value}.compactMap{$0.count}.reduce(0, +)
                 if numItems > 1 {
                     HStack {
                         Button {
@@ -91,21 +88,28 @@ struct DataView : View {
             }
             
             List {
-                let dict: [Year:[BookCSVData]] = Dictionary(grouping: books, by: {$0.year})
-                ForEach(dict.sorted { $0.key > $1.key }, id: \.key) { (year: Year, books: [BookCSVData]) in
-                    Section(year.description) {
-                        ForEach(books.filter{ (book: BookCSVData) in
-                            book.title.lowercased().hasPrefix(searchText.lowercased()) ||
-                            book.author.lowercased().hasPrefix(searchText.lowercased())
-                        }, id: \.self) { (book: BookCSVData) in
-                            Text(book.title)
-                        }
-                        .onDelete { offsets in
-                            for offset in offsets {
-                                let book = books[offset]
-                                viewContext.delete(book)
+                let booksByYear = dict.sorted { $0.key > $1.key }.flatMap { (year: Year, books: [BookCSVData]) in
+                    [year:books.filter{ (book: BookCSVData) in
+                        book.title.lowercased().hasPrefix(searchText.lowercased()) ||
+                        book.author.lowercased().hasPrefix(searchText.lowercased())
+                    }]
+                }
+
+                ForEach(booksByYear, id: \.key) { year, books in
+                    if books.isEmpty {
+                        EmptyView()
+                    } else {
+                        Section(year.description) {
+                            ForEach(books, id: \.self) { book in
+                                Text(book.title)
                             }
-                            PersistenceController.shared.save()
+                            .onDelete { offsets in
+                                for offset in offsets {
+                                    let book = books[offset]
+                                    viewContext.delete(book)
+                                }
+                                PersistenceController.shared.save()
+                            }
                         }
                     }
                 }
