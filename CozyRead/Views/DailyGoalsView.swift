@@ -8,6 +8,69 @@
 import Foundation
 import SwiftUI
 
+private struct DayTracker : View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    let daysRead: FetchedResults<ReadingTrackerEntity>
+    @State private var dates: Set<DateComponents>
+    @Binding var displayPicker: Bool
+    
+    init(daysRead: FetchedResults<ReadingTrackerEntity>, displayPicker: Binding<Bool>) {
+        self.daysRead = daysRead
+        self._dates = State(initialValue: Set(daysRead.compactMap{ $0.date }.map {
+            Calendar.current.dateComponents([.calendar, .era, .day, .month, .year], from: $0)
+        }))
+        self._displayPicker = displayPicker
+        print("init", dates)
+    }
+
+    var body: some View {
+        MultiDatePicker("Reading Tracker", selection: $dates)
+            .onSubmit {
+                print("Submit")
+            }
+            .onChange(of: dates) { value in
+                print("Change: ", value)
+            }
+        Divider()
+        Button {
+            withAnimation {
+                let persistedDays = getPersistedDates()
+                let daysToAdd = dates.subtracting(persistedDays)
+                let daysToRemove = Set(daysRead.filter{ entry in
+                    guard let date = entry.date else { return false }
+                    return !dates.contains(where: { components in
+                        Calendar.current.date(date, matchesComponents: components)
+                    })
+                })
+                print("Selection: ", dates.compactMap{ Calendar.current.date(from: $0) })
+                print("Add: ", daysToAdd)
+                print("Remove: ", daysToRemove.compactMap{ $0.date })
+                for date in daysToAdd {
+                    let entry = ReadingTrackerEntity(context: viewContext)
+                    entry.date = Calendar.current.date(from: date)
+                }
+                for entry in daysToRemove {
+                    viewContext.delete(entry)
+                }
+                PersistenceController.shared.save()
+                
+                displayPicker.toggle()
+            }
+        } label: {
+            Text("Done")
+        }
+        .frame(maxWidth: .infinity, alignment: .trailing)
+        .padding([.trailing])
+    }
+    
+    private func getPersistedDates() -> Set<DateComponents> {
+        Set(daysRead.compactMap{ $0.date }.map {
+            Calendar.current.dateComponents([.day, .month, .year], from: $0)
+        })
+    }
+}
+
 private struct CheckCircle : View {
     @Environment(\.managedObjectContext) var viewContext
     
@@ -17,25 +80,31 @@ private struct CheckCircle : View {
     var body: some View {
         ZStack {
             if entry != nil {
-                Group {
-                    Circle()
-                        .inset(by: 2.5)
-                        .stroke(style: StrokeStyle(lineWidth: 5))
-                        .foregroundColor(.clear)
-                        .contentShape(Circle())
-                    Circle()
-                        .fill(Gradient(colors: [.blue, .purple]))
-                        .transition(.scale)
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.white)
-                        .fontWeight(.bold)
+                    GeometryReader { geometry in
+                ZStack {
+                        Circle()
+                            .inset(by: 2.5)
+                            .stroke(style: StrokeStyle(lineWidth: 5))
+                            .foregroundColor(.clear)
+                            .contentShape(Circle())
+                        Circle()
+                            .fill(Gradient(colors: [.blue, .purple]))
+                            .transition(.scale)
+                        Image(systemName: "checkmark")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .frame(height: geometry.size.height / 5)
+                    }
                 }
             } else {
-                Group {
+                ZStack {
                     Circle()
                         .inset(by: 2.5)
                         .stroke(Gradient(colors: [.blue, .purple]), style: StrokeStyle(lineWidth: 5))
                         .opacity(0.3)
+                        .contentShape(Circle())
                     Image(systemName: "checkmark")
                         .foregroundColor(.clear)
                         .fontWeight(.bold)
@@ -67,63 +136,15 @@ struct DailyGoalsView : View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var daysRead: FetchedResults<ReadingTrackerEntity>
 
     @State private var dates: Set<DateComponents> = []
-    @State private var displayPicker: Bool = false
+    @State private var displayPicker: Bool = true
 
     var body: some View {
         VStack {
             if displayPicker {
-                MultiDatePicker("Reading Tracker", selection: $dates)
-                    .onChange(of: dates, perform: { selection in
-                        let coreDataDates = daysRead.compactMap{$0.date}
-                        let selectedDates = Array(selection.compactMap{$0.date})
-
-                        print("onChange: ", selectedDates, coreDataDates)
-
-                        let diff = selectedDates.difference(from: coreDataDates)
-                        print("diff: ", diff)
-                        
-                        for change in diff.insertions + diff.removals{
-                            switch change {
-                            case .insert(offset: _, element: let element, associatedWith: _):
-                                do {
-                                    print("adding ", element)
-                                    let entry = ReadingTrackerEntity(context: viewContext)
-                                    entry.date = element
-                                }
-                            case .remove(offset: _, element: let element, associatedWith: _):
-                                if let entry = daysRead.first(where: { entry in
-                                    entry.date == element
-                                }) {
-                                    print("deleting ", entry.date as Any)
-                                    viewContext.delete(entry)
-                                } else {
-                                    print("failed to remove ", element)
-                                }
-                            }
-                        }
-                    })
-                    .onAppear {
-                        dates = Set(daysRead.compactMap{$0.date}.map{Calendar.current.dateComponents([.day, .month, .year], from: $0)})
-
-                        let coreDataDates = daysRead.compactMap{$0.date}
-                        let selectedDates = Array(dates.compactMap{$0.date})
-                        
-                        print("onAppear: ", selectedDates, coreDataDates)
-                    }
-                Divider()
-                    Button {
-                        withAnimation {
-                            displayPicker.toggle()
-                        }
-                    } label: {
-                        Text("Done")
-                    }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding([.trailing])
+                DayTracker(daysRead: daysRead, displayPicker: $displayPicker)
             } else {
                 VStack {
                     HStack(spacing: 10) {
-                        Spacer()
                         let fiveDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: Calendar.current.startOfDay(for: .now)) ?? .now
                         let lastFiveDays = daysRead.filter { entry in
                             if let date = entry.date {
@@ -139,8 +160,8 @@ struct DailyGoalsView : View {
                             }
                             CheckCircle(entry: entry, date: date!)
                         }
-                        Spacer()
                     }
+                    .padding(.horizontal)
                     let days = daysInARow
                     let daysText = days == 1 ? "day" : "days"
                     Text("read \(daysInARow) \(daysText) in a row")
