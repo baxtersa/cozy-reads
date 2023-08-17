@@ -8,18 +8,21 @@
 import Foundation
 import SwiftUI
 
+
 struct TBRForm : View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss: DismissAction
-    @Binding var title: String
-    @Binding var author: String
+    @State var title: String = ""
+    @State var author: String = ""
 
     @State var seriesToggle: Bool = false
     @State var series: String = ""
 
     @State var selectedGenre: Genre = .fantasy
     @State var readType: ReadType = .owned_physical
-
+    
+    @State var tags = BookCSVData.defaultTags.map{TagToggles.ToggleState(tag: $0)}
+    
     var body: some View {
         VStack {
             Form {
@@ -36,6 +39,7 @@ struct TBRForm : View {
                             Text(type.rawValue)
                         }
                     }
+                    TagToggles(tags: $tags)
                 }
                 
                 Section("Series Info") {
@@ -60,7 +64,10 @@ struct TBRForm : View {
                         if !series.isEmpty {
                             newBook.series = series
                         }
-
+                        
+                        let setTags = tags.filter{ $0.state }
+                        newBook.tags = setTags.map{ $0.tag }
+                        
                         newBook.setGenre(selectedGenre)
                         newBook.setReadType(readType)
 
@@ -94,14 +101,12 @@ struct TBRForm : View {
 
 struct TBRForm_Previews : PreviewProvider {
     @State static var showSheet: Bool = true
-    @State static var title: String = ""
-    @State static var author: String = ""
 
     static var previews: some View {
         VStack {
         }
         .sheet(isPresented: $showSheet) {
-            TBRForm(title: $title, author: $author)
+            TBRForm()
                 .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
         }
     }

@@ -11,10 +11,11 @@ import SwiftUI
 struct DataView : View {
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.editMode) var editMode: Binding<EditMode>?
-    
+
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
     @State private var searchText: String = ""
     @State private var selectedCard: Int = 0
+    @State private var showSheet = false
     
     var body: some View {
         let dict: [Year:[BookCSVData]] = Dictionary(grouping: books, by: {$0.year})
@@ -35,7 +36,6 @@ struct DataView : View {
                         Image(systemName: "xmark.circle")
                             .onTapGesture {
                                 searchText.removeAll()
-//                                selectedCard = 0
                             }
                     }
                 }
@@ -49,13 +49,6 @@ struct DataView : View {
             ZStack {
                 TabView(selection: $selectedCard) {
                     var index = 0
-                    //                ForEach(booksByYear, id: \.self) { books in
-                    //                    ForEach(books, id: \.self) { book in
-                    //                        DataCardView(book: book)
-                    //                            .tag(index)
-                    //                        let _ = index += 1
-                    //                    }
-                    //                }
                     ForEach(books.sorted {$0.year > $1.year}.filter{ (book: BookCSVData) in
                         book.title.lowercased().hasPrefix(searchText.lowercased()) ||
                         book.author.lowercased().hasPrefix(searchText.lowercased())
@@ -118,16 +111,15 @@ struct DataView : View {
                 }
             }
             Button {
-                let book = BookCSVData(context: viewContext)
-                book.title = "Title"
-                book.author = "Author"
-                
-                PersistenceController.shared.save()
+                showSheet.toggle()
             } label: {
                 Label("Add", systemImage: "plus")
             }
         }
         .background(Color("BackgroundColor"))
+        .sheet(isPresented: $showSheet) {
+            TBRForm()
+        }
     }
 }
 

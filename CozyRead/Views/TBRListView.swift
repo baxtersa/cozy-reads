@@ -12,8 +12,6 @@ struct TBRListView : View {
     @Environment(\.managedObjectContext) var viewContext
 
     @State var showSheet: Bool = false
-    @State var title: String = ""
-    @State var author: String = ""
 
     @FetchRequest(fetchRequest: BookCSVData.fetchRequest(
         sortDescriptors: [SortDescriptor(\.dateAdded, order: .reverse)],
@@ -34,11 +32,8 @@ struct TBRListView : View {
                         .font(.system(.title))
                 }
                 .padding(.trailing)
-                .sheet(isPresented: $showSheet, onDismiss: {
-                    title.removeAll()
-                    author.removeAll()
-                }) {
-                    TBRForm(title: $title, author: $author)
+                .sheet(isPresented: $showSheet) {
+                    TBRForm()
                         .environment(\.managedObjectContext, viewContext)
                 }
             }

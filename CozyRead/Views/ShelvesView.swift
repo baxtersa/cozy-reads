@@ -8,20 +8,11 @@
 import Foundation
 import SwiftUI
 
-private enum TileType {
+fileprivate enum TileType : String {
     case author
     case series
     case genre
     case year
-
-    var description : String {
-        switch self {
-        case .author: return "Author"
-        case .series: return "Series"
-        case .genre: return "Genre"
-        case .year: return "Year"
-        }
-    }
     
     var image: String? {
         switch self {
@@ -39,14 +30,13 @@ fileprivate struct ShelvesTile : View {
     @State private var scale = 1.0
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("By \(type.description)")
+        ZStack(alignment: .topLeading) {
+            Text("\(type.rawValue.capitalized)")
                 .font(.system(.title3))
                 .foregroundColor(.white)
                 .bold()
-                .padding([.leading, .top])
+                .padding([.leading, .top], 5)
                 .italic()
-            Spacer()
             HStack {
                 Spacer()
                 if let image = type.image {
@@ -55,11 +45,12 @@ fileprivate struct ShelvesTile : View {
                         .scaledToFit()
                         .rotationEffect(.degrees(10))
                         .foregroundColor(.white)
-                        .opacity(0.3)
+                        .opacity(0.2)
                 }
             }
         }
         .clipped()
+        .frame(width: 90, height: 60)
         .background(RoundedRectangle(cornerRadius: 20).fill(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .leading, endPoint: .topTrailing)))
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
         .scaleEffect(scale)
@@ -75,6 +66,7 @@ fileprivate struct ShelvesTile : View {
 
 struct ShelvesView : View {
 //    @Environment(\.managedObjectContext) var viewContext
+    @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
     @State private var showSheet: Bool = false
 
     var body: some View {
@@ -82,18 +74,22 @@ struct ShelvesView : View {
             Text("Shelves")
                 .font(.system(.title))
                 .padding(.leading, 10)
-            TBRView()
-                .frame(minHeight: 600)
-            ScrollView(.horizontal) {
-                HStack(spacing: 10) {
-                    ShelvesTile(type: .author)
-                    ShelvesTile(type: .series)
-                    ShelvesTile(type: .genre)
-                    ShelvesTile(type: .year)
-                    ShelvesTile(type: .series)
-                }
-            }
-            .padding(.horizontal, 10)
+
+            let dict = Dictionary(grouping: books, by: {$0.year})
+            
+//            Old stuff with tileview
+//            TBRView()
+//                .frame(minHeight: 600)
+//            ScrollView(.horizontal) {
+//                HStack(spacing: 10) {
+//                    ShelvesTile(type: .author)
+//                    ShelvesTile(type: .series)
+//                    ShelvesTile(type: .genre)
+//                    ShelvesTile(type: .year)
+//                    ShelvesTile(type: .series)
+//                }
+//            }
+//            .padding(.horizontal, 10)
         }
         .background(Color("BackgroundColor"))
     }
