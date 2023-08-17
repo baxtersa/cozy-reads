@@ -9,6 +9,41 @@ import CoreData
 import Foundation
 import SwiftUI
 
+@objc
+public enum Genres : Int, CaseIterable, Hashable, Identifiable, CustomStringConvertible {
+    case fantasy
+    case sci_fi
+    case sci_fantasy
+    case space_opera
+    case contemporary
+    case horror
+    case literary
+    case nonfiction
+    case romance
+    case historical
+    case mystery
+    case unknown
+    
+    public var description: String {
+        switch self {
+        case .fantasy: return "Fantasy"
+        case .sci_fi: return "Sci-fi"
+        case .sci_fantasy: return "Sci-fantasy"
+        case .space_opera: return "Space Opera"
+        case .contemporary: return "Contemporary"
+        case .horror: return "Horror"
+        case .literary: return "Literary Fiction"
+        case .nonfiction: return "Nonfiction"
+        case .romance: return "Romance"
+        case .historical: return "Historical Fiction"
+        case .mystery: return "Mystery"
+        case .unknown: return "Unknown"
+        }
+    }
+        
+    public var id: Self { self }
+}
+
 public enum Genre : String, CaseIterable, Hashable, Identifiable {
     case fantasy = "Fantasy"
     case sci_fi = "Sci-fi"
@@ -18,6 +53,7 @@ public enum Genre : String, CaseIterable, Hashable, Identifiable {
     case nonfiction = "Nonfiction"
     case romance = "Romance"
     case historical = "Historical Fiction"
+    case mystery = "Mystery"
 
     public var id: Self { self }
 }
@@ -97,6 +133,8 @@ public class BookCSVData : NSManagedObject, InitFromDictionary {
     @NSManaged public var dateCompleted: Date?
     @NSManaged public var dateStarted: Date?
 
+    @NSManaged public var tags: [String]
+
     @NSManaged private var private_genre: String
     @nonobjc public var genre: Genre {
         Genre(rawValue: private_genre) ?? .fantasy
@@ -148,11 +186,18 @@ public class BookCSVData : NSManagedObject, InitFromDictionary {
         self.init(entity: entity, insertInto: context)
 
         let rating = Int(from["Rating"] ?? "0") ?? 0
+        
+        if let tags = from["Tags"] {
+            self.tags = tags.split(separator: ",").map{String($0)}
+        }
 
         self.title = title
         self.author = author
         self.series = from["Series"].flatMap{$0.isEmpty ? nil : $0}
         self.private_genre = genreString
+        if !self.tags.contains(where: { $0 == genreString }) {
+            self.tags.append(genreString)
+        }
         self.private_year = from["Year"] ?? ""
         self.rating = rating
         let dateFormatter = DateFormatter()
@@ -197,6 +242,22 @@ extension BookCSVData {
     @nonobjc func setReadType(_ type: ReadType) {
         self.private_readType = type.rawValue
     }
+}
+
+extension BookCSVData {
+    static let defaultTags: [String] = [
+        "Fantasy",
+        "Sci-fi",
+        "Sci-fantasy",
+        "Space Opera",
+        "Contemporary",
+        "Horror",
+        "Literary Fiction",
+        "Nonfiction",
+        "Romance",
+        "Historical Fiction",
+        "Mystery",
+    ]
 }
 
 public protocol InitFromDictionary {

@@ -10,6 +10,7 @@
         <attribute name="private_year" optional="YES" attributeType="String"/>
         <attribute name="rating" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="series" optional="YES" attributeType="String"/>
+        <attribute name="tags" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <entity name="ReadingTrackerEntity" representedClassName="ReadingTrackerEntity" syncable="YES" codeGenerationType="class">
