@@ -8,6 +8,79 @@
 import Foundation
 import SwiftUI
 
+struct TagInfo : View {
+    @Environment(\.editMode) private var editMode
+    private var isEditing: Bool { editMode?.wrappedValue.isEditing == true }
+
+    let book: BookCSVData
+    var text: String
+    @State private var editText: String = ""
+    
+    var body: some View {
+        ZStack {
+            if isEditing {
+                HStack {
+                    Text(text)
+                    //                    TextField("Edit", text: $editText)
+                    //                        .onSubmit {
+                    //                            if let originalTagIndex = book.tags.firstIndex(of: text) {
+                    //                                book.tags[originalTagIndex] = editText
+                    //                                PersistenceController.shared.save()
+                    //                            }
+                    //                        }
+                    Image(systemName: "xmark.circle")
+                        .onTapGesture {
+                            book.tags.removeAll { $0 == text }
+                            PersistenceController.shared.save()
+                        }
+                }
+                .padding(5)
+                .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
+            } else {
+                Text(text)
+                    .padding(5)
+                    .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
+            }
+        }
+    }
+}
+
+struct AddTag : View {
+    let book: BookCSVData
+
+    @State private var typing: Bool = false
+    @FocusState private var focusTagEntry: Bool
+    @State private var newTag: String = ""
+    
+    var body: some View {
+        if typing {
+            TextField("Enter Tag", text: $newTag)
+                .onSubmit {
+                    guard !newTag.isEmpty else { return }
+                    book.tags.append(newTag)
+
+                    PersistenceController.shared.save()
+
+                    typing.toggle()
+                    newTag.removeAll()
+                    focusTagEntry = false
+                }
+                .focused($focusTagEntry)
+                .padding(5)
+                .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
+        } else {
+            Button {
+                typing.toggle()
+                focusTagEntry = true
+            } label: {
+                Text("Add Tag")
+                    .padding(5)
+                    .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
+            }
+        }
+    }
+}
+
 struct DataCardView : View {
     @Environment(\.editMode) private var editMode: Binding<EditMode>?
 
@@ -33,10 +106,6 @@ struct DataCardView : View {
                     let authorBinding = Binding(get: { book.author }, set: { author in
                         book.author = author
                     })
-                    let genreBinding = Binding(get: { book.genre }, set: { genre in
-                        print(genre)
-                        book.setGenre(genre)
-                    })
                     
                     TextField(book.title, text: titleBinding)
                         .font(.system(.title))
@@ -47,12 +116,16 @@ struct DataCardView : View {
                         .italic()
                         .multilineTextAlignment(.center)
 
-                    Picker("Genre", selection: genreBinding) {
-                        ForEach(Genre.allCases) { genre in
-                            Text(genre.rawValue)
-                        }
-                    }
-                    .tint(.white)
+                    // TODO: Figure out UX for if I want to treat genre separate from tags
+//                    let genreBinding = Binding(get: { book.genre }, set: { genre in
+//                        book.setGenre(genre)
+//                    })
+//                    Picker("Genre", selection: genreBinding) {
+//                        ForEach(Genre.allCases) { genre in
+//                            Text(genre.rawValue)
+//                        }
+//                    }
+//                    .tint(.white)
                 } else {
                     Text(book.title)
                         .font(.system(.title))
@@ -61,10 +134,19 @@ struct DataCardView : View {
                     Text("by \(book.author)")
                         .font(.system(.title3))
                         .italic()
-                    Text(book.genre.rawValue)
+                    // TODO: See above about how to treat Genre
+//                    Text(book.genre.rawValue)
                 }
-                
+
                 Spacer()
+
+                FlexBox(data: book.tags, spacing: 10) { tag in
+                    TagInfo(book: book, text: tag)
+                }
+                if isEditing {
+                    AddTag(book: book)
+                }
+
                 if book.year == .tbr {
                     if isEditing {
                         Button {
@@ -96,6 +178,7 @@ struct DataCardView : View {
                         .ratingStyle(SolidRatingStyle(color: .white))
 
                     Spacer()
+
                     HStack {
                         if isEditing {
                             Button {
@@ -140,7 +223,7 @@ struct DataCardView : View {
 }
 
 struct DataCardView_Previews : PreviewProvider {
-    static private var finishedBook = try! BookCSVData(from: [
+    @State static private var finishedBook = try! BookCSVData(from: [
         "Title": "The Long Way to a Small, Angry Planet",
         "Author": "Becky Chambers",
         "Genre": "Sci-fi",
@@ -148,12 +231,13 @@ struct DataCardView_Previews : PreviewProvider {
         "Year": "2023",
         "Rating": "4"
     ], context: PersistenceController.preview.container.viewContext)
-    static private var tbrBook = try! BookCSVData(from: [
+    @State static private var tbrBook = try! BookCSVData(from: [
         "Title": "To Be Taught, If Fortunate",
         "Author": "Becky Chambers",
         "Genre": "Sci-fi",
         "DateAdded": "7/1/2023",
-        "Year": "TBR"
+        "Year": "TBR",
+        "Tags": "Sci-fi,Space Opera",
     ], context: PersistenceController.preview.container.viewContext)
     
     @Environment(\.editMode) static private var editMode
