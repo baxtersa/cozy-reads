@@ -59,7 +59,7 @@ struct DataView : View {
                     }
                 }
                 .onChange(of: selectedCard, perform: { value in
-                    print(value)
+                    // TODO: Figure out why we need onChange in order for card index to increment properly
                 })
                 .tabViewStyle(.page(indexDisplayMode: .always))
                 let numItems = booksByYear.compactMap{$0.count}.reduce(0, +)

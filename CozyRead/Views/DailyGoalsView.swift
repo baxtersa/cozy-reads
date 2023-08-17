@@ -21,17 +21,10 @@ private struct DayTracker : View {
             Calendar.current.dateComponents([.calendar, .era, .day, .month, .year], from: $0)
         }))
         self._displayPicker = displayPicker
-        print("init", dates)
     }
 
     var body: some View {
         MultiDatePicker("Reading Tracker", selection: $dates)
-            .onSubmit {
-                print("Submit")
-            }
-            .onChange(of: dates) { value in
-                print("Change: ", value)
-            }
         Divider()
         Button {
             withAnimation {
@@ -43,9 +36,6 @@ private struct DayTracker : View {
                         Calendar.current.date(date, matchesComponents: components)
                     })
                 })
-                print("Selection: ", dates.compactMap{ Calendar.current.date(from: $0) })
-                print("Add: ", daysToAdd)
-                print("Remove: ", daysToRemove.compactMap{ $0.date })
                 for date in daysToAdd {
                     let entry = ReadingTrackerEntity(context: viewContext)
                     entry.date = Calendar.current.date(from: date)
