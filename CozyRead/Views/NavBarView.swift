@@ -21,7 +21,6 @@ struct NavBarView: View {
                     .font(.system(.largeTitle))
                     .foregroundStyle(Gradient(colors: [.blue, .purple]))
             }
-            .padding(.horizontal)
             TabView {
                 DashboardView()
                     .tabItem{
