@@ -14,13 +14,13 @@ struct DashboardView : View {
 
     var body: some View {
         let readThisYear = books.filter{$0.year == .year(currentYear)}
-        let booksRead = Chart(title: "Books read this year", metric: Float(readThisYear.count), symbol: "book")
-        let avgRating = Chart(title: "Average rating", metric: readThisYear.reduce(0.0, { accum, book in
+        let booksRead = ChartModel(title: "Books read this year", metric: Float(readThisYear.count), symbol: "book")
+        let avgRating = ChartModel(title: "Average rating", metric: readThisYear.reduce(0.0, { accum, book in
             accum + Float(book.rating)
         }) / Float(readThisYear.count), symbol: "star")
 
         ScrollView {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading) {
                 Text("Overview")
                     .font(.system(.title))
                     .padding(.leading, 10)
@@ -30,7 +30,6 @@ struct DashboardView : View {
                     .font(.system(.title2))
                     .padding(.horizontal, 10)
                 CurrentlyReadingView()
-                Spacer()
             }
         }
         .background(Color("BackgroundColor"))

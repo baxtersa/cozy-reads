@@ -8,7 +8,47 @@
 import Foundation
 import SwiftUI
 
+struct SelectBookSheet : View {
+    @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) private var books: FetchedResults<BookCSVData>
+
+    @State private var searchText: String = ""
+    @Binding var showSheet: Bool
+    
+    var body: some View {
+        VStack {
+            SearchBar(searchText: $searchText)
+
+            List {
+                let tbr = books.filter{ $0.year == .tbr }.filter{ (book: BookCSVData) in
+                    book.title.lowercased().hasPrefix(searchText.lowercased()) ||
+                    book.author.lowercased().hasPrefix(searchText.lowercased())
+                }
+                ForEach(tbr, id: \.self) { book in
+                    Text(book.title)
+                        .swipeActions {
+                            Button {
+                                book.setYear(.reading)
+                                book.dateStarted = Date.now
+
+                                PersistenceController.shared.save()
+                                showSheet = false
+                            } label: {
+                                Text("Start Reading")
+                            }
+                            .tint(.green)
+                        }
+                }
+            }
+        }
+        .padding()
+        .background(Color("BackgroundColor"))
+    }
+}
+
 struct StartReadingView : View {
+    @State private var showSheet: Bool = false
+    @State private var searchText: String = ""
+
     var body: some View {
         VStack {
             Text("Start a new book")
@@ -17,7 +57,7 @@ struct StartReadingView : View {
             HStack {
                 Spacer()
                 Button {
-                    
+                    showSheet.toggle()
                 } label: {
                     Label("Finished", systemImage: "plus.circle")
                         .frame(width: 200, height: 40)
@@ -35,6 +75,9 @@ struct StartReadingView : View {
         .cornerRadius(10)
         .padding(.horizontal, 10)
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
+        .sheet(isPresented: $showSheet) {
+            SelectBookSheet(showSheet: $showSheet)
+        }
     }
 }
 

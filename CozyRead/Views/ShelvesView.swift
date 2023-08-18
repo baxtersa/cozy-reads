@@ -6,91 +6,240 @@
 //
 
 import Foundation
+import Charts
 import SwiftUI
+//import SwiftUICharts
 
-fileprivate enum TileType : String {
+fileprivate enum Category : String, CaseIterable {
     case author
     case series
     case genre
     case year
-    
-    var image: String? {
-        switch self {
-        case .author: return "person"
-        case .series: return "books.vertical"
-        case .genre: return "theatermasks"
-        case .year: return "calendar"
+}
+
+struct AuthorGraphs : View {
+    let books: [String:[BookCSVData]]
+
+    var body: some View {
+        VStack {
+            
         }
     }
 }
 
-fileprivate struct ShelvesTile : View {
-    fileprivate let type: TileType
-    private let scaleOnTap = 1.2
-    @State private var scale = 1.0
+struct DragMarker : View {
+    @State private var isDragging: Bool = false
+    @State private var dragPosition: CGPoint = .zero
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Text("\(type.rawValue.capitalized)")
-                .font(.system(.title3))
-                .foregroundColor(.white)
-                .bold()
-                .padding([.leading, .top], 5)
-                .italic()
-            HStack {
-                Spacer()
-                if let image = type.image {
-                    Image(systemName: image)
-                        .resizable()
-                        .scaledToFit()
-                        .rotationEffect(.degrees(10))
-                        .foregroundColor(.white)
-                        .opacity(0.2)
+        VStack {
+            if isDragging {
+                GeometryReader { geometry in
+                    Text("26")
+                        .position(x: dragPosition.x)
+                    
+                    Path { path in
+                        path.move(to: CGPoint(x: dragPosition.x, y: 0))
+                        path.addLine(to: CGPoint(x: dragPosition.x, y: geometry.size.height))
+                    }
+                    .stroke(lineWidth: 1)
+                    .frame(width: 1)
+                    .foregroundColor(.black)
                 }
             }
         }
-        .clipped()
-        .frame(width: 90, height: 60)
-        .background(RoundedRectangle(cornerRadius: 20).fill(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .leading, endPoint: .topTrailing)))
-        .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
-        .scaleEffect(scale)
-        .animation(.easeInOut(duration: 0.2), value: scale)
-        .onTapGesture {
-            scale = scaleOnTap
-            withAnimation {
-                scale = 1.0
-            }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
+        .gesture(DragGesture(minimumDistance: 0).onChanged { value in
+            isDragging = true
+            dragPosition = value.location
+        }.onEnded { _ in
+            isDragging = false
+        })
+    }
+}
+
+struct YearlyGraphs : View {
+    let books: [Year:[BookCSVData]]
+
+    var completed: [Year:[BookCSVData]] {
+        books.filter { $0.key != .reading && $0.key != .tbr }
+    }
+    var rate: Int? {
+        let data = completed.sorted(by: { $0.key < $1.key }).flatMap{ year, books in
+            [year:Double(books.count)]
         }
+        
+        let lastTwoYears = data.dropFirst(data.count - 2)
+        var rate: Int?
+        if let lastYear = lastTwoYears.first,
+           let thisYear = lastTwoYears.last,
+           lastYear.key != thisYear.key {
+            rate = Int((thisYear.value - lastYear.value) / lastYear.value)
+        }
+        return rate
+    }
+
+    var body: some View {
+        let completed = books.filter { $0.key != .reading && $0.key != .tbr }.sorted(by: { $0.key < $1.key })
+        let data = completed.flatMap{ year, books in
+            [year:Double(books.count)]
+        }
+
+        VStack {
+                VStack(alignment: .leading) {
+                    Text("Books Read")
+                        .font(.system(.title2))
+                        .bold()
+                        .padding([.leading, .top])
+                    if let rate = rate {
+                        Text(String(format: "%d", rate))
+                            .padding(.leading)
+                    }
+                    
+                    ZStack {
+                        Chart(data, id: \.key) { year, count in
+                            let xp: PlottableValue = .value("Year", year.description)
+                            let yp: PlottableValue =  .value("Books Read", count)
+                            LineMark(x: xp, y: yp)
+                                .interpolationMethod(.catmullRom)
+                        }
+                        .foregroundStyle(Gradient(colors: [.blue, .purple]))
+                        .chartXAxis {
+                            AxisMarks(values: .automatic) { value in
+                                AxisValueLabel()
+                            }
+                        }
+                        .chartYAxis(.hidden)
+                        
+                        DragMarker()
+                    }
+                    .padding(.vertical)
+                }
+            .background {
+                RoundedRectangle(cornerRadius: 20).fill(.white)
+            }
+            .padding(.horizontal)
+            .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
+
+            VStack(alignment: .leading) {
+                Text("Average Rating")
+                    .font(.system(.title2))
+                    .bold()
+                    .padding()
+
+                Chart(completed, id: \.key) { year, books in
+                    let avg = books.reduce(0, { acc, book in
+                        acc + Float(book.rating) / Float(books.count)
+                    })
+                    let xp: PlottableValue = .value("Year", year.description)
+                    let yp: PlottableValue =  .value("Rating", avg)
+                    PointMark(x: xp, y: yp)
+                        .symbolSize(CGFloat(books.count) * 150)
+                        .annotation(position: .overlay) {
+                            Text(String(format: "%0.1f", avg))
+                                .font(.system(.caption))
+                                .fixedSize()
+                                .foregroundColor(.white)
+                                .bold()
+                        }
+                }
+                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .leading, endPoint: .topTrailing))
+                .chartXAxis {
+                    AxisMarks(values: .automatic) { value in
+                        AxisValueLabel()
+                    }
+                }
+                .chartYAxis(.hidden)
+                .padding(.vertical)
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 20).fill(.white)
+            }
+            .padding(.horizontal)
+            .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
+        }
+
+// TODO: This is for SwiftUICharts 2.0.0-beta.8
+//        GeometryReader { geometry in
+//            VStack(alignment: .leading) {
+//                Text("Books Read")
+//                    .font(.system(.title))
+//                    .bold()
+//                    .padding()
+//
+//                AxisLabels {
+//                    ChartGrid {
+//                        LineChart()
+//                            .showChartMarks(true)
+//                            .data(data.map{$0.value})
+//                            .chartStyle(ChartStyle(backgroundColor: .white, foregroundColor: ColorGradient(.blue, .purple)))
+//                            .padding()
+//                    }
+//                    .setNumberOfHorizontalLines(0)
+//                    .setNumberOfVerticalLines(0)
+//                }
+//                .setAxisXLabels(data.map{$0.key.description})
+//                .setColor(.gray)
+//                .setFont(.system(.caption2))
+//            }
+//            .background {
+//                RoundedRectangle(cornerRadius: 20)
+//                    .fill(.white)
+//                    .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
+//            }
+//            .padding()
+//            .padding(.horizontal)
+//            .frame(width: geometry.size.width, height: 200)
+//        }
     }
 }
 
 struct ShelvesView : View {
-//    @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
-    @State private var showSheet: Bool = false
-
+    
+    @State private var categoryFilter: Category = .year
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Shelves")
                 .font(.system(.title))
                 .padding(.leading, 10)
-
-            let dict = Dictionary(grouping: books, by: {$0.year})
+            Picker("Filter by", selection: $categoryFilter) {
+                ForEach(Category.allCases, id: \.self) { filter in
+                    Text(filter.rawValue.capitalized)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
             
-//            Old stuff with tileview
-//            TBRView()
-//                .frame(minHeight: 600)
-//            ScrollView(.horizontal) {
-//                HStack(spacing: 10) {
-//                    ShelvesTile(type: .author)
-//                    ShelvesTile(type: .series)
-//                    ShelvesTile(type: .genre)
-//                    ShelvesTile(type: .year)
-//                    ShelvesTile(type: .series)
-//                }
-//            }
-//            .padding(.horizontal, 10)
+            ScrollView {
+                switch categoryFilter {
+                case .author:
+                    let dict = Dictionary(grouping: books, by: {
+                        $0.author
+                    })
+                    AuthorGraphs(books: dict)
+                case .series:
+                    let dict = Dictionary(grouping: books, by: {
+                        $0.series
+                    })
+                    EmptyView()
+                case .genre:
+                    let dict = Dictionary(grouping: books, by: {
+                        $0.genre
+                    })
+                    EmptyView()
+                case .year:
+                    let dict = Dictionary(grouping: books, by: {
+                        $0.year
+                    })
+                    YearlyGraphs(books: dict)
+                }
+            }
+            
         }
+        .frame(maxHeight: .infinity, alignment: .top)
         .background(Color("BackgroundColor"))
     }
 }

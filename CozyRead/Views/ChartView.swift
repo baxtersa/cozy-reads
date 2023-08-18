@@ -8,14 +8,14 @@
 import Foundation
 import SwiftUI
 
-struct Chart {
+struct ChartModel {
     let title: String
     let metric: Float
     let symbol: String
 }
 
 struct ChartView : View {
-    let chart: Chart
+    let chart: ChartModel
 
     var body: some View {
         HStack {
@@ -56,8 +56,8 @@ struct ChartView : View {
 }
 
 struct ChartView_Previews: PreviewProvider {
-    static let chart = Chart(title: "Books read this year", metric: 24, symbol: "book")
-    static let star = Chart(title: "Average rating", metric: 3.876543, symbol: "star")
+    static let chart = ChartModel(title: "Books read this year", metric: 24, symbol: "book")
+    static let star = ChartModel(title: "Average rating", metric: 3.876543, symbol: "star")
     static var previews: some View {
         VStack {
             ChartView(chart: chart)

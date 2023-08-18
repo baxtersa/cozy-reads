@@ -227,6 +227,8 @@
 			dependencies = (
 			);
 			name = CozyRead;
+			packageProductDependencies = (
+			);
 			productName = CozyRead;
 			productReference = D35FE9F52A79ADB1002B1987 /* CozyRead.app */;
 			productType = "com.apple.product-type.application";
@@ -299,6 +301,8 @@
 				Base,
 			);
 			mainGroup = D35FE9EC2A79ADB1002B1987;
+			packageReferences = (
+			);
 			productRefGroup = D35FE9F62A79ADB1002B1987 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

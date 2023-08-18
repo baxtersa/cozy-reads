@@ -8,10 +8,34 @@
 import Foundation
 import SwiftUI
 
+struct SearchBar : View {
+    @Binding var searchText: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "magnifyingglass")
+            TextField("Search", text: $searchText)
+            Spacer()
+            if !searchText.isEmpty {
+                Image(systemName: "xmark.circle")
+                    .onTapGesture {
+                        searchText.removeAll()
+                    }
+            }
+        }
+        .padding(.all, 8)
+        .background(RoundedRectangle(cornerRadius: 10).fill(.black).opacity(0.08))
+    }
+}
+
 struct DataView : View {
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.editMode) var editMode: Binding<EditMode>?
-
+    
+    private var isEditing: Bool {
+        editMode?.wrappedValue.isEditing == true
+    }
+    
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
     @State private var searchText: String = ""
     @State private var selectedCard: Int = 0
@@ -28,19 +52,7 @@ struct DataView : View {
 
         VStack {
             HStack {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                    TextField("Search", text: $searchText)
-                    Spacer()
-                    if !searchText.isEmpty {
-                        Image(systemName: "xmark.circle")
-                            .onTapGesture {
-                                searchText.removeAll()
-                            }
-                    }
-                }
-                .padding(.all, 8)
-                .background(RoundedRectangle(cornerRadius: 10).fill(.black).opacity(0.08))
+                SearchBar(searchText: $searchText)
                 EditButton()
                     .frame(width: 60)
             }
@@ -119,6 +131,7 @@ struct DataView : View {
             } label: {
                 Label("Add", systemImage: "plus")
             }
+            .padding()
         }
         .background(Color("BackgroundColor"))
         .sheet(isPresented: $showSheet) {
