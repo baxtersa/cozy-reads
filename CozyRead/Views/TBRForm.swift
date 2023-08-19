@@ -122,8 +122,7 @@ struct TBRForm : View {
                             Text(year.description)
                         }
                     }
-                    switch year {
-                    case .year(let num):
+                    if case let .year(num) = year {
                         if let startDate = Calendar.current.date(from: DateComponents(year: num)),
                            let nextYear = Calendar.current.date(byAdding: .year, value: 1, to: startDate),
                            let endDate = Calendar.current.date(byAdding: .day, value: -1, to: nextYear){
@@ -138,7 +137,6 @@ struct TBRForm : View {
                                     .fixedSize()
                             }
                         }
-                    default: EmptyView()
                     }
                 }
 

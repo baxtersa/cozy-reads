@@ -214,12 +214,9 @@ struct DataCardView : View {
                                     
                                     let yearCompleted = Calendar.current.component(.year, from: date)
                                     let prev = book.year
-                                    switch prev {
-                                    case .year(let num):
-                                        if yearCompleted != num {
-                                            book.setYear(.year(yearCompleted))
-                                        }
-                                    default: ()
+                                    if case let .year(num) = prev,
+                                       yearCompleted != num {
+                                        book.setYear(.year(yearCompleted))
                                     }
                                     
                                     PersistenceController.shared.save()
