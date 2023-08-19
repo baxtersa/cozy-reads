@@ -55,6 +55,9 @@ struct DataView : View {
                 SearchBar(searchText: $searchText)
                 EditButton()
                     .frame(width: 60)
+                    .onSubmit {
+                        PersistenceController.shared.save()
+                    }
             }
             .padding(.horizontal)
             

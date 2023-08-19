@@ -92,7 +92,12 @@ struct DataCardView : View {
     
     init(book: BookCSVData) {
         self.book = book
-        self.editableBinding = Binding(get: {book.rating}, set: {book.rating = $0})
+        self.editableBinding = Binding(
+            get: {book.rating},
+            set: { value in
+                book.rating = value
+                PersistenceController.shared.save()
+            })
     }
 
     var body: some View {
@@ -102,9 +107,11 @@ struct DataCardView : View {
                 if isEditing {
                     let titleBinding = Binding(get: { book.title }, set: { title in
                         book.title = title
+                        PersistenceController.shared.save()
                     })
                     let authorBinding = Binding(get: { book.author }, set: { author in
                         book.author = author
+                        PersistenceController.shared.save()
                     })
                     
                     TextField(book.title, text: titleBinding)
@@ -152,6 +159,8 @@ struct DataCardView : View {
                         Button {
                             book.setYear(.reading)
                             book.dateStarted = Date.now
+
+                            PersistenceController.shared.save()
                         } label: {
                             Label("To Be Read", systemImage: "circle")
                         }
@@ -164,6 +173,8 @@ struct DataCardView : View {
                             if let year = Calendar.current.dateComponents([.year], from: Date.now).year {
                                 book.setYear(.year(year))
                                 book.dateCompleted = Date.now
+
+                                PersistenceController.shared.save()
                             }
                         } label: {
                             Label("Currently Reading", systemImage: "ellipsis.circle")
@@ -184,6 +195,8 @@ struct DataCardView : View {
                             Button {
                                 book.setYear(.tbr)
                                 book.dateCompleted = nil
+                                
+                                PersistenceController.shared.save()
                             } label: {
                                 Label("Finished", systemImage: "checkmark.circle")
                             }
@@ -198,6 +211,18 @@ struct DataCardView : View {
                                        date < started {
                                         book.dateStarted = nil
                                     }
+                                    
+                                    let yearCompleted = Calendar.current.component(.year, from: date)
+                                    let prev = book.year
+                                    switch prev {
+                                    case .year(let num):
+                                        if yearCompleted != num {
+                                            book.setYear(.year(yearCompleted))
+                                        }
+                                    default: ()
+                                    }
+                                    
+                                    PersistenceController.shared.save()
                                 })
                             DatePicker("", selection: dateBinding, displayedComponents: .date)
                                 .datePickerStyle(.automatic)

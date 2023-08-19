@@ -58,7 +58,7 @@ public enum Genre : String, CaseIterable, Hashable, Identifiable {
     public var id: Self { self }
 }
 
-public enum Year : Equatable, Hashable, Comparable {
+public enum Year : Equatable, Hashable, Comparable, Identifiable {
     case year(_: Int)
     case tbr
     case reading
@@ -91,6 +91,18 @@ public enum Year : Equatable, Hashable, Comparable {
         case .tbr:
             return "TBR"
         }
+    }
+    
+    public var id: Self { self }
+}
+
+extension Year {
+    static let defaultSelections: [Year] = [
+        .tbr,
+        .reading,
+    ] + (0..<5).map {
+        let current = Calendar.current.component(.year, from: .now)
+        return .year(current - $0)
     }
 }
 

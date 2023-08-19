@@ -64,43 +64,25 @@ struct MonthlyGoalsView : View {
         Float(booksRead) / Float(monthlyAverage)
     }
 
+    let currentYear: Int = Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { scrollView in
                 HStack {
                     let booksMissingCompletion = books.filter { (book: BookCSVData) in
-                        guard book.year != .tbr && book.year != .reading else { return false }
-                        return book.dateCompleted == nil
+                        guard case let .year(num) = book.year else { return false }
+                        return num == currentYear && book.dateCompleted == nil
                     }.count
                     MonthProgressBar(month: "Prev", progress: monthlyProgress(booksMissingCompletion))
                     ForEach(Calendar.current.shortStandaloneMonthSymbols, id: \.self) { month in
                         let booksCompleted = books.filter { (book: BookCSVData) in
                             guard let completed = book.dateCompleted else { return false }
                             guard let monthCompleted = Calendar.current.dateComponents([.month], from: completed).month else { return false }
-                            return month == Calendar.current.shortStandaloneMonthSymbols[monthCompleted]
+                            return month == Calendar.current.shortStandaloneMonthSymbols[monthCompleted - 1]
                         }.count
                         MonthProgressBar(month: month, progress: monthlyProgress(booksCompleted))
                     }
-//                    Group {
-//                        MonthProgressBar(month: "Jan", progress: monthlyProgress(4))
-//                        MonthProgressBar(month: "Feb", progress: monthlyProgress(4))
-//                        MonthProgressBar(month: "Mar", progress: monthlyProgress(2))
-//                    }
-//                    Group {
-//                        MonthProgressBar(month: "Apr", progress: monthlyProgress(3))
-//                        MonthProgressBar(month: "May", progress: monthlyProgress(5))
-//                        MonthProgressBar(month: "Jun", progress: monthlyProgress(2))
-//                    }
-//                    Group {
-//                        MonthProgressBar(month: "Jul", progress: monthlyProgress(3))
-//                        MonthProgressBar(month: "Aug", progress: monthlyProgress(0))
-//                        MonthProgressBar(month: "Sep", progress: monthlyProgress(0))
-//                    }
-//                    Group {
-//                        MonthProgressBar(month: "Oct", progress: monthlyProgress(0))
-//                        MonthProgressBar(month: "Nov", progress: monthlyProgress(0))
-//                        MonthProgressBar(month: "Dec", progress: monthlyProgress(0))
-//                    }
                 }
                 .onAppear {
                     scrollView.scrollTo("currentMonth")

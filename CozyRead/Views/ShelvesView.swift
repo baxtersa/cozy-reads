@@ -70,6 +70,11 @@ struct YearlyGraphs : View {
             [year:Double(books.count)]
         }
         
+        // Make sure we have enough data to compute a rate of change with
+        guard data.count >= 2 else {
+            return nil
+        }
+
         let lastTwoYears = data.dropFirst(data.count - 2)
         var rate: Int?
         if let lastYear = lastTwoYears.first,
