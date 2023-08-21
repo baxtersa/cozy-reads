@@ -24,7 +24,7 @@ struct NavBarView: View {
             TabView {
                 DashboardView()
                     .tabItem{
-                        Label("Dashboard", systemImage: "square.grid.2x2")
+                        Label("Overview", systemImage: "square.grid.2x2")
                     }
                 ShelvesView()
                     .tabItem{
@@ -32,7 +32,7 @@ struct NavBarView: View {
                     }
                 GoalsView()
                     .tabItem{
-                        Label("Goals", systemImage: "checkmark.square")
+                        Label("Goals", systemImage: "chart.line.uptrend.xyaxis")
                     }
                 DataView()
                     .tabItem{

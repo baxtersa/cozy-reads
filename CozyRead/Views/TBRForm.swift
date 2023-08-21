@@ -25,7 +25,8 @@ fileprivate struct ConfirmButtons: View {
     @Binding var rating: Int
 
     @Binding var tags: [TagToggles.ToggleState]
-
+    @Binding var coverId: Int?
+    
     var body: some View {
         VStack {
             Button {
@@ -53,7 +54,11 @@ fileprivate struct ConfirmButtons: View {
                     newBook.dateCompleted = completedDate
                     newBook.rating = rating
                 }
-                
+
+                if let coverId = coverId {
+                    newBook.coverId = coverId
+                }
+
                 PersistenceController.shared.save()
                 
                 dismiss()
@@ -93,12 +98,25 @@ struct TBRForm : View {
     @State var year: Year = .tbr
     @State var completedDate: Date = .now
     @State var rating: Int = 0
-    
+
     @State var tags = BookCSVData.defaultTags.map{TagToggles.ToggleState(tag: $0)}
+    @State private var coverId: Int? = nil
+
+    @State private var searchResults: [SearchResult] = []
+//    @State private var searchResults: [SearchResult] = Array.init(
+//        repeating: SearchResult(author: "Becky Chambers", title: "The Long Way to a Small, Angry Planet", coverID: 8902659, id: 1),
+//        count: 5
+//    )
+    @State private var selectedResult: Int? = nil
     
     var body: some View {
         VStack {
             Form {
+                Section("Search") {
+                    OLSearchView(results: $searchResults, selection: $selectedResult)
+                        .frame(maxHeight: 300)
+                }
+
                 Section("Book Info") {
                     TextField("Title", text: $title)
                     TextField("Author", text: $author)
@@ -140,7 +158,15 @@ struct TBRForm : View {
                     }
                 }
 
-                ConfirmButtons(title: $title, author: $author, series: $series, selectedGenre: $selectedGenre, readType: $readType, year: $year, completedDate: $completedDate, rating: $rating, tags: $tags)
+                ConfirmButtons(title: $title, author: $author, series: $series, selectedGenre: $selectedGenre, readType: $readType, year: $year, completedDate: $completedDate, rating: $rating, tags: $tags, coverId: $coverId)
+            }
+            .onChange(of: selectedResult) { id in
+                guard let id = id else { return }
+                guard let result = searchResults.first(where: { $0.id == id }) else { return }
+
+                title = result.title
+                author = result.author
+                coverId = result.coverID
             }
         }
     }

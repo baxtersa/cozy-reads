@@ -12,7 +12,7 @@ import SwiftUI
 
 fileprivate enum Category : String, CaseIterable {
     case author
-    case series
+//    case series
     case genre
     case year
 }
@@ -225,11 +225,11 @@ struct ShelvesView : View {
                         $0.author
                     })
                     AuthorGraphs(books: dict)
-                case .series:
-                    let dict = Dictionary(grouping: books, by: {
-                        $0.series
-                    })
-                    EmptyView()
+//                case .series:
+//                    let dict = Dictionary(grouping: books, by: {
+//                        $0.series
+//                    })
+//                    EmptyView()
                 case .genre:
                     let dict = Dictionary(grouping: books, by: {
                         $0.genre

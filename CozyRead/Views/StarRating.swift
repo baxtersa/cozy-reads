@@ -21,9 +21,11 @@ protocol RatingStyle {
 }
 
 struct GradientRatingStyle : RatingStyle {
+    var colors: [Color] = [.blue, .purple]
+
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .leading, endPoint: .topTrailing)
+            LinearGradient(gradient: Gradient(colors: colors), startPoint: .leading, endPoint: .topTrailing)
                 .mask {
                     HStack {
                         ForEach(1..<configuration.maxRating + 1, id: \.self) { value in

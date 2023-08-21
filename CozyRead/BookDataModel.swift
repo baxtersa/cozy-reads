@@ -144,6 +144,8 @@ public class BookCSVData : NSManagedObject, InitFromDictionary {
     @NSManaged public var dateAdded: Date?
     @NSManaged public var dateCompleted: Date?
     @NSManaged public var dateStarted: Date?
+    
+    @NSManaged public var coverId: Int
 
     @NSManaged public var tags: [String]
 

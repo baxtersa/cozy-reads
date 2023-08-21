@@ -12,36 +12,78 @@ struct SelectBookSheet : View {
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) private var books: FetchedResults<BookCSVData>
 
     @State private var searchText: String = ""
+    @State private var addBook: Bool = false
+
     @Binding var showSheet: Bool
-    
+
     var body: some View {
-        VStack {
-            SearchBar(searchText: $searchText)
-
-            List {
-                let tbr = books.filter{ $0.year == .tbr }.filter{ (book: BookCSVData) in
-                    book.title.lowercased().hasPrefix(searchText.lowercased()) ||
-                    book.author.lowercased().hasPrefix(searchText.lowercased())
-                }
-                ForEach(tbr, id: \.self) { book in
-                    Text(book.title)
-                        .swipeActions {
-                            Button {
-                                book.setYear(.reading)
-                                book.dateStarted = Date.now
-
-                                PersistenceController.shared.save()
-                                showSheet = false
-                            } label: {
-                                Text("Start Reading")
-                            }
-                            .tint(.green)
+        if addBook {
+            TBRForm(year: .reading)
+        } else {
+            VStack {
+                SearchBar(searchText: $searchText)
+                
+                List {
+                    Section("TBR") {
+                        let tbr = books.filter{ $0.year == .tbr }.filter{ (book: BookCSVData) in
+                            book.title.lowercased().hasPrefix(searchText.lowercased()) ||
+                            book.author.lowercased().hasPrefix(searchText.lowercased())
                         }
+                        ForEach(tbr, id: \.self) { book in
+                            HStack {
+                                if book.coverId != 0,
+                                   let coverUrl = OLSearchView.coverUrlBase?.appending(path: "\(book.coverId)-M.jpg") {
+                                    AsyncImage(
+                                        url: coverUrl,
+                                        content: { image in
+                                            image
+                                                .resizable()
+                                        },
+                                        placeholder: {
+                                            ProgressView().progressViewStyle(.circular)
+                                        }
+                                    )
+                                    .mask {
+                                        Circle()
+                                    }
+                                    .frame(width: 70, height: 70)
+                                }
+                                VStack(alignment: .leading) {
+                                    Text(book.title)
+                                        .font(.system(.title3))
+                                    HStack {
+                                        Spacer()
+                                        Text("by \(book.author)")
+                                            .italic()
+                                            .font(.system(.footnote))
+                                    }
+                                }
+                                .swipeActions {
+                                    Button {
+                                        book.setYear(.reading)
+                                        book.dateStarted = Date.now
+                                        
+                                        PersistenceController.shared.save()
+                                        showSheet = false
+                                    } label: {
+                                        Text("Start Reading")
+                                    }
+                                    .tint(.green)
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                Button {
+                    addBook.toggle()
+                } label: {
+                    Label("Add", systemImage: "plus")
                 }
             }
+            .padding()
+            .background(Color("BackgroundColor"))
         }
-        .padding()
-        .background(Color("BackgroundColor"))
     }
 }
 

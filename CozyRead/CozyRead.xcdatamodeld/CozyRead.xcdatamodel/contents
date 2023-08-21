@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BookCSVData" representedClassName="BookCSVData" syncable="YES">
         <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="coverId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateCompleted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dateStarted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
