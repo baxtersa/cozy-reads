@@ -18,9 +18,14 @@ struct GoalsView : View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Goals")
-                    .font(.system(.title))
-                    .padding(.leading, 10)
+                HStack {
+                    Text("Goals")
+                        .font(.system(.title))
+                    Spacer()
+                    XPProgressView()
+                        .xpProgressStyle(.badge)
+                }
+                .padding(.horizontal, 10)
                 Text("Daily")
                     .font(.system(.title2))
                     .padding([.leading], 10)
@@ -36,7 +41,6 @@ struct GoalsView : View {
                 Spacer()
             }
         }
-        .background(Color("BackgroundColor"))
     }
 }
 

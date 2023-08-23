@@ -38,6 +38,11 @@ struct OLSearchView : View {
                         request.resume()
                     }
                 }
+                .onChange(of: searchText) { value in
+                    if value.isEmpty {
+                        results.removeAll()
+                    }
+                }
             if isSearching {
                 ProgressView()
                     .progressViewStyle(.circular)

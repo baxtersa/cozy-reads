@@ -21,36 +21,41 @@ struct DashboardView : View {
         }) / Float(readThisYear.count), symbol: "star")
 
         ScrollView {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("Overview")
-                        .font(.system(.title))
-                        .padding(.leading, 10)
-
-                    Spacer()
-                    let years = Array(Set(books.map{ $0.year }.filter{
-                        if case .year = $0 {
-                            return true
-                        } else {
-                            return false
+            VStack(alignment: .leading, spacing: 20) {
+                VStack {
+                    HStack {
+                        Text("Overview")
+                            .font(.system(.title))
+                            .padding(.leading, 10)
+                        
+                        Spacer()
+                        let years = Array(Set(books.map{ $0.year }.filter{
+                            if case .year = $0 {
+                                return true
+                            } else {
+                                return false
+                            }
+                        })).sorted()
+                        Picker("Year", selection: $overviewYear) {
+                            ForEach(Array(years)) { year in
+                                Text(year.description)
+                            }
                         }
-                    })).sorted()
-                    Picker("Year", selection: $overviewYear) {
-                        ForEach(Array(years)) { year in
-                            Text(year.description)
-                        }
+                        .pickerStyle(.menu)
                     }
-                    .pickerStyle(.menu)
                 }
-                ChartView(chart: booksRead)
-                ChartView(chart: avgRating)
-                Text("Currently Reading")
-                    .font(.system(.title2))
-                    .padding(.horizontal, 10)
+                
+                ProfileView()
+                VStack(alignment: .leading) {
+                    Text("Progress")
+                        .font(.system(.title2))
+                        .padding(.leading)
+                    ChartView(chart: booksRead)
+                    ChartView(chart: avgRating)
+                }
                 CurrentlyReadingView()
             }
         }
-        .background(Color("BackgroundColor"))
     }
 }
 

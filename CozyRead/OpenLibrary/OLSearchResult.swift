@@ -51,21 +51,13 @@ extension SearchResult: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        //            let container = try decoder.container(keyedBy: CodingKeys.self)
-        //            self.id = try container.decode(Int.self, forKey: .id)
-        //            self.podcastID = try container.decode(Int.self, forKey: .podcastID)
-        //            let duration = try container.decode(Int.self, forKey: .duration)
-        //            self.duration = .milliseconds(duration)
-        //            self.title = try container.decode(String.self, forKey: .title)
-        //            self.date = try container.decode(Date.self, forKey: .date)
-        //            self.url = try container.decode(URL.self, forKey: .url)
 
         self.author = try container.decode([String].self, forKey: .author).first ?? "Unknown"
         self.title = try container.decode(String.self, forKey: .title)
         self.coverID = try? container.decode(Int.self, forKey: .cover)
         self.pages = try? container.decode(Int.self, forKey: .pages)
 
-        self.id = try container.decode([String].self, forKey: .isbn).first?.hash ?? Int.random(in: 0..<Int.max)
+        self.id = { try? container.decode([String].self, forKey: .isbn).first?.hash }() ?? Int.random(in: 0..<Int.max)
     }
 }
 

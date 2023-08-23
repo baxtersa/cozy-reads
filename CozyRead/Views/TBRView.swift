@@ -18,10 +18,7 @@ struct TBRView : View {
                 .padding(.leading, 10)
             CurrentlyReadingView()
             TBRListView()
-                .environment(\.managedObjectContext, viewContext)
         }
-        .background(Color("BackgroundColor"))
-        .animation(.linear(duration: 0.2))
     }
 }
 

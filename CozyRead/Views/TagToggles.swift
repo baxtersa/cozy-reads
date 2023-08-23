@@ -16,6 +16,7 @@ struct TagToggles : View {
 
     @Binding var tags: [ToggleState]
     @State private var expand: Bool = true
+    @State private var newTag: String = ""
 
     var body: some View {
         VStack {
@@ -35,8 +36,13 @@ struct TagToggles : View {
                 FlexBox(data: $tags, spacing: 10) { $toggle in
                     Toggle(toggle.tag, isOn: $toggle.state)
                         .toggleStyle(.button)
-                        .background(RoundedRectangle(cornerRadius: 5).fill(Color("BackgroundColor")))
+                        .buttonStyle(.borderedProminent)
                 }
+                AddTag(newTag: $newTag)
+                    .onSubmit {
+                        tags.append(ToggleState(tag: newTag, state: true))
+                        newTag.removeAll()
+                    }
             }
         }
     }

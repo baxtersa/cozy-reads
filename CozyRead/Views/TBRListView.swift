@@ -34,7 +34,6 @@ struct TBRListView : View {
                 .padding(.trailing)
                 .sheet(isPresented: $showSheet) {
                     TBRForm()
-                        .environment(\.managedObjectContext, viewContext)
                 }
             }
             List {

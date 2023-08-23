@@ -58,6 +58,12 @@ public enum Genre : String, CaseIterable, Hashable, Identifiable {
     public var id: Self { self }
 }
 
+extension Genre: Comparable {
+    public static func < (lhs: Genre, rhs: Genre) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+}
+
 public enum Year : Equatable, Hashable, Comparable, Identifiable {
     case year(_: Int)
     case tbr
@@ -221,6 +227,8 @@ public class BookCSVData : NSManagedObject, InitFromDictionary {
         self.dateCompleted = dateFormatter.date(from: from["DateCompleted"] ?? "")
         self.dateStarted = dateFormatter.date(from: from["DateStarted"] ?? "")
         self.private_readType = from["ReadType"] ?? ""
+
+        self.coverId = Int(from["CoverID"] ?? "0") ?? 0
     }
 }
 
@@ -262,15 +270,15 @@ extension BookCSVData {
     static let defaultTags: [String] = [
         "Fantasy",
         "Sci-fi",
-        "Sci-fantasy",
-        "Space Opera",
         "Contemporary",
         "Horror",
-        "Literary Fiction",
+        "Literary",
         "Nonfiction",
         "Romance",
         "Historical Fiction",
         "Mystery",
+        "True Crime",
+        "Thriller"
     ]
 }
 

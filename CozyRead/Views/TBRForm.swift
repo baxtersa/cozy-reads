@@ -152,6 +152,7 @@ struct TBRForm : View {
                                 Text("Stars")
                                 Spacer()
                                 StarRating(rating: $rating)
+                                    .ratingStyle(SolidRatingStyle(color: .accentColor))
                                     .fixedSize()
                             }
                         }

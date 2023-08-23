@@ -16,10 +16,10 @@ struct NavBarView: View {
             HStack {
                 Image(systemName: "book.fill")
                     .font(.system(.largeTitle))
-                    .foregroundStyle(Gradient(colors: [.blue, .purple]))
+                    .foregroundColor(.accentColor)
                 Text("CozyReads")
                     .font(.system(.largeTitle))
-                    .foregroundStyle(Gradient(colors: [.blue, .purple]))
+                    .foregroundColor(.accentColor)
             }
             TabView {
                 DashboardView()
@@ -40,12 +40,12 @@ struct NavBarView: View {
                     }
             }
         }
-        .background(Color("BackgroundColor"))
     }
 }
 
 struct NavBarView_Previews: PreviewProvider {
     static var previews: some View {
-        NavBarView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        NavBarView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

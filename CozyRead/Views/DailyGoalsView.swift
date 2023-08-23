@@ -25,6 +25,7 @@ private struct DayTracker : View {
 
     var body: some View {
         MultiDatePicker("Reading Tracker", selection: $dates)
+            .tint(.accentColor)
         Divider()
         Button {
             withAnimation {
@@ -70,15 +71,15 @@ private struct CheckCircle : View {
     var body: some View {
         ZStack {
             if entry != nil {
-                    GeometryReader { geometry in
-                ZStack {
+                GeometryReader { geometry in
+                    ZStack {
                         Circle()
                             .inset(by: 2.5)
                             .stroke(style: StrokeStyle(lineWidth: 5))
                             .foregroundColor(.clear)
                             .contentShape(Circle())
                         Circle()
-                            .fill(Gradient(colors: [.blue, .purple]))
+                            .fill(Color.accentColor)
                             .transition(.scale)
                         Image(systemName: "checkmark")
                             .resizable()
@@ -92,7 +93,7 @@ private struct CheckCircle : View {
                 ZStack {
                     Circle()
                         .inset(by: 2.5)
-                        .stroke(Gradient(colors: [.blue, .purple]), style: StrokeStyle(lineWidth: 5))
+                        .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 5))
                         .opacity(0.3)
                         .contentShape(Circle())
                     Image(systemName: "checkmark")
@@ -115,6 +116,8 @@ private struct CheckCircle : View {
             let newEntry = ReadingTrackerEntity(context: viewContext)
             newEntry.date = date
             self.entry = newEntry
+            
+//            XPLevels.shared.dayRead()
         }
         
         PersistenceController.shared.save()
@@ -168,7 +171,7 @@ struct DailyGoalsView : View {
         .scaledToFit()
         .padding(.vertical)
         .background(
-            RoundedRectangle(cornerRadius: 20).fill(.white)
+            RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground))
         )
         .padding(.horizontal)
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)

@@ -64,6 +64,8 @@ struct SolidRatingStyle : RatingStyle {
         HStack {
             ForEach(1..<configuration.maxRating + 1, id: \.self) { value in
                 Image(systemName: "star")
+                    .resizable()
+                    .scaledToFit()
                     .symbolVariant(value <= configuration.rating ? .fill : .none)
                     .foregroundColor(color)
                     .contentShape(Circle())

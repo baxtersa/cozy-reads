@@ -29,7 +29,7 @@ struct ChartView : View {
                 Text(formatter.string(from: chart.metric as NSNumber) ?? "0")
                     .font(.system(.title, weight: .bold))
                     .padding(.leading)
-                    .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .leading, endPoint: .topTrailing))
+                    .foregroundColor(.accentColor)
             }
             .padding(.leading)
             .padding(.vertical)
@@ -37,19 +37,20 @@ struct ChartView : View {
             Image(systemName: chart.symbol)
                 .font(.largeTitle)
                 .padding(.trailing)
-                .foregroundStyle(Gradient(colors: [.blue, .purple]))
+                .foregroundColor(.accentColor)
         }
-        .background {
-            ZStack(alignment: .top) {
-                Rectangle()
-                    .fill(.white)
-                Rectangle()
-                    .frame(maxHeight: 10)
-                    .foregroundStyle(LinearGradient(gradient: Gradient( colors: [.blue, .purple, .purple, .clear, .clear, .clear]), startPoint: .leading, endPoint: .topTrailing))
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-        }
-        .cornerRadius(10)
+        .background(Color(uiColor: .systemBackground))
+//        .background {
+//            ZStack(alignment: .top) {
+//                Rectangle()
+//                    .fill(Color(uiColor: .systemBackground))
+//                Rectangle()
+//                    .frame(maxHeight: 10)
+//                    .foregroundColor(.accentColor)
+//            }
+//            .clipShape(RoundedRectangle(cornerRadius: 10))
+//        }
+        .cornerRadius(20)
         .padding(.horizontal, 10)
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
     }

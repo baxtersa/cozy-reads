@@ -24,7 +24,7 @@ struct SearchBar : View {
             }
         }
         .padding(.all, 8)
-        .background(RoundedRectangle(cornerRadius: 10).fill(.black).opacity(0.08))
+        .background(RoundedRectangle(cornerRadius: 10).opacity(0.08))
     }
 }
 
@@ -129,6 +129,7 @@ struct DataView : View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
             Button {
                 showSheet.toggle()
             } label: {
@@ -136,7 +137,6 @@ struct DataView : View {
             }
             .padding()
         }
-        .background(Color("BackgroundColor"))
         .sheet(isPresented: $showSheet) {
             TBRForm()
         }

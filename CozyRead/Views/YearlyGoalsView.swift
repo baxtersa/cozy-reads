@@ -22,11 +22,11 @@ struct YearlyGoalsView : View {
             Spacer()
             ZStack {
                 Circle()
-                    .stroke(Gradient(colors: [.blue, .purple]), lineWidth: 30)
+                    .stroke(Color.accentColor, lineWidth: 30)
                     .opacity(0.3)
                 Circle()
                     .trim(from: 0, to: CGFloat(percentage))
-                    .stroke(Gradient(colors: [.blue, .purple]), style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
+                    .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
                     .rotationEffect(.degrees(270))
                 VStack {
                     Text(String(format: "%.0f %%", percentage*100))
@@ -43,7 +43,7 @@ struct YearlyGoalsView : View {
             Spacer()
         }
         .padding(.vertical, 30)
-        .background(RoundedRectangle(cornerRadius: 20).fill(.white))
+        .background(RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground)))
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
         .padding(.horizontal)
         .sheet(isPresented: $showSheet) {

@@ -46,21 +46,16 @@ struct TagInfo : View {
 }
 
 struct AddTag : View {
-    let book: BookCSVData
+//    let book: BookCSVData
 
     @State private var typing: Bool = false
     @FocusState private var focusTagEntry: Bool
-    @State private var newTag: String = ""
+    @Binding var newTag: String
     
     var body: some View {
         if typing {
             TextField("Enter Tag", text: $newTag)
                 .onSubmit {
-                    guard !newTag.isEmpty else { return }
-                    book.tags.append(newTag)
-
-                    PersistenceController.shared.save()
-
                     typing.toggle()
                     newTag.removeAll()
                     focusTagEntry = false
@@ -74,15 +69,15 @@ struct AddTag : View {
                 focusTagEntry = true
             } label: {
                 Text("Add Tag")
-                    .padding(5)
-                    .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
             }
+            .buttonStyle(.bordered)
         }
     }
 }
 
 struct DataCardView : View {
     @Environment(\.editMode) private var editMode: Binding<EditMode>?
+    @State private var newTag: String = ""
 
     let book: BookCSVData
     private let editableBinding: Binding<Int>
@@ -151,7 +146,12 @@ struct DataCardView : View {
                     TagInfo(book: book, text: tag)
                 }
                 if isEditing {
-                    AddTag(book: book)
+                    AddTag(newTag: $newTag)
+                        .onSubmit {
+                            book.tags.append(newTag)
+
+                            PersistenceController.shared.save()
+                        }
                 }
 
                 if book.year == .tbr {
@@ -186,6 +186,7 @@ struct DataCardView : View {
                     let ratingBinding = isEditing ? editableBinding : Binding.constant(book.rating)
                     
                     StarRating(rating: ratingBinding)
+                        .fixedSize()
                         .ratingStyle(SolidRatingStyle(color: .white))
 
                     Spacer()
@@ -200,6 +201,7 @@ struct DataCardView : View {
                             } label: {
                                 Label("Finished", systemImage: "checkmark.circle")
                             }
+                            .buttonStyle(.bordered)
 
                             let dateBinding = Binding(
                                 get: {
@@ -238,7 +240,7 @@ struct DataCardView : View {
         }
         .padding(.vertical)
         .foregroundColor(.white)
-        .background(RoundedRectangle(cornerRadius: 20).fill(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .bottomLeading, endPoint: .topTrailing)))
+        .background(RoundedRectangle(cornerRadius: 20).fill(Color.accentColor))
         .padding()
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
     }

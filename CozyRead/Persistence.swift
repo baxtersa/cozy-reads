@@ -7,6 +7,12 @@
 
 import CoreData
 
+class CozyReadPersistentContainer : NSPersistentContainer {
+    let profile = UserDefaults.standard.bool(forKey: Onboarding.Constants.defaultProfile)
+
+    var backgroundContext: NSManagedObjectContext? = nil
+}
+
 struct PersistenceController {
     static let shared = PersistenceController()
 
@@ -22,6 +28,10 @@ struct PersistenceController {
             entry.date = day
         }
         
+//        let profile = ProfileEntity(context: viewContext)
+//        profile.uuid = UUID()
+//        profile.name = "Sam"
+        
         do {
             try viewContext.save()
         } catch {
@@ -33,10 +43,11 @@ struct PersistenceController {
         return result
     }()
 
-    let container: NSPersistentContainer
+    let container: CozyReadPersistentContainer
 
     private init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "CozyRead")
+        let persistance = CozyReadPersistentContainer(name: "CozyRead")
+        container = persistance
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
             let _: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: container.viewContext)
@@ -60,6 +71,8 @@ struct PersistenceController {
             }
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
+//
+//        container.backgroundContext = container.newBackgroundContext()
     }
 
     func save() {
@@ -74,4 +87,18 @@ struct PersistenceController {
             }
         }
     }
+//
+//    func backgroundSave() {
+//        if let context = container.backgroundContext {
+//            context.perform {
+//                if context.hasChanges {
+//                    do {
+//                        try context.save()
+//                    } catch {
+//                        print(error.localizedDescription)
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

@@ -25,21 +25,11 @@ struct CurrentlyReadingTile : View {
     var body: some View {
         VStack {
             HStack {
-//                if let url = data.bookCoverUrl {
-//                    AsyncImage(url: url) { image in
-//                        image.image?.resizable()
-//                    }
-//                    .mask(Circle())
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(maxHeight: 150)
-//                    .padding(.leading)
-//                } else {
-//                    EmptyView()
-//                }
                 VStack(alignment: .leading) {
                     HStack {
                         Text(book.title)
-                            .font(.system(.title2, weight: .bold))
+                            .font(.system(.title3))
+                            .bold()
                             .padding(.leading)
                         Spacer()
                         Image(systemName: "chevron.down")
@@ -61,6 +51,7 @@ struct CurrentlyReadingTile : View {
             if expand {
                 VStack(spacing: 10) {
                     StarRating(rating: $rating)
+                        .ratingStyle(SolidRatingStyle(color: .accentColor))
                         .frame(width: 200)
                     Button {
                         finishRead()
@@ -68,29 +59,27 @@ struct CurrentlyReadingTile : View {
                         expand.toggle()
                     } label: {
                         Label("Finished", systemImage: "checkmark")
-                            .padding()
-                            .background(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .topLeading, endPoint: .topTrailing))
-                            .cornerRadius(10)
-                            .foregroundColor(.white)
                     }
+                    .buttonStyle(.borderedProminent)
                     .padding(.bottom)
                 }
                 .frame(maxHeight: 120)
                 .clipped()
             }
         }
-        .background {
-            ZStack(alignment: .top) {
-                Rectangle()
-                    .fill(.white)
-                Rectangle()
-                    .frame(maxHeight: 10)
-                    .foregroundStyle(LinearGradient(gradient: Gradient( colors: [.clear, .clear, .clear, .blue, .purple, .purple]), startPoint: .leading, endPoint: .topTrailing))
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-        }
-        .cornerRadius(10)
-        .padding(.horizontal, 10)
+        .background(Color(uiColor: .systemBackground))
+//        .background {
+//            ZStack(alignment: .top) {
+//                Rectangle()
+//                    .fill(Color(uiColor: .systemBackground))
+//                Rectangle()
+//                    .frame(maxHeight: 10)
+//                    .foregroundColor(.accentColor)
+//            }
+//            .clipShape(RoundedRectangle(cornerRadius: 10))
+//        }
+        .cornerRadius(20)
+        .padding(.horizontal)
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
         .animation(.linear(duration: 0.2), value: expand)
         .onTapGesture {
@@ -107,12 +96,14 @@ struct CurrentlyReadingTile : View {
         book.rating = rating
         book.dateCompleted = Date.now
 
+//        XPLevels.shared.finishedBook()
+
         PersistenceController.shared.save()
     }
 }
 
 struct CurrentlyReadingTile_Previews: PreviewProvider {
-    static private var book = try! BookCSVData(from: ["Title": "The Long Way to a Small, Angry Planet", "Author": "Becky Chambers", "Genre": "Sci-fi"], context: PersistenceController.preview.container.viewContext)
+    static private var book = try! BookCSVData(from: ["Title": "The Long Way to a Small, Angry Planet", "Author": "Becky Chambers", "Genre": "Sci-fi", "CoverID": "8902659"], context: PersistenceController.preview.container.viewContext)
 
     static var previews: some View {
         CurrentlyReadingTile(book: book)

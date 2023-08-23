@@ -59,6 +59,100 @@ struct DragMarker : View {
     }
 }
 
+struct GenreGraphs : View {
+    let books: [Genre:[BookCSVData]]
+
+    var completed: [Genre:[BookCSVData]] {
+        books.mapValues{ $0.filter{ $0.year == selectedYear } }
+    }
+
+    @State private var selectedYear: Year = .year(Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023)
+
+    var body: some View {
+        let completed = completed.sorted(by: { $0.key < $1.key }).filter{ !$1.isEmpty }
+        let data = completed.flatMap{ genre, books in
+            [genre:Double(books.count)]
+        }
+
+        VStack {
+            let years = Array(Set(books.flatMap{ $1.map{ $0.year } }.filter{
+                if case .year = $0 {
+                    return true
+                } else {
+                    return false
+                }
+            })).sorted()
+            Picker("Year", selection: $selectedYear) {
+                ForEach(Array(years)) { year in
+                    Text(year.description)
+                }
+            }
+            .pickerStyle(.menu)
+
+            VStack(alignment: .leading) {
+                Text("Books Read")
+                    .font(.system(.title2))
+                    .bold()
+                    .padding([.leading, .top])
+                
+                Chart(data, id: \.key) { genre, count in
+                    let xp: PlottableValue = .value("Genre", genre.rawValue)
+                    let yp: PlottableValue =  .value("Books Read", count)
+                    BarMark(x: xp, y: yp)
+                }
+                .chartXAxis {
+                    AxisMarks(values: .automatic) { value in
+                        AxisValueLabel()
+                    }
+                }
+                .chartYAxis(.hidden)
+                .padding(.vertical)
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground))
+            }
+            .padding(.horizontal)
+            .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
+            
+            VStack(alignment: .leading) {
+                Text("Average Rating")
+                    .font(.system(.title2))
+                    .bold()
+                    .padding()
+
+                Chart(completed, id: \.key) { genre, books in
+                    let avg = books.reduce(0, { acc, book in
+                        acc + Float(book.rating) / Float(books.count)
+                    })
+                    let xp: PlottableValue = .value("Genre", genre.rawValue)
+                    let yp: PlottableValue =  .value("Rating", avg)
+                    PointMark(x: xp, y: yp)
+                        .symbolSize(CGFloat(books.count) * 150)
+                        .annotation(position: .overlay) {
+                            Text(String(format: "%0.1f", avg))
+                                .font(.system(.caption))
+                                .fixedSize()
+                                .foregroundColor(.white)
+                                .bold()
+                        }
+                }
+                .chartXAxis {
+                    AxisMarks(values: .automatic) { value in
+                        AxisValueLabel()
+                    }
+                }
+                .chartYAxis(.hidden)
+                .padding(.vertical)
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground))
+            }
+            .padding(.horizontal)
+            .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
+        }
+    }
+}
+
 struct YearlyGraphs : View {
     let books: [Year:[BookCSVData]]
 
@@ -92,37 +186,36 @@ struct YearlyGraphs : View {
         }
 
         VStack {
-                VStack(alignment: .leading) {
-                    Text("Books Read")
-                        .font(.system(.title2))
-                        .bold()
-                        .padding([.leading, .top])
-                    if let rate = rate {
-                        Text(String(format: "%d", rate))
-                            .padding(.leading)
-                    }
-                    
-                    ZStack {
-                        Chart(data, id: \.key) { year, count in
-                            let xp: PlottableValue = .value("Year", year.description)
-                            let yp: PlottableValue =  .value("Books Read", count)
-                            LineMark(x: xp, y: yp)
-                                .interpolationMethod(.catmullRom)
-                        }
-                        .foregroundStyle(Gradient(colors: [.blue, .purple]))
-                        .chartXAxis {
-                            AxisMarks(values: .automatic) { value in
-                                AxisValueLabel()
-                            }
-                        }
-                        .chartYAxis(.hidden)
-                        
-                        DragMarker()
-                    }
-                    .padding(.vertical)
+            VStack(alignment: .leading) {
+                Text("Books Read")
+                    .font(.system(.title2))
+                    .bold()
+                    .padding([.leading, .top])
+                if let rate = rate {
+                    Text(String(format: "%d", rate))
+                        .padding(.leading)
                 }
+                
+                ZStack {
+                    Chart(data, id: \.key) { year, count in
+                        let xp: PlottableValue = .value("Year", year.description)
+                        let yp: PlottableValue =  .value("Books Read", count)
+                        LineMark(x: xp, y: yp)
+                            .interpolationMethod(.catmullRom)
+                    }
+                    .chartXAxis {
+                        AxisMarks(values: .automatic) { value in
+                            AxisValueLabel()
+                        }
+                    }
+                    .chartYAxis(.hidden)
+                    
+                    DragMarker()
+                }
+                .padding(.vertical)
+            }
             .background {
-                RoundedRectangle(cornerRadius: 20).fill(.white)
+                RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground))
             }
             .padding(.horizontal)
             .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
@@ -149,7 +242,6 @@ struct YearlyGraphs : View {
                                 .bold()
                         }
                 }
-                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .leading, endPoint: .topTrailing))
                 .chartXAxis {
                     AxisMarks(values: .automatic) { value in
                         AxisValueLabel()
@@ -159,7 +251,7 @@ struct YearlyGraphs : View {
                 .padding(.vertical)
             }
             .background {
-                RoundedRectangle(cornerRadius: 20).fill(.white)
+                RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground))
             }
             .padding(.horizontal)
             .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
@@ -203,7 +295,7 @@ struct YearlyGraphs : View {
 struct ShelvesView : View {
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
     
-    @State private var categoryFilter: Category = .year
+    @State private var categoryFilter: Category = .genre
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -234,7 +326,7 @@ struct ShelvesView : View {
                     let dict = Dictionary(grouping: books, by: {
                         $0.genre
                     })
-                    EmptyView()
+                    GenreGraphs(books: dict)
                 case .year:
                     let dict = Dictionary(grouping: books, by: {
                         $0.year
@@ -245,7 +337,6 @@ struct ShelvesView : View {
             
         }
         .frame(maxHeight: .infinity, alignment: .top)
-        .background(Color("BackgroundColor"))
     }
 }
 

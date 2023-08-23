@@ -19,9 +19,9 @@ struct MonthProgressBar : View {
                     ZStack(alignment: .bottom) {
                         RoundedRectangle(cornerRadius: 5)
                             .opacity(0.3)
-                            .foregroundStyle(Gradient(colors: [.blue, .purple]))
+                            .foregroundColor(.accentColor)
                         RoundedRectangle(cornerRadius: 5)
-                            .foregroundStyle(Gradient(colors: [.blue, .purple]))
+                            .foregroundColor(.accentColor)
                             .frame(height: geometry.size.height * CGFloat(min(1.0, progress)))
                     }
                     if progress > 1.0 {
@@ -78,7 +78,11 @@ struct MonthlyGoalsView : View {
                     ForEach(Calendar.current.shortStandaloneMonthSymbols, id: \.self) { month in
                         let booksCompleted = books.filter { (book: BookCSVData) in
                             guard let completed = book.dateCompleted else { return false }
-                            guard let monthCompleted = Calendar.current.dateComponents([.month], from: completed).month else { return false }
+                            let components = Calendar.current.dateComponents([.month, .year], from: completed)
+                            guard let monthCompleted = components.month,
+                                  let year = components.year,
+                                  year == currentYear else { return false }
+                            
                             return month == Calendar.current.shortStandaloneMonthSymbols[monthCompleted - 1]
                         }.count
                         MonthProgressBar(month: month, progress: monthlyProgress(booksCompleted))
@@ -91,36 +95,10 @@ struct MonthlyGoalsView : View {
         }
 //        .fadeOutSides(fadeLength:20)
         .padding()
-        .background(RoundedRectangle(cornerRadius: 20).fill(.white))
+        .background(RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground)))
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
         .padding(.horizontal)
         .frame(height: 200)
-    }
-}
-
-extension View {
-    func fadeOutSides(fadeLength:CGFloat=50) -> some View {
-        return mask(
-            HStack(spacing: 0) {
-                
-                // Left gradient
-                LinearGradient(gradient: Gradient(
-                    colors: [Color.black.opacity(0), Color.black]),
-                               startPoint: .leading, endPoint: .trailing
-                )
-                .frame(width: fadeLength)
-                
-                // Middle
-                Rectangle().fill(Color.black)
-                
-                // Right gradient
-                LinearGradient(gradient: Gradient(
-                    colors: [Color.black, Color.black.opacity(0)]),
-                               startPoint: .leading, endPoint: .trailing
-                )
-                .frame(width: fadeLength)
-            }
-        )
     }
 }
 

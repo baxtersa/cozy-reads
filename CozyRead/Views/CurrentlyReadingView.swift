@@ -74,6 +74,7 @@ struct SelectBookSheet : View {
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
                 
                 Button {
                     addBook.toggle()
@@ -82,7 +83,6 @@ struct SelectBookSheet : View {
                 }
             }
             .padding()
-            .background(Color("BackgroundColor"))
         }
     }
 }
@@ -93,30 +93,15 @@ struct StartReadingView : View {
 
     var body: some View {
         VStack {
-            Text("Start a new book")
-                .font(.system(.title3))
-                .italic()
             HStack {
-                Spacer()
                 Button {
                     showSheet.toggle()
                 } label: {
-                    Label("Finished", systemImage: "plus.circle")
-                        .frame(width: 200, height: 40)
-                        .font(.system(.title2))
-                        .background(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .leading, endPoint: .topTrailing))
-                        .cornerRadius(10)
-                        .foregroundColor(.white)
-                        .labelStyle(.iconOnly)
+                    Label("New Book", systemImage: "plus.circle")
                 }
-                Spacer()
+                .buttonStyle(.borderedProminent)
             }
         }
-        .padding(.vertical)
-        .background(RoundedRectangle(cornerRadius: 10).fill(.white))
-        .cornerRadius(10)
-        .padding(.horizontal, 10)
-        .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
         .sheet(isPresented: $showSheet) {
             SelectBookSheet(showSheet: $showSheet)
         }
@@ -128,14 +113,21 @@ struct CurrentlyReadingView : View {
     @FetchRequest(fetchRequest: BookCSVData.fetchRequest(sortDescriptors: [SortDescriptor(\.dateCompleted, order: .reverse)], predicate: NSPredicate(format: "private_year == 'Reading'"))) var books: FetchedResults<BookCSVData>
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
+            HStack {
+                Text("Currently Reading")
+                    .font(.system(.title2))
+                Spacer()
+                StartReadingView()
+            }
+        .padding(.horizontal)
             ScrollView {
                 ForEach(books, id: \.self) { book in
                     CurrentlyReadingTile(book: book)
                 }
-                StartReadingView()
             }
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
