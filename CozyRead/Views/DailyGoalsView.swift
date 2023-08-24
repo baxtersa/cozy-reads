@@ -13,11 +13,11 @@ private struct DayTracker : View {
     @Environment(\.profileColor) private var profileColor
     @Environment(\.profile) private var profile
 
-    let daysRead: FetchedResults<ReadingTrackerEntity>
+    let daysRead: [ReadingTrackerEntity]
     @State private var dates: Set<DateComponents>
     @Binding var displayPicker: Bool
     
-    init(daysRead: FetchedResults<ReadingTrackerEntity>, displayPicker: Binding<Bool>) {
+    init(daysRead: [ReadingTrackerEntity], displayPicker: Binding<Bool>) {
         self.daysRead = daysRead
         self._dates = State(initialValue: Set(daysRead.compactMap{ $0.date }.map {
             Calendar.current.dateComponents([.calendar, .era, .day, .month, .year], from: $0)
@@ -140,6 +140,7 @@ struct DailyGoalsView : View {
     @State private var displayPicker: Bool = false
 
     var body: some View {
+        let daysRead = daysRead.filter{ $0.profile == profile.wrappedValue }
         VStack {
             if displayPicker {
                 DayTracker(daysRead: daysRead, displayPicker: $displayPicker)
