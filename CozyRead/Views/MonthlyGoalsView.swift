@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct MonthProgressBar : View {
+    @Environment(\.profileColor) private var profileColor
+ 
     let month: String
     let progress: Float
 
@@ -19,9 +21,9 @@ struct MonthProgressBar : View {
                     ZStack(alignment: .bottom) {
                         RoundedRectangle(cornerRadius: 5)
                             .opacity(0.3)
-                            .foregroundColor(.accentColor)
+                            .foregroundColor(profileColor)
                         RoundedRectangle(cornerRadius: 5)
-                            .foregroundColor(.accentColor)
+                            .foregroundColor(profileColor)
                             .frame(height: geometry.size.height * CGFloat(min(1.0, progress)))
                     }
                     if progress > 1.0 {
@@ -53,6 +55,8 @@ struct MonthProgressBar : View {
 }
 
 struct MonthlyGoalsView : View {
+    @Environment(\.profile) private var profile
+ 
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
     
     let yearlyTarget: Int
@@ -67,6 +71,7 @@ struct MonthlyGoalsView : View {
     let currentYear: Int = Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023
 
     var body: some View {
+        let books = books.filter{ $0.profile == profile.wrappedValue }
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { scrollView in
                 HStack {

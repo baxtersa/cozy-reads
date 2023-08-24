@@ -21,16 +21,23 @@ struct PersistenceController {
         let viewContext = result.container.viewContext
 
         // Fake some reading dates
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.startOfDay(for: .now))
-        let dayBefore = Calendar.current.date(byAdding: .day, value: -2, to: Calendar.current.startOfDay(for: .now))
-        for day in [yesterday, dayBefore] {
-            let entry = ReadingTrackerEntity(context: viewContext)
-            entry.date = day
+        if let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.startOfDay(for: .now)),
+           let dayBefore = Calendar.current.date(byAdding: .day, value: -2, to: Calendar.current.startOfDay(for: .now)) {
+            for day in [yesterday, dayBefore] {
+                let entry = ReadingTrackerEntity(context: viewContext)
+                entry.date = day
+            }
         }
         
-//        let profile = ProfileEntity(context: viewContext)
-//        profile.uuid = UUID()
-//        profile.name = "Sam"
+        let profile = ProfileEntity(context: viewContext)
+        profile.uuid = UUID()
+        profile.name = "Sam"
+        UserDefaults.standard.setValue(profile.uuid.uuidString, forKey: Onboarding.Constants.defaultProfile)
+        
+        let books: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: viewContext)
+//        books.forEach{ book in
+//            book.profile = profile
+//        }
         
         do {
             try viewContext.save()
@@ -48,9 +55,21 @@ struct PersistenceController {
     private init(inMemory: Bool = false) {
         let persistance = CozyReadPersistentContainer(name: "CozyRead")
         container = persistance
+        
+//        let defaultDirectoryURL = CozyReadPersistentContainer.defaultDirectoryURL()
+//        
+//        let appDirectoryURL = defaultDirectoryURL.appendingPathComponent("Application.sqlite")
+//        let appStoreDescription = NSPersistentStoreDescription(url: appDirectoryURL)
+//        appStoreDescription.configuration = "Application"
+//        
+//        container.persistentStoreDescriptions = [appStoreDescription]
+//        container.loadPersistentStores { _, error in
+//            ()
+//        }
+//        
+//        let profileDirectoryURL = defaultDirectoryURL.appendingPathComponent("Profile.sqlite")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-            let _: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: container.viewContext)
         }
 //        let _: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: container.viewContext)
 

@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct SelectBookSheet : View {
+    @Environment(\.profile) private var profile
+
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) private var books: FetchedResults<BookCSVData>
 
     @State private var searchText: String = ""
@@ -17,6 +19,7 @@ struct SelectBookSheet : View {
     @Binding var showSheet: Bool
 
     var body: some View {
+        let books = books.filter{ $0.profile == profile.wrappedValue }
         if addBook {
             TBRForm(year: .reading)
         } else {
@@ -110,9 +113,16 @@ struct StartReadingView : View {
 
 struct CurrentlyReadingView : View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(fetchRequest: BookCSVData.fetchRequest(sortDescriptors: [SortDescriptor(\.dateCompleted, order: .reverse)], predicate: NSPredicate(format: "private_year == 'Reading'"))) var books: FetchedResults<BookCSVData>
+    @Environment(\.profile) private var profile
+
+    @FetchRequest(fetchRequest: BookCSVData.fetchRequest(
+        sortDescriptors: [],
+        predicate: NSPredicate(format: "private_year == 'Reading'")
+    )) var books: FetchedResults<BookCSVData>
     
     var body: some View {
+        let books = books.filter{ $0.profile == profile.wrappedValue }
+
         VStack(alignment: .leading) {
             HStack {
                 Text("Currently Reading")
@@ -126,6 +136,12 @@ struct CurrentlyReadingView : View {
                     CurrentlyReadingTile(book: book)
                 }
             }
+        }
+        .onChange(of: profile.wrappedValue) { _ in
+            print("Profile change propogated")
+        }
+        .onAppear {
+            print("Currently reading appeared with profile: ", profile.wrappedValue?.name)
         }
         .frame(maxWidth: .infinity)
     }

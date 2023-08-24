@@ -31,7 +31,8 @@ struct SearchBar : View {
 struct DataView : View {
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.editMode) var editMode: Binding<EditMode>?
-    
+    @Environment(\.profile) private var profile
+ 
     private var isEditing: Bool {
         editMode?.wrappedValue.isEditing == true
     }
@@ -42,6 +43,7 @@ struct DataView : View {
     @State private var showSheet = false
     
     var body: some View {
+        let books = books.filter{ $0.profile == profile.wrappedValue }
         let dict: [Year:[BookCSVData]] = Dictionary(grouping: books, by: {$0.year})
         let booksByYear = dict.sorted { $0.key > $1.key }.flatMap { (year: Year, books: [BookCSVData]) in
             [year:books.filter{ (book: BookCSVData) in

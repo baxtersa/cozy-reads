@@ -15,6 +15,8 @@ struct ReadingModel {
 }
 
 struct CurrentlyReadingTile : View {
+    @Environment(\.profileColor) private var profileColor
+
     let book: BookCSVData
     
     @State private var expand: Bool = false
@@ -51,7 +53,7 @@ struct CurrentlyReadingTile : View {
             if expand {
                 VStack(spacing: 10) {
                     StarRating(rating: $rating)
-                        .ratingStyle(SolidRatingStyle(color: .accentColor))
+                        .ratingStyle(SolidRatingStyle(color: profileColor))
                         .frame(width: 200)
                     Button {
                         finishRead()
@@ -74,7 +76,7 @@ struct CurrentlyReadingTile : View {
 //                    .fill(Color(uiColor: .systemBackground))
 //                Rectangle()
 //                    .frame(maxHeight: 10)
-//                    .foregroundColor(.accentColor)
+//                    .foregroundColor(profileColor)
 //            }
 //            .clipShape(RoundedRectangle(cornerRadius: 10))
 //        }

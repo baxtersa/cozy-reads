@@ -293,11 +293,14 @@ struct YearlyGraphs : View {
 }
 
 struct ShelvesView : View {
+    @Environment(\.profile) private var profile
+ 
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
     
     @State private var categoryFilter: Category = .genre
     
     var body: some View {
+        let books = books.filter{ $0.profile == profile.wrappedValue }
         VStack(alignment: .leading, spacing: 10) {
             Text("Shelves")
                 .font(.system(.title))

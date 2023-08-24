@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		D30F76A92A813D1F00BEB8AF /* TBRListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30F76A82A813D1F00BEB8AF /* TBRListView.swift */; };
-		D314BB702A951DB9003AAE86 /* XPProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D314BB6F2A951DB9003AAE86 /* XPProgressView.swift */; };
+		D3106AF82A968F0D007B367B /* ProfileDataLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3106AF72A968F0D007B367B /* ProfileDataLinkView.swift */; };
+		D3106B012A97C840007B367B /* ReadingTrackerEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3106AFF2A97C840007B367B /* ReadingTrackerEntity+CoreDataClass.swift */; };
+		D3106B022A97C840007B367B /* ReadingTrackerEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3106B002A97C840007B367B /* ReadingTrackerEntity+CoreDataProperties.swift */; };
 		D3182E682A7BF622004A4B74 /* YearlyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3182E672A7BF622004A4B74 /* YearlyGoalsView.swift */; };
 		D3182E6A2A7C1967004A4B74 /* TBRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3182E692A7C1967004A4B74 /* TBRView.swift */; };
 		D31963962A79AFCE002A685E /* NavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963952A79AFCE002A685E /* NavBarView.swift */; };
@@ -44,9 +46,6 @@
 		D3A94F952A93A11200ED4F1C /* OLSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A94F942A93A11200ED4F1C /* OLSearchResult.swift */; };
 		D3A94F972A93A15700ED4F1C /* OLSearchResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A94F962A93A15700ED4F1C /* OLSearchResultTests.swift */; };
 		D3A94F992A93B91200ED4F1C /* OLSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A94F982A93B91200ED4F1C /* OLSearchView.swift */; };
-		D3A94F9B2A93F62300ED4F1C /* XPLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A94F9A2A93F62200ED4F1C /* XPLevels.swift */; };
-		D3A94F9D2A93FD6B00ED4F1C /* XPLevelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A94F9C2A93FD6B00ED4F1C /* XPLevelsTests.swift */; };
-		D3A94F9F2A94169B00ED4F1C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A94F9E2A94169B00ED4F1C /* ProfileView.swift */; };
 		D3A94FAA2A94FB6A00ED4F1C /* LevelSparks.sks in Resources */ = {isa = PBXBuildFile; fileRef = D3A94FA82A94FB6A00ED4F1C /* LevelSparks.sks */; };
 		D3A94FAB2A94FB6A00ED4F1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3A94FA92A94FB6A00ED4F1C /* Assets.xcassets */; };
 		D3A94FAD2A94FED300ED4F1C /* Level.sks in Resources */ = {isa = PBXBuildFile; fileRef = D3A94FAC2A94FED300ED4F1C /* Level.sks */; };
@@ -71,7 +70,10 @@
 
 /* Begin PBXFileReference section */
 		D30F76A82A813D1F00BEB8AF /* TBRListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBRListView.swift; sourceTree = "<group>"; };
-		D314BB6F2A951DB9003AAE86 /* XPProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPProgressView.swift; sourceTree = "<group>"; };
+		D3106AF72A968F0D007B367B /* ProfileDataLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataLinkView.swift; sourceTree = "<group>"; };
+		D3106AF92A979094007B367B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D3106AFF2A97C840007B367B /* ReadingTrackerEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReadingTrackerEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D3106B002A97C840007B367B /* ReadingTrackerEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReadingTrackerEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D3182E672A7BF622004A4B74 /* YearlyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearlyGoalsView.swift; sourceTree = "<group>"; };
 		D3182E692A7C1967004A4B74 /* TBRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBRView.swift; sourceTree = "<group>"; };
 		D31963952A79AFCE002A685E /* NavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarView.swift; sourceTree = "<group>"; };
@@ -109,9 +111,6 @@
 		D3A94F942A93A11200ED4F1C /* OLSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLSearchResult.swift; sourceTree = "<group>"; };
 		D3A94F962A93A15700ED4F1C /* OLSearchResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLSearchResultTests.swift; sourceTree = "<group>"; };
 		D3A94F982A93B91200ED4F1C /* OLSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLSearchView.swift; sourceTree = "<group>"; };
-		D3A94F9A2A93F62200ED4F1C /* XPLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPLevels.swift; sourceTree = "<group>"; };
-		D3A94F9C2A93FD6B00ED4F1C /* XPLevelsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPLevelsTests.swift; sourceTree = "<group>"; };
-		D3A94F9E2A94169B00ED4F1C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		D3A94FA82A94FB6A00ED4F1C /* LevelSparks.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelSparks.sks; sourceTree = "<group>"; };
 		D3A94FA92A94FB6A00ED4F1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3A94FAC2A94FED300ED4F1C /* Level.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Level.sks; sourceTree = "<group>"; };
@@ -142,12 +141,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D3106AFC2A9792DE007B367B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		D31963942A79AF92002A685E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D3106AF72A968F0D007B367B /* ProfileDataLinkView.swift */,
 				D3518A632A9638ED00A6BC7B /* Onboarding.swift */,
-				D314BB6F2A951DB9003AAE86 /* XPProgressView.swift */,
-				D3A94F9E2A94169B00ED4F1C /* ProfileView.swift */,
 				D3A94F982A93B91200ED4F1C /* OLSearchView.swift */,
 				D32BACE42A8E681200CBFB41 /* FlexBox.swift */,
 				D3531B902A82B1C0001A49BC /* StarRating.swift */,
@@ -167,7 +172,6 @@
 				D319639D2A7ABD08002A685E /* CurrentlyReadingView.swift */,
 				D31963992A7AAC77002A685E /* ChartView.swift */,
 				D319639B2A7AB622002A685E /* CurrentlyReadingTile.swift */,
-				D3A94F9A2A93F62200ED4F1C /* XPLevels.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,10 +208,14 @@
 		D35FE9F72A79ADB1002B1987 /* CozyRead */ = {
 			isa = PBXGroup;
 			children = (
+				D3106AFF2A97C840007B367B /* ReadingTrackerEntity+CoreDataClass.swift */,
+				D3106B002A97C840007B367B /* ReadingTrackerEntity+CoreDataProperties.swift */,
+				D3106AF92A979094007B367B /* Info.plist */,
 				D3A94FA72A94FB6A00ED4F1C /* Particles */,
 				D3A94F932A93A0FD00ED4F1C /* OpenLibrary */,
 				D3531B842A81B74C001A49BC /* Resources */,
 				D35FE9F82A79ADB1002B1987 /* CozyReadApp.swift */,
+				D3106AFC2A9792DE007B367B /* Extensions */,
 				D3531B852A81B7D6001A49BC /* CSVReader.swift */,
 				D3531B882A827D93001A49BC /* BookDataModel.swift */,
 				D365AACC2A96402200CB2499 /* ProfileEntity+CoreDataClass.swift */,
@@ -232,7 +240,6 @@
 		D35FEA0D2A79ADB2002B1987 /* CozyReadTests */ = {
 			isa = PBXGroup;
 			children = (
-				D3A94F9C2A93FD6B00ED4F1C /* XPLevelsTests.swift */,
 				D35FEA0E2A79ADB2002B1987 /* CSVReaderTests.swift */,
 				D3A94F962A93A15700ED4F1C /* OLSearchResultTests.swift */,
 			);
@@ -407,12 +414,12 @@
 			files = (
 				D365AACE2A96402200CB2499 /* ProfileEntity+CoreDataClass.swift in Sources */,
 				D30F76A92A813D1F00BEB8AF /* TBRListView.swift in Sources */,
-				D3A94F9F2A94169B00ED4F1C /* ProfileView.swift in Sources */,
 				D3A94F992A93B91200ED4F1C /* OLSearchView.swift in Sources */,
 				D35FEA022A79ADB2002B1987 /* Persistence.swift in Sources */,
 				D31963A02A7AC73F002A685E /* GoalsView.swift in Sources */,
 				D31963982A7AA6AE002A685E /* DashboardView.swift in Sources */,
 				D32BACE52A8E681200CBFB41 /* FlexBox.swift in Sources */,
+				D3106AF82A968F0D007B367B /* ProfileDataLinkView.swift in Sources */,
 				D3531B892A827D93001A49BC /* BookDataModel.swift in Sources */,
 				D3A0442F2A84092600E6462D /* DataCardView.swift in Sources */,
 				D319639A2A7AAC77002A685E /* ChartView.swift in Sources */,
@@ -425,16 +432,16 @@
 				D3531B812A817CA5001A49BC /* ShelvesView.swift in Sources */,
 				D31963962A79AFCE002A685E /* NavBarView.swift in Sources */,
 				D3A94F952A93A11200ED4F1C /* OLSearchResult.swift in Sources */,
+				D3106B012A97C840007B367B /* ReadingTrackerEntity+CoreDataClass.swift in Sources */,
 				D319639E2A7ABD08002A685E /* CurrentlyReadingView.swift in Sources */,
-				D314BB702A951DB9003AAE86 /* XPProgressView.swift in Sources */,
 				D3531B912A82B1C0001A49BC /* StarRating.swift in Sources */,
+				D3106B022A97C840007B367B /* ReadingTrackerEntity+CoreDataProperties.swift in Sources */,
 				D31963A22A7ACB96002A685E /* DailyGoalsView.swift in Sources */,
 				D3518A642A9638ED00A6BC7B /* Onboarding.swift in Sources */,
 				D3531B8F2A828A40001A49BC /* DataView.swift in Sources */,
 				D32BACE32A8E646100CBFB41 /* TagToggles.swift in Sources */,
 				D3182E6A2A7C1967004A4B74 /* TBRView.swift in Sources */,
 				D374E95A2A7C429700FF9E9F /* TBRForm.swift in Sources */,
-				D3A94F9B2A93F62300ED4F1C /* XPLevels.swift in Sources */,
 				D35FE9F92A79ADB1002B1987 /* CozyReadApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,7 +451,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D35FEA0F2A79ADB2002B1987 /* CSVReaderTests.swift in Sources */,
-				D3A94F9D2A93FD6B00ED4F1C /* XPLevelsTests.swift in Sources */,
 				D3A94F972A93A15700ED4F1C /* OLSearchResultTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -603,6 +609,7 @@
 				DEVELOPMENT_TEAM = 53JMWJ74XL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CozyRead/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -636,6 +643,7 @@
 				DEVELOPMENT_TEAM = 53JMWJ74XL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CozyRead/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

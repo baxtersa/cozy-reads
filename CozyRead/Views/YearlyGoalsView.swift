@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct YearlyGoalsView : View {
+    @Environment(\.profileColor) private var profileColor
+
     @State private var showSheet: Bool = false
     @State var target: Int
     let current: Int
@@ -22,11 +24,11 @@ struct YearlyGoalsView : View {
             Spacer()
             ZStack {
                 Circle()
-                    .stroke(Color.accentColor, lineWidth: 30)
+                    .stroke(profileColor, lineWidth: 30)
                     .opacity(0.3)
                 Circle()
                     .trim(from: 0, to: CGFloat(percentage))
-                    .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
+                    .stroke(profileColor, style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
                     .rotationEffect(.degrees(270))
                 VStack {
                     Text(String(format: "%.0f %%", percentage*100))

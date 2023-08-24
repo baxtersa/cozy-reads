@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct GoalsView : View {
+    @Environment(\.profile) private var profile
+ 
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
     @State private var current = 26
 
@@ -16,14 +18,15 @@ struct GoalsView : View {
     let currentYear: Int = Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023
 
     var body: some View {
+        let books = books.filter{ $0.profile == profile.wrappedValue }
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text("Goals")
                         .font(.system(.title))
                     Spacer()
-                    XPProgressView()
-                        .xpProgressStyle(.badge)
+//                    XPProgressView()
+//                        .xpProgressStyle(.badge)
                 }
                 .padding(.horizontal, 10)
                 Text("Daily")

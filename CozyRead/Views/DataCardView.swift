@@ -77,6 +77,8 @@ struct AddTag : View {
 
 struct DataCardView : View {
     @Environment(\.editMode) private var editMode: Binding<EditMode>?
+    @Environment(\.profileColor) private var profileColor
+
     @State private var newTag: String = ""
 
     let book: BookCSVData
@@ -240,7 +242,7 @@ struct DataCardView : View {
         }
         .padding(.vertical)
         .foregroundColor(.white)
-        .background(RoundedRectangle(cornerRadius: 20).fill(Color.accentColor))
+        .background(RoundedRectangle(cornerRadius: 20).fill(profileColor))
         .padding()
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
     }

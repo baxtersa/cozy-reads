@@ -142,6 +142,8 @@ public enum ParseError : Error {
 
 @objc(BookCSVData)
 public class BookCSVData : NSManagedObject, InitFromDictionary {
+    @NSManaged public var profile: ProfileEntity?
+    
     @NSManaged public var title: String
     @NSManaged public var author: String
     @NSManaged public var series: String?

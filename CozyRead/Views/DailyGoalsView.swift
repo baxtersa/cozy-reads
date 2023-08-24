@@ -10,7 +10,9 @@ import SwiftUI
 
 private struct DayTracker : View {
     @Environment(\.managedObjectContext) private var viewContext
-    
+    @Environment(\.profileColor) private var profileColor
+    @Environment(\.profile) private var profile
+
     let daysRead: FetchedResults<ReadingTrackerEntity>
     @State private var dates: Set<DateComponents>
     @Binding var displayPicker: Bool
@@ -25,7 +27,7 @@ private struct DayTracker : View {
 
     var body: some View {
         MultiDatePicker("Reading Tracker", selection: $dates)
-            .tint(.accentColor)
+            .tint(profileColor)
         Divider()
         Button {
             withAnimation {
@@ -40,6 +42,7 @@ private struct DayTracker : View {
                 for date in daysToAdd {
                     let entry = ReadingTrackerEntity(context: viewContext)
                     entry.date = Calendar.current.date(from: date)
+                    entry.profile = profile.wrappedValue
                 }
                 for entry in daysToRemove {
                     viewContext.delete(entry)
@@ -64,6 +67,8 @@ private struct DayTracker : View {
 
 private struct CheckCircle : View {
     @Environment(\.managedObjectContext) var viewContext
+    @Environment(\.profileColor) private var profileColor
+    @Environment(\.profile) private var profile
     
     @State var entry: ReadingTrackerEntity? = nil
     let date: Date
@@ -79,7 +84,7 @@ private struct CheckCircle : View {
                             .foregroundColor(.clear)
                             .contentShape(Circle())
                         Circle()
-                            .fill(Color.accentColor)
+                            .fill(profileColor)
                             .transition(.scale)
                         Image(systemName: "checkmark")
                             .resizable()
@@ -93,7 +98,7 @@ private struct CheckCircle : View {
                 ZStack {
                     Circle()
                         .inset(by: 2.5)
-                        .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 5))
+                        .stroke(profileColor, style: StrokeStyle(lineWidth: 5))
                         .opacity(0.3)
                         .contentShape(Circle())
                     Image(systemName: "checkmark")
@@ -115,6 +120,7 @@ private struct CheckCircle : View {
         } else {
             let newEntry = ReadingTrackerEntity(context: viewContext)
             newEntry.date = date
+            newEntry.profile = profile.wrappedValue
             self.entry = newEntry
             
 //            XPLevels.shared.dayRead()
@@ -126,6 +132,8 @@ private struct CheckCircle : View {
 
 struct DailyGoalsView : View {
     @Environment(\.managedObjectContext) var viewContext
+    @Environment(\.profile) var profile
+
     @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var daysRead: FetchedResults<ReadingTrackerEntity>
 
     @State private var dates: Set<DateComponents> = []
@@ -136,6 +144,7 @@ struct DailyGoalsView : View {
             if displayPicker {
                 DayTracker(daysRead: daysRead, displayPicker: $displayPicker)
             } else {
+                let daysRead = daysRead.filter{ $0.profile == profile.wrappedValue }
                 VStack {
                     HStack(spacing: 10) {
                         let fiveDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: Calendar.current.startOfDay(for: .now)) ?? .now
@@ -178,7 +187,7 @@ struct DailyGoalsView : View {
     }
 
     private var daysInARow: Int {
-        daysRead.compactMap { entry in
+        daysRead.filter{ $0.profile == profile.wrappedValue }.compactMap { entry in
             entry.date
         }.enumerated().prefix(while: { (offset, date) in
             guard let checkAgainst = Calendar.current.date(byAdding: .day, value: -1 * offset, to: Calendar.current.startOfDay(for: .now)) else {

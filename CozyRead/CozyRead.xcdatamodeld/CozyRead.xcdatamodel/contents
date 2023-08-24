@@ -13,12 +13,17 @@
         <attribute name="series" optional="YES" attributeType="String"/>
         <attribute name="tags" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileEntity" inverseName="books" inverseEntity="ProfileEntity"/>
     </entity>
     <entity name="ProfileEntity" representedClassName="ProfileEntity" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="Transformable" valueTransformerName="SerializableColorTransformer" customClassName="SerializableColor"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="books" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookCSVData" inverseName="profile" inverseEntity="BookCSVData"/>
+        <relationship name="daysRead" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReadingTrackerEntity" inverseName="profile" inverseEntity="ReadingTrackerEntity"/>
     </entity>
-    <entity name="ReadingTrackerEntity" representedClassName="ReadingTrackerEntity" syncable="YES" codeGenerationType="class">
+    <entity name="ReadingTrackerEntity" representedClassName="ReadingTrackerEntity" syncable="YES">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileEntity" inverseName="daysRead" inverseEntity="ProfileEntity"/>
     </entity>
 </model>

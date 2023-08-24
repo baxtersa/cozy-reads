@@ -15,6 +15,8 @@ struct ChartModel {
 }
 
 struct ChartView : View {
+    @Environment(\.profileColor) private var profileColor
+
     let chart: ChartModel
 
     var body: some View {
@@ -29,7 +31,7 @@ struct ChartView : View {
                 Text(formatter.string(from: chart.metric as NSNumber) ?? "0")
                     .font(.system(.title, weight: .bold))
                     .padding(.leading)
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(profileColor)
             }
             .padding(.leading)
             .padding(.vertical)
@@ -37,7 +39,7 @@ struct ChartView : View {
             Image(systemName: chart.symbol)
                 .font(.largeTitle)
                 .padding(.trailing)
-                .foregroundColor(.accentColor)
+                .foregroundColor(profileColor)
         }
         .background(Color(uiColor: .systemBackground))
 //        .background {
@@ -46,7 +48,7 @@ struct ChartView : View {
 //                    .fill(Color(uiColor: .systemBackground))
 //                Rectangle()
 //                    .frame(maxHeight: 10)
-//                    .foregroundColor(.accentColor)
+//                    .foregroundColor(profileColor)
 //            }
 //            .clipShape(RoundedRectangle(cornerRadius: 10))
 //        }

@@ -13,6 +13,13 @@ fileprivate struct ConfirmButtons: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss: DismissAction
 
+    @FetchRequest(sortDescriptors: []) var profiles: FetchedResults<ProfileEntity>
+    private var selectedProfile: ProfileEntity? {
+        profiles.first { profile in
+            profile.uuid.uuidString == UserDefaults.standard.string(forKey: Onboarding.Constants.defaultProfile)
+        }
+    }
+
     @Binding var title: String
     @Binding var author: String
 
@@ -58,6 +65,14 @@ fileprivate struct ConfirmButtons: View {
                 if let coverId = coverId {
                     newBook.coverId = coverId
                 }
+                
+                if let profile = selectedProfile {
+                    print("Attaching book to profile")
+                    newBook.profile = profile
+                    profile.addToBooks(newBook)
+                } else {
+                    print("No selected profile")
+                }
 
                 PersistenceController.shared.save()
                 
@@ -87,6 +102,7 @@ fileprivate struct ConfirmButtons: View {
 
 struct TBRForm : View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.profileColor) private var profileColor
     @Environment(\.dismiss) private var dismiss: DismissAction
     @State var title: String = ""
     @State var author: String = ""
@@ -152,7 +168,7 @@ struct TBRForm : View {
                                 Text("Stars")
                                 Spacer()
                                 StarRating(rating: $rating)
-                                    .ratingStyle(SolidRatingStyle(color: .accentColor))
+                                    .ratingStyle(SolidRatingStyle(color: profileColor))
                                     .fixedSize()
                             }
                         }
