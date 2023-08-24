@@ -20,7 +20,7 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="books" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookCSVData" inverseName="profile" inverseEntity="BookCSVData"/>
-        <relationship name="daysRead" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReadingTrackerEntity" inverseName="profile" inverseEntity="ReadingTrackerEntity"/>
+        <relationship name="daysRead" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReadingTrackerEntity" inverseName="profile" inverseEntity="ReadingTrackerEntity"/>
     </entity>
     <entity name="ReadingTrackerEntity" representedClassName="ReadingTrackerEntity" syncable="YES">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
