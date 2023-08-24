@@ -32,16 +32,16 @@ struct DataView : View {
     @Environment(\.managedObjectContext) var viewContext
     @Environment(\.editMode) var editMode: Binding<EditMode>?
     @Environment(\.profile) private var profile
- 
+
     private var isEditing: Bool {
         editMode?.wrappedValue.isEditing == true
     }
-    
+
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
     @State private var searchText: String = ""
     @State private var selectedCard: Int = 0
     @State private var showSheet = false
-    
+
     var body: some View {
         let books = books.filter{ $0.profile == profile.wrappedValue }
         let dict: [Year:[BookCSVData]] = Dictionary(grouping: books, by: {$0.year})
@@ -62,7 +62,7 @@ struct DataView : View {
                     }
             }
             .padding(.horizontal)
-            
+
             ZStack {
                 TabView(selection: $selectedCard) {
                     var index = 0
@@ -88,9 +88,9 @@ struct DataView : View {
                         .tint(.white)
                         .padding(.leading)
                         .buttonStyle(.bordered)
-                        
+
                         Spacer()
-                        
+
                         Button {
                             selectedCard = min(numItems - 1, selectedCard + 1)
                         } label: {
@@ -103,7 +103,7 @@ struct DataView : View {
                     }
                 }
             }
-            
+
             List {
                 let booksByYear = dict.sorted { $0.key > $1.key }.flatMap { (year: Year, books: [BookCSVData]) in
                     [year:books.filter{ (book: BookCSVData) in

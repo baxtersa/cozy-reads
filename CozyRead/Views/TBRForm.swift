@@ -11,14 +11,8 @@ import SwiftUI
 
 fileprivate struct ConfirmButtons: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.profile) private var profile
     @Environment(\.dismiss) private var dismiss: DismissAction
-
-    @FetchRequest(sortDescriptors: []) var profiles: FetchedResults<ProfileEntity>
-    private var selectedProfile: ProfileEntity? {
-        profiles.first { profile in
-            profile.uuid.uuidString == UserDefaults.standard.string(forKey: Onboarding.Constants.defaultProfile)
-        }
-    }
 
     @Binding var title: String
     @Binding var author: String
@@ -66,7 +60,7 @@ fileprivate struct ConfirmButtons: View {
                     newBook.coverId = coverId
                 }
                 
-                if let profile = selectedProfile {
+                if let profile = profile.wrappedValue {
                     print("Attaching book to profile")
                     newBook.profile = profile
                     profile.addToBooks(newBook)
