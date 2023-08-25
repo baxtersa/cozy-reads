@@ -11,7 +11,10 @@ import SwiftUI
 struct SelectBookSheet : View {
     @Environment(\.profile) private var profile
 
-    @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) private var books: FetchedResults<BookCSVData>
+    @FetchRequest(fetchRequest: BookCSVData.fetchRequest(
+        sortDescriptors: [SortDescriptor(\.dateAdded, order: .reverse)],
+        predicate: NSPredicate(format: "private_year == 'TBR'")
+    )) private var books: FetchedResults<BookCSVData>
 
     @State private var searchText: String = ""
     @State private var addBook: Bool = false
@@ -112,7 +115,6 @@ struct StartReadingView : View {
 }
 
 struct CurrentlyReadingView : View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.profile) private var profile
 
     @FetchRequest(fetchRequest: BookCSVData.fetchRequest(
