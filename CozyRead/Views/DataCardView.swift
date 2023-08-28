@@ -75,176 +75,87 @@ struct AddTag : View {
     }
 }
 
-struct DataCardView : View {
-    @Environment(\.editMode) private var editMode: Binding<EditMode>?
+struct DataCardView: View {
     @Environment(\.profileColor) private var profileColor
 
-    @State private var newTag: String = ""
-
-    let book: BookCSVData
-    private let editableBinding: Binding<Int>
-    private var isEditing: Bool {
-        editMode?.wrappedValue.isEditing == true
-    }
-    
-    init(book: BookCSVData) {
-        self.book = book
-        self.editableBinding = Binding(
-            get: {book.rating},
-            set: { value in
-                book.rating = value
-                PersistenceController.shared.save()
-            })
-    }
+    @Binding var book: BookCSVData
 
     var body: some View {
         HStack {
-            Spacer()
-            VStack(spacing: 10) {
-                if isEditing {
-                    let titleBinding = Binding(get: { book.title }, set: { title in
-                        book.title = title
-                        PersistenceController.shared.save()
-                    })
-                    let authorBinding = Binding(get: { book.author }, set: { author in
-                        book.author = author
-                        PersistenceController.shared.save()
-                    })
-                    
-                    TextField(book.title, text: titleBinding)
-                        .font(.system(.title))
-                        .multilineTextAlignment(.center)
-                        .transition(.identity)
-                    TextField(book.author, text: authorBinding)
-                        .font(.system(.title3))
-                        .italic()
-                        .multilineTextAlignment(.center)
+            VStack(alignment: .leading, spacing: 10) {
+                // TODO: figure out why this is needed to align text to leading edge
+                VStack {}
+                    .frame(maxWidth: .infinity)
 
-                    // TODO: Figure out UX for if I want to treat genre separate from tags
-//                    let genreBinding = Binding(get: { book.genre }, set: { genre in
-//                        book.setGenre(genre)
-//                    })
-//                    Picker("Genre", selection: genreBinding) {
-//                        ForEach(Genre.allCases) { genre in
-//                            Text(genre.rawValue)
-//                        }
-//                    }
-//                    .tint(.white)
-                } else {
-                    Text(book.title)
-                        .font(.system(.title))
-                        .multilineTextAlignment(.center)
-                        .transition(.identity)
-                    Text("by \(book.author)")
-                        .font(.system(.title3))
-                        .italic()
-                    // TODO: See above about how to treat Genre
-//                    Text(book.genre.rawValue)
-                }
-
-                Spacer()
-
-                FlexBox(data: book.tags, spacing: 10) { tag in
-                    TagInfo(book: book, text: tag)
-                }
-                if isEditing {
-                    AddTag(newTag: $newTag)
-                        .onSubmit {
-                            book.tags.append(newTag)
-
-                            PersistenceController.shared.save()
+                Text(book.title)
+                    .font(.system(.largeTitle))
+                
+//                HStack {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Spacer()
+                        if let series = book.series {
+                            Text(series)
+                                .font(.system(.title2))
                         }
-                }
+                        
+                        Text("by \(book.author)")
+                            .font(.system(.body))
+                            .italic()
+                        
+                        Spacer()
+                        
+                    FlexBox(data: book.tags, spacing: 10) { tag in
+                        TagInfo(book: book, text: tag)
+                    }
 
-                if book.year == .tbr {
-                    if isEditing {
-                        Button {
-                            book.setYear(.reading)
-                            book.dateStarted = Date.now
-
-                            PersistenceController.shared.save()
-                        } label: {
+                        switch book.year {
+                        case .year:
+                            StarRating(rating: .constant(book.rating))
+                                .ratingStyle(SolidRatingStyle(color: .white))
+                                .fixedSize()
+                            Label("Finished", systemImage: "checkmark.circle")
+                        case .reading:
+                            Label("Currently Reading", systemImage: "ellipsis.circle")
+                        case .tbr:
                             Label("To Be Read", systemImage: "circle")
                         }
-                    } else {
-                        Label("To Be Read", systemImage: "circle")
                     }
-                } else if book.year == .reading {
-                    if isEditing {
-                        Button {
-                            if let year = Calendar.current.dateComponents([.year], from: Date.now).year {
-                                book.setYear(.year(year))
-                                book.dateCompleted = Date.now
-
-                                PersistenceController.shared.save()
-                            }
-                        } label: {
-                            Label("Currently Reading", systemImage: "ellipsis.circle")
-                        }
-                    } else {
-                        Label("Currently Reading", systemImage: "ellipsis.circle")
-                    }
-                } else {
-                    let ratingBinding = isEditing ? editableBinding : Binding.constant(book.rating)
-                    
-                    StarRating(rating: ratingBinding)
-                        .fixedSize()
-                        .ratingStyle(SolidRatingStyle(color: .white))
-
-                    Spacer()
-
-                    HStack {
-                        if isEditing {
-                            Button {
-                                book.setYear(.tbr)
-                                book.dateCompleted = nil
-                                
-                                PersistenceController.shared.save()
-                            } label: {
-                                Label("Finished", systemImage: "checkmark.circle")
-                            }
-                            .buttonStyle(.bordered)
-
-                            let dateBinding = Binding(
-                                get: {
-                                    book.dateCompleted ?? Date.now
-                                },
-                                set: { date in
-                                    book.dateCompleted = date
-                                    if let started = book.dateStarted,
-                                       date < started {
-                                        book.dateStarted = nil
-                                    }
-                                    
-                                    let yearCompleted = Calendar.current.component(.year, from: date)
-                                    let prev = book.year
-                                    if case let .year(num) = prev,
-                                       yearCompleted != num {
-                                        book.setYear(.year(yearCompleted))
-                                    }
-                                    
-                                    PersistenceController.shared.save()
-                                })
-                            DatePicker("", selection: dateBinding, displayedComponents: .date)
-                                .datePickerStyle(.automatic)
-                                .colorScheme(.dark)
-                        } else {
-                            Label("Finished", systemImage: "checkmark.circle")
-                            if let dateCompleted: Date = book.dateCompleted {
-                                Text("\(dateCompleted.formatted(date: .numeric, time: .omitted))")
-                            }
-                        }
-                    }
-                }
+//                }
             }
-            .padding([.horizontal, .bottom])
-            Spacer()
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            // TODO: Figure out good way to get book covers working
+//            let cover = book.coverId
+//            if cover != 0,
+//               let url = OLSearchView.coverUrlBase?.appendingPathComponent("\(cover)-M.jpg") {
+//                VStack {
+//                    AsyncImage(
+//                        url: url,
+//                        content: { image in
+//                            image
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                        },
+//                        placeholder: {
+//                            ProgressView().progressViewStyle(.circular)
+//                        }
+//                    )
+//                    .mask {
+//                        RoundedRectangle(cornerRadius: 5)
+//                    }
+//                    .padding(3)
+//                    .background(RoundedRectangle(cornerRadius: 5)
+//                        .fill(.white))
+//                }
+//                .frame(maxWidth: 100, maxHeight: .infinity)
+//            }
         }
-        .padding(.vertical)
         .foregroundColor(.white)
-        .background(RoundedRectangle(cornerRadius: 20).fill(profileColor))
         .padding()
-        .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
+        .background(RoundedRectangle(cornerRadius: 20)
+            .fill(profileColor))
+        .padding()
     }
 }
 
@@ -252,6 +163,7 @@ struct DataCardView_Previews : PreviewProvider {
     @State static private var finishedBook = try! BookCSVData(from: [
         "Title": "The Long Way to a Small, Angry Planet",
         "Author": "Becky Chambers",
+        "Series": "Wayfarers",
         "Genre": "Sci-fi",
         "DateCompleted": "7/1/2023",
         "Year": "2023",
@@ -271,8 +183,8 @@ struct DataCardView_Previews : PreviewProvider {
     static var previews: some View {
         VStack {
             EditButton()
-            DataCardView(book: finishedBook)
-            DataCardView(book: tbrBook)
+            DataCardView(book: .constant(finishedBook))
+            DataCardView(book: .constant(tbrBook))
         }
     }
 }

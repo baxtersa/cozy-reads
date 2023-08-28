@@ -8,110 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct ProfileButton : View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @AppStorage(Onboarding.Constants.onboardingVersion) private var hasSeenOnboardingView = false
-    @AppStorage(Onboarding.Constants.defaultProfile) private var defaultProfile = ""
-
-    @Binding var editing: Bool
-    @Binding var selectedProfile: ProfileEntity?
-    
-    let profile: ProfileEntity
-    @FocusState var focusProfileName: Bool
-    
-    @ViewBuilder func makeSelectedBadge() -> some View {
-        ZStack(alignment: .bottomTrailing) {
-            Image(systemName: "checkmark.circle")
-                .font(.title2)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-            Image(systemName: "checkmark.circle.fill")
-                .foregroundColor(.green)
-                .font(.title2)
-        }
-    }
-
-    @ViewBuilder func makeDeleteBadge() -> some View {
-        ZStack(alignment: .bottomTrailing) {
-            Image(systemName: "minus.circle")
-                .font(.title2)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-            Image(systemName: "minus.circle.fill")
-                .foregroundColor(.red)
-                .font(.title2)
-        }
-    }
-    
-    @State private var deleteConfirmation: Bool = false
-
-    var body: some View {
-        VStack {
-            Button {
-                if editing {
-                    deleteConfirmation.toggle()
-                } else {
-                    selectedProfile = profile
-                    defaultProfile = profile.uuid.uuidString
-                }
-            } label: {
-                ZStack {
-                    Circle()
-                        .stroke(lineWidth: 5)
-                    Image(systemName: "person")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .offset(y: 15)
-                        .mask {
-                            Circle()
-                        }
-                    
-                    if editing {
-                        makeDeleteBadge()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    } else if selectedProfile == profile {
-                        makeSelectedBadge()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    }
-                }
-            }
-            .confirmationDialog("Delete", isPresented: $deleteConfirmation) {
-                Button(role: .destructive) {
-                    if defaultProfile == profile.uuid.uuidString {
-                        defaultProfile = ""
-                    }
-                    viewContext.delete(profile)
-                    PersistenceController.shared.save()
-                } label: {
-                    Text("Delete")
-                }
-                .keyboardShortcut(.defaultAction)
-
-                Button(role: .cancel) {
-                    deleteConfirmation.toggle()
-                } label: {
-                    Text("Cancel")
-                }
-            } message: {
-                Text("""
-This will delete your profile and unlink any associated books
-
-You will be able to link books to a new profile after creating one
-""")
-            }
-
-            let binding = Binding(
-                get: { profile.name },
-                set: { profile.name = $0 }
-            )
-            TextField("Name", text: binding)
-                .font(.system(.title))
-                .bold()
-                .multilineTextAlignment(.center)
-                .focused($focusProfileName)
-        }
-    }
-}
-
 struct ProfileSelection : View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.profileColor) var profileColor
@@ -132,25 +28,7 @@ struct ProfileSelection : View {
     var body: some View {
         VStack {
             if profiles.isEmpty {
-                VStack {
-                    Spacer()
-                    Text("Please create a profile")
-                    Spacer()
-                    Button {
-                        let profile = ProfileEntity(context: viewContext)
-                        profile.uuid = UUID()
-                        profile.name = "Default"
-                        
-                        focusProfileName = true
-                        defaultProfile = profile.uuid.uuidString
-                        
-                        PersistenceController.shared.save()
-                    } label: {
-                        Label("Add", systemImage: "plus.circle")
-                            .font(.title)
-                    }
-                }
-                .frame(maxWidth: .infinity)
+                CreateProfileView(focusProfileName: $focusProfileName)
             } else {
                 ZStack {
                     Button {
@@ -169,7 +47,6 @@ struct ProfileSelection : View {
                             ForEach(profiles) { profile in
                                 ProfileButton(
                                     editing: $editing,
-                                    selectedProfile: envProfile,
                                     profile: profile
                                 )
                                 .frame(width: 100, height: 150)

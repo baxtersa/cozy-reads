@@ -49,7 +49,7 @@ struct NavBarView: View {
                 }
                 .scaledToFit()
             }
-            .padding(.horizontal)
+            .padding([.horizontal, .top])
 
             TabView {
                 DashboardView()
@@ -64,7 +64,7 @@ struct NavBarView: View {
                     .tabItem{
                         Label("Goals", systemImage: "chart.line.uptrend.xyaxis")
                     }
-                DataViewV2()
+                DataView()
                     .tabItem{
                         Label("Data", systemImage: "cylinder.split.1x2")
                     }

@@ -53,6 +53,7 @@ private struct DayTracker : View {
             }
         } label: {
             Text("Done")
+                .padding()
         }
         .frame(maxWidth: .infinity, alignment: .trailing)
         .padding([.trailing])
@@ -145,41 +146,45 @@ struct DailyGoalsView : View {
             if displayPicker {
                 DayTracker(daysRead: daysRead, displayPicker: $displayPicker)
             } else {
-                let daysRead = daysRead.filter{ $0.profile == profile.wrappedValue }
                 VStack {
-                    HStack(spacing: 10) {
-                        let fiveDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: Calendar.current.startOfDay(for: .now)) ?? .now
-                        let lastFiveDays = daysRead.filter { entry in
-                            if let date = entry.date {
-                                return date >= fiveDaysAgo
-                            } else {
-                                return false
+                    let daysRead = daysRead.filter{ $0.profile == profile.wrappedValue }
+                    VStack {
+                        HStack(spacing: 10) {
+                            let fiveDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: Calendar.current.startOfDay(for: .now)) ?? .now
+                            let lastFiveDays = daysRead.filter { entry in
+                                if let date = entry.date {
+                                    return date >= fiveDaysAgo
+                                } else {
+                                    return false
+                                }
+                            }
+                            ForEach(0..<5) { days in
+                                let date = Calendar.current.date(byAdding: .day, value: days, to:   fiveDaysAgo)
+                                let entry = lastFiveDays.first { entry in
+                                    entry.date == date
+                                }
+                                CheckCircle(entry: entry, date: date!)
                             }
                         }
-                        ForEach(0..<5) { days in
-                            let date = Calendar.current.date(byAdding: .day, value: days, to:   fiveDaysAgo)
-                            let entry = lastFiveDays.first { entry in
-                                entry.date == date
-                            }
-                            CheckCircle(entry: entry, date: date!)
+                        .padding(.horizontal)
+                        let days = daysInARow
+                        let daysText = days == 1 ? "day" : "days"
+                        Text("read \(daysInARow) \(daysText) in a row")
+                            .padding(.top)
+                            .italic()
+                    }
+                    .onTapGesture {
+                        withAnimation {
+                            displayPicker.toggle()
                         }
                     }
-                    .padding(.horizontal)
-                    let days = daysInARow
-                    let daysText = days == 1 ? "day" : "days"
-                    Text("read \(daysInARow) \(daysText) in a row")
-                        .padding(.top)
-                        .italic()
                 }
-                .onTapGesture {
-                    withAnimation {
-                        displayPicker.toggle()
-                    }
-                }
+                .scaledToFit()
+                .padding(.vertical)
+                .scaledToFit()
+                .frame(maxWidth: .infinity, maxHeight: 300)
             }
         }
-        .scaledToFit()
-        .padding(.vertical)
         .background(
             RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground))
         )

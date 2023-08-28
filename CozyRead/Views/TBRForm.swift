@@ -8,11 +8,33 @@
 import Foundation
 import SwiftUI
 
+enum TBRFormMode {
+    case add
+    case edit
+}
+
+struct TBRFormKey : EnvironmentKey {
+    static var defaultValue = TBRFormMode.add
+}
+
+extension EnvironmentValues {
+    var tbrFormMode: TBRFormMode {
+        get { self[TBRFormKey.self] }
+        set { self[TBRFormKey.self] = newValue }
+    }
+}
+
+extension View where Self == TBRForm {
+    func tbrFormMode(_ mode: TBRFormMode) -> some View {
+        environment(\.tbrFormMode, mode)
+    }
+}
 
 fileprivate struct ConfirmButtons: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.profile) private var profile
     @Environment(\.dismiss) private var dismiss: DismissAction
+    @Environment(\.tbrFormMode) private var mode
 
     @Binding var title: String
     @Binding var author: String
@@ -28,6 +50,8 @@ fileprivate struct ConfirmButtons: View {
     @Binding var tags: [TagToggles.ToggleState]
     @Binding var coverId: Int?
     
+    let book: BookCSVData?
+    
     var body: some View {
         VStack {
             Button {
@@ -36,7 +60,12 @@ fileprivate struct ConfirmButtons: View {
                     return
                 }
                 
-                let newBook = BookCSVData(managedContext: viewContext)
+                let newBook: BookCSVData
+                if let book = book {
+                    newBook = book
+                } else {
+                    newBook = BookCSVData(context: viewContext)
+                }
                 newBook.dateAdded = Date.now
                 newBook.title = title
                 newBook.author = author
@@ -47,6 +76,7 @@ fileprivate struct ConfirmButtons: View {
                 
                 let setTags = tags.filter{ $0.state }
                 newBook.tags = setTags.map{ $0.tag }
+                print(newBook.tags)
                 
                 newBook.setGenre(selectedGenre)
                 newBook.setReadType(readType)
@@ -61,11 +91,8 @@ fileprivate struct ConfirmButtons: View {
                 }
                 
                 if let profile = profile.wrappedValue {
-                    print("Attaching book to profile")
                     newBook.profile = profile
                     profile.addToBooks(newBook)
-                } else {
-                    print("No selected profile")
                 }
 
                 PersistenceController.shared.save()
@@ -74,7 +101,7 @@ fileprivate struct ConfirmButtons: View {
             } label: {
                 HStack {
                     Spacer()
-                    Text("Add")
+                    Text(mode == .add ? "Add" : "Save")
                     Spacer()
                 }
             }
@@ -98,6 +125,7 @@ struct TBRForm : View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.profileColor) private var profileColor
     @Environment(\.dismiss) private var dismiss: DismissAction
+
     @State var title: String = ""
     @State var author: String = ""
 
@@ -118,6 +146,8 @@ struct TBRForm : View {
 //        count: 5
 //    )
     @State private var selectedResult: Int? = nil
+    
+    var book: BookCSVData? = nil
     
     var body: some View {
         VStack {
@@ -169,7 +199,7 @@ struct TBRForm : View {
                     }
                 }
 
-                ConfirmButtons(title: $title, author: $author, series: $series, selectedGenre: $selectedGenre, readType: $readType, year: $year, completedDate: $completedDate, rating: $rating, tags: $tags, coverId: $coverId)
+                ConfirmButtons(title: $title, author: $author, series: $series, selectedGenre: $selectedGenre, readType: $readType, year: $year, completedDate: $completedDate, rating: $rating, tags: $tags, coverId: $coverId, book: book)
             }
             .onChange(of: selectedResult) { id in
                 guard let id = id else { return }
