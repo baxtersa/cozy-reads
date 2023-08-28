@@ -26,6 +26,8 @@
 		D341C9C82A9CE35E0049F71C /* ProfileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D341C9C72A9CE35E0049F71C /* ProfileButton.swift */; };
 		D341C9CA2A9CE4D10049F71C /* CreateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D341C9C92A9CE4D10049F71C /* CreateProfileView.swift */; };
 		D341C9CC2A9CE9690049F71C /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D341C9CB2A9CE9690049F71C /* StoreView.swift */; };
+		D341C9D12A9CEA260049F71C /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = D341C9D02A9CEA260049F71C /* Store.swift */; };
+		D341C9D42A9CFB310049F71C /* StoreItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D341C9D32A9CFB310049F71C /* StoreItem.swift */; };
 		D3518A642A9638ED00A6BC7B /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3518A632A9638ED00A6BC7B /* Onboarding.swift */; };
 		D3531B812A817CA5001A49BC /* ShelvesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B802A817CA5001A49BC /* ShelvesView.swift */; };
 		D3531B832A81B744001A49BC /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = D3531B822A81B744001A49BC /* data.csv */; };
@@ -89,6 +91,8 @@
 		D341C9C72A9CE35E0049F71C /* ProfileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileButton.swift; sourceTree = "<group>"; };
 		D341C9C92A9CE4D10049F71C /* CreateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileView.swift; sourceTree = "<group>"; };
 		D341C9CB2A9CE9690049F71C /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
+		D341C9D02A9CEA260049F71C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		D341C9D32A9CFB310049F71C /* StoreItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItem.swift; sourceTree = "<group>"; };
 		D3518A632A9638ED00A6BC7B /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
 		D3531B802A817CA5001A49BC /* ShelvesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelvesView.swift; sourceTree = "<group>"; };
 		D3531B822A81B744001A49BC /* data.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = data.csv; sourceTree = "<group>"; };
@@ -155,7 +159,7 @@
 				D341C9CF2A9CE9CD0049F71C /* Components */,
 				D341C9CE2A9CE9B40049F71C /* Layout */,
 				D341C9CD2A9CE9890049F71C /* Onboarding */,
-				D341C9CB2A9CE9690049F71C /* StoreView.swift */,
+				D341C9D22A9CFB140049F71C /* IAP */,
 				D3A94F982A93B91200ED4F1C /* OLSearchView.swift */,
 				D3A0442E2A84092600E6462D /* DataCardView.swift */,
 				D3531B8E2A828A40001A49BC /* DataView.swift */,
@@ -209,6 +213,16 @@
 				D32BACE22A8E646100CBFB41 /* TagToggles.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		D341C9D22A9CFB140049F71C /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				D341C9CB2A9CE9690049F71C /* StoreView.swift */,
+				D341C9D32A9CFB310049F71C /* StoreItem.swift */,
+				D341C9D02A9CEA260049F71C /* Store.swift */,
+			);
+			path = IAP;
 			sourceTree = "<group>";
 		};
 		D3531B842A81B74C001A49BC /* Resources */ = {
@@ -461,9 +475,11 @@
 				D3531B912A82B1C0001A49BC /* StarRating.swift in Sources */,
 				D341C9C82A9CE35E0049F71C /* ProfileButton.swift in Sources */,
 				D3106B022A97C840007B367B /* ReadingTrackerEntity+CoreDataProperties.swift in Sources */,
+				D341C9D12A9CEA260049F71C /* Store.swift in Sources */,
 				D31963A22A7ACB96002A685E /* DailyGoalsView.swift in Sources */,
 				D3518A642A9638ED00A6BC7B /* Onboarding.swift in Sources */,
 				D3531B8F2A828A40001A49BC /* DataView.swift in Sources */,
+				D341C9D42A9CFB310049F71C /* StoreItem.swift in Sources */,
 				D32BACE32A8E646100CBFB41 /* TagToggles.swift in Sources */,
 				D374E95A2A7C429700FF9E9F /* TBRForm.swift in Sources */,
 				D35FE9F92A79ADB1002B1987 /* CozyReadApp.swift in Sources */,

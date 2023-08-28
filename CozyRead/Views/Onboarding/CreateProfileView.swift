@@ -40,12 +40,10 @@ struct CreateProfileView : View {
             Text("Check out the shop to unlock multiple profiles!")
             
             NavigationLink {
-                VStack {
-                    Text("Store")
-                }
+                StoreView()
             } label: {
                 Label("Shop", systemImage: "cart")
-                    .font(.title)
+                    .font(.system(.title))
             }
             .buttonStyle(.bordered)
         }

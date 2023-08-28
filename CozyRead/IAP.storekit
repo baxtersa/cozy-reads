@@ -7,11 +7,56 @@
     {
       "displayPrice" : "1.99",
       "familyShareable" : false,
+      "internalID" : "6463644702",
+      "localizations" : [
+        {
+          "description" : "Change the app's appearance to fit your mood",
+          "displayName" : "Color Themes",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.baxtersa.reads.feature.themes",
+      "referenceName" : "Color Themes",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "5.99",
+      "familyShareable" : false,
+      "internalID" : "6463644120",
+      "localizations" : [
+        {
+          "description" : "I have nothing else to say but thank you 🙏",
+          "displayName" : "You are the best!",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.baxtersa.reads.donation.large",
+      "referenceName" : "Developer Donation - Large",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "6462945014",
+      "localizations" : [
+        {
+          "description" : "Help fund and keep new features coming! 🔥",
+          "displayName" : "Much Appreciated!",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.baxtersa.reads.donation.medium",
+      "referenceName" : "Developer Donation - Medium",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
       "internalID" : "6462944983",
       "localizations" : [
         {
-          "description" : "Show your appreciation for the developer",
-          "displayName" : "Developer Donation - Small",
+          "description" : "Show your appreciation for the developer 😄",
+          "displayName" : "Thank You!",
           "locale" : "en_US"
         }
       ],
@@ -20,25 +65,25 @@
       "type" : "Consumable"
     },
     {
-      "displayPrice" : "4.99",
+      "displayPrice" : "3.99",
       "familyShareable" : false,
-      "internalID" : "6462945014",
+      "internalID" : "6463644472",
       "localizations" : [
         {
-          "description" : "Help fund and keep new features coming",
-          "displayName" : "Developer Donation - Medium",
+          "description" : "Track multiple users independently",
+          "displayName" : "Multiple Profiles",
           "locale" : "en_US"
         }
       ],
-      "productID" : "com.baxtersa.reads.donation.medium",
-      "referenceName" : "Unlock multiple profiles",
-      "type" : "Consumable"
+      "productID" : "com.baxtersa.reads.feature.profiles",
+      "referenceName" : "Multiple Profiles",
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {
     "_applicationInternalID" : "6460936085",
     "_developerTeamID" : "53JMWJ74XL",
-    "_lastSynchronizedDate" : 714924778.28346503
+    "_lastSynchronizedDate" : 714933070.29969895
   },
   "subscriptionGroups" : [
 

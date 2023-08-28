@@ -143,12 +143,14 @@ struct ProfileSelection : View {
 
 struct Onboarding : View {
     @Environment(\.profileColor) private var profileColor
+    @StateObject private var store = Store()
 
     var body: some View {
         NavigationStack {
             ProfileSelection()
         }
         .tint(profileColor)
+        .environmentObject(store)
     }
 }
 
