@@ -31,7 +31,7 @@ struct SearchBar : View {
 struct DataView : View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.profile) private var profile
-
+    
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest)
     private var books: FetchedResults<BookCSVData>
 
@@ -51,67 +51,73 @@ struct DataView : View {
         let dict = Dictionary(grouping: books, by: \.year)
             .sorted(by: { $0.key > $1.key })
             .filter{ !$1.isEmpty }
-        
-//        GeometryReader { geometry in
-        VStack {
-            SearchBar(searchText: $searchText)
-                .padding(.horizontal)
+            .flatMap{
+                [$0: $1.sorted(by: {
+                    if $0.dateCompleted != nil,
+                       $1.dateCompleted == nil {
+                        return true
+                    }
+                    return $0.dateCompleted ?? .now > $1.dateCompleted ?? .now
+                })]
+            }
+
+        NavigationStack {
+            HStack {
+                SearchBar(searchText: $searchText)
+
+                if let book = selection {
+                    Group {
+                        Button {
+                            formMode = .edit
+                            editBook = selection
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
+                        }
+                        .tint(.orange)
+                        Button(role: .destructive) {
+                            viewContext.delete(book)
+                            selection = nil
+                            PersistenceController.shared.save()
+                        } label: {
+                            Label("Trash", systemImage: "trash")
+                        }
+                        .tint(.red)
+                    }
+                    .buttonStyle(.bordered)
+//                    .labelStyle(.iconOnly)
+                }
+            }
+            .padding(.horizontal)
+            .animation(.easeInOut, value: selection)
 
             DynamicStack(alignment: .center) {
                 VStack {
                     if let book = selection {
                         DataCardView(book: .constant(book))
-                        //                            .frame(height: geometry.size.height / 2)
                     }
                 }
                 .animation(.easeInOut, value: selection)
                 
-                VStack {
-                    List(selection: $selection) {
-                        ForEach(dict, id: \.key) { year, books in
-                            Section(year.description) {
-                                let books = books.sorted(by: {
-                                    if $0.dateCompleted != nil,
-                                       $1.dateCompleted == nil {
-                                        return true
-                                    }
-                                    return $0.dateCompleted ?? .now > $1.dateCompleted ?? .now
-                                })
-                                ForEach(books, id: \.self) { book in
-                                    Text(book.title)
-                                        .swipeActions {
-                                            Button(role: .destructive) {
-                                                viewContext.delete(book)
-                                                PersistenceController.shared.save()
-                                            } label: {
-                                                Text("Delete")
-                                            }
-                                            .tint(.red)
-                                            
-                                            Button {
-                                                formMode = .edit
-                                                editBook = book
-                                            } label: {
-                                                Text("Edit")
-                                            }
-                                            .tint(.orange)
-                                        }
-                                        .tag(book)
-                                }
-                            }
+                List(dict, id: \.key, selection: $selection) { year, books in
+                    Section(year.description) {
+                        ForEach(books, id: \.self) { book in
+                            Text(book.title)
                         }
                     }
-                    .scrollContentBackground(.hidden)
-                    .animation(.easeInOut, value: selection)
-                    
-                    Button {
-                        formMode = .add
-                        editBook = BookCSVData()
-                    } label: {
-                        Label("Add", systemImage: "plus")
-                    }
-                    .padding()
                 }
+                .scrollContentBackground(.hidden)
+                .animation(.easeInOut, value: selection)
+                .environment(\.editMode, .constant(.active))
+                
+                Button {
+                    formMode = .add
+                    editBook = BookCSVData()
+                } label: {
+                    Label("Add", systemImage: "plus")
+                }
+                .padding()
+            }
+            .toolbar {
             }
             .sheet(item: $editBook) { (book: BookCSVData) in
                 if formMode == .edit {
@@ -134,7 +140,6 @@ struct DataView : View {
                     )
                     .environment(\.tbrFormMode, formMode)
                 } else {
-//                    viewContext.delete(book)
                     TBRForm()
                         .environment(\.tbrFormMode, formMode)
                 }
@@ -155,8 +160,6 @@ struct DataView_Previews : PreviewProvider {
 
     static var previews: some View {
         DataView()
-//        DataViewV2()
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//            .environment(\.profile, .constant(profile))
     }
 }

@@ -65,7 +65,6 @@ struct NavBarView: View {
                         Label("Goals", systemImage: "chart.line.uptrend.xyaxis")
                     }
                 DataView()
-//                DataViewV2()
                     .tabItem{
                         Label("Data", systemImage: "cylinder.split.1x2")
                     }

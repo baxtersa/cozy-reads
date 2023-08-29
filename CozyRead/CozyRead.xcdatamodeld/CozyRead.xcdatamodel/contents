@@ -11,7 +11,7 @@
         <attribute name="private_year" optional="YES" attributeType="String"/>
         <attribute name="rating" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="series" optional="YES" attributeType="String"/>
-        <attribute name="tags" attributeType="Transformable" valueTransformerName="" customClassName="[String]"/>
+        <attribute name="tags" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileEntity" inverseName="books" inverseEntity="ProfileEntity"/>
     </entity>

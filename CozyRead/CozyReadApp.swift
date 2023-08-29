@@ -44,7 +44,7 @@ struct CozyReadApp: App {
 
     @AppStorage(Onboarding.Constants.onboardingVersion) private var hasSeenOnboardingView = false
     @AppStorage(Onboarding.Constants.defaultProfile) private var profileUUID = ""
-
+    
 //    @FetchRequest(sortDescriptors: []) private var allProfiles: FetchedResults<ProfileEntity>
 //    
     let persistenceController = PersistenceController.shared
