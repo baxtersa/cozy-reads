@@ -34,6 +34,11 @@ struct PersistenceController {
         profile.name = "Sam"
         UserDefaults.standard.setValue(profile.uuid.uuidString, forKey: Onboarding.Constants.defaultProfile)
         
+        let goal = YearlyGoalEntity(context: viewContext)
+        goal.setYear(year: 2023)
+        goal.goal = 45
+        goal.profile = profile
+        
         let books: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: viewContext)
 //        books.forEach{ book in
 //            book.profile = profile

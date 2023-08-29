@@ -96,6 +96,7 @@ struct DataView : View {
                                             }
                                             .tint(.orange)
                                         }
+                                        .tag(book)
                                 }
                             }
                         }
@@ -105,14 +106,14 @@ struct DataView : View {
                     
                     Button {
                         formMode = .add
-                        editBook = BookCSVData(context: viewContext)
+                        editBook = BookCSVData()
                     } label: {
                         Label("Add", systemImage: "plus")
                     }
                     .padding()
                 }
             }
-            .sheet(item: $editBook) { book in
+            .sheet(item: $editBook) { (book: BookCSVData) in
                 if formMode == .edit {
                     var existingTags = book.tags
                         .map{ TagToggles.ToggleState(tag: $0, state: true) }
@@ -133,6 +134,7 @@ struct DataView : View {
                     )
                     .environment(\.tbrFormMode, formMode)
                 } else {
+//                    viewContext.delete(book)
                     TBRForm()
                         .environment(\.tbrFormMode, formMode)
                 }

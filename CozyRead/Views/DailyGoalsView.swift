@@ -163,7 +163,18 @@ struct DailyGoalsView : View {
                                 let entry = lastFiveDays.first { entry in
                                     entry.date == date
                                 }
-                                CheckCircle(entry: entry, date: date!)
+                                if let date = date {
+                                    VStack {
+                                        let formatter: DateFormatter = {
+                                            let formatter = DateFormatter()
+                                            formatter.dateFormat = "M/dd"
+                                            return formatter
+                                        }()
+
+                                        CheckCircle(entry: entry, date: date)
+                                        Text(formatter.string(from: date))
+                                    }
+                                }
                             }
                         }
                         .padding(.horizontal)
@@ -182,7 +193,7 @@ struct DailyGoalsView : View {
                 .scaledToFit()
                 .padding(.vertical)
                 .scaledToFit()
-                .frame(maxWidth: .infinity, maxHeight: 300)
+                .frame(maxWidth: .infinity)
             }
         }
         .background(

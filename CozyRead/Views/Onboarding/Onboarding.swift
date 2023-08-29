@@ -13,6 +13,8 @@ struct ProfileSelection : View {
     @Environment(\.profileColor) var profileColor
     @Environment(\.profile) var envProfile
 
+    @EnvironmentObject private var store: Store
+
     @AppStorage(Onboarding.Constants.onboardingVersion) private var hasSeenOnboardingView = false
     @AppStorage(Onboarding.Constants.defaultProfile) private var defaultProfile = ""
     
@@ -24,6 +26,7 @@ struct ProfileSelection : View {
     @FocusState private var focusProfileName: Bool
     
     @State private var editing: Bool = false
+    @State private var multipleProfilesUnlocked: Bool = false
     
     var body: some View {
         VStack {
@@ -92,17 +95,29 @@ struct ProfileSelection : View {
                             }
                             .buttonStyle(.borderedProminent)
                         } else {
-                            Button {
-                                let profile = ProfileEntity(context: viewContext)
-                                profile.uuid = UUID()
-                                profile.name = "Default"
+                            if multipleProfilesUnlocked {
+                                Button {
+                                    let profile = ProfileEntity(context: viewContext)
+                                    profile.uuid = UUID()
+                                    profile.name = "Default"
+                                    
+                                    focusProfileName = true
+                                    
+                                    PersistenceController.shared.save()
+                                } label: {
+                                    Label("Add", systemImage: "plus.circle")
+                                        .font(.title)
+                                }
+                            } else {
+                                Text("Check out the shop to unlock multiple profiles!")
                                 
-                                focusProfileName = true
-                                
-                                PersistenceController.shared.save()
-                            } label: {
-                                Label("Add", systemImage: "plus.circle")
-                                    .font(.title)
+                                NavigationLink {
+                                    StoreView()
+                                } label: {
+                                    Label("Shop", systemImage: "cart")
+                                        .font(.system(.title))
+                                }
+                                .buttonStyle(.bordered)
                             }
                             
                             Button {
@@ -124,7 +139,11 @@ struct ProfileSelection : View {
         .foregroundColor(.white)
         .background(envProfile.wrappedValue?.color?.color ?? profileColor)
         .onAppear {
+            // Default selected profile according to saved value
             envProfile.wrappedValue = profiles.first(where: { $0.uuid.uuidString == defaultProfile })
+
+            // Check purchases for unlocked features
+            multipleProfilesUnlocked = store.multipleProfilesAvailable
         }
         .onChange(of: defaultProfile) { value in
             envProfile.wrappedValue = profiles.first{ $0.uuid.uuidString == value }

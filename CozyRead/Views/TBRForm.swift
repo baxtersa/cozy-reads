@@ -76,6 +76,9 @@ fileprivate struct ConfirmButtons: View {
                 
                 let setTags = tags.filter{ $0.state }
                 newBook.tags = setTags.map{ $0.tag }
+                if newBook.tags.isEmpty {
+                    newBook.tags.append(selectedGenre.rawValue)
+                }
                 print(newBook.tags)
                 
                 newBook.setGenre(selectedGenre)
@@ -141,10 +144,6 @@ struct TBRForm : View {
     @State private var coverId: Int? = nil
 
     @State private var searchResults: [SearchResult] = []
-//    @State private var searchResults: [SearchResult] = Array.init(
-//        repeating: SearchResult(author: "Becky Chambers", title: "The Long Way to a Small, Angry Planet", coverID: 8902659, id: 1),
-//        count: 5
-//    )
     @State private var selectedResult: Int? = nil
     
     var book: BookCSVData? = nil

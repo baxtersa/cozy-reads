@@ -30,15 +30,18 @@ enum Features : String, CaseIterable {
 class Store: ObservableObject {
     static private let productIds: [String] = Tips.allCases.map{$0.rawValue} + Features.allCases.map{$0.rawValue}
 
-    @Published private (set) var tips: [Product]
-    @Published private (set) var features: [Product]
+    @Published private (set) var tips: [Product] = []
+    @Published private (set) var features: [Product] = []
 
-    @Published private (set) var smallTip: Product? = nil
-    @Published private (set) var mediumTip: Product? = nil
-
-    @Published private (set) var purchasedSmallTip: Product? = nil
-    @Published private (set) var purchasedMediumTip: Product? = nil
+    @Published private (set) var purchasedFeatures: [Product] = []
     
+    var multipleProfilesAvailable: Bool {
+        purchasedFeatures.contains{ $0.id == Features.multipleProfiles.rawValue }
+    }
+    var colorThemesAvailable: Bool {
+        purchasedFeatures.contains{ $0.id == Features.colorThemes.rawValue }
+    }
+
     var updateListenerTask: Task<Void, Error>? = nil
 
     init() {
@@ -82,22 +85,31 @@ class Store: ObservableObject {
     func requestProducts() async {
         do {
             //Request products from the App Store using the identifiers that the Products.plist file defines.
-            let storeProducts = try await Product.products(for: Store.productIds.map{$0.rawValue})
+            let storeProducts = try await Product.products(for: Store.productIds)
 
-            //Filter the products into categories based on their type.
+            var newTips: [Product] = []
+            var newFeatures: [Product] = []
+
             for product in storeProducts {
-                switch product.id {
-                case "com.baxtersa.reads.donation":
-                    smallTip = product
-                case "com.baxtersa.reads.donation.medium":
-                    mediumTip = product
+                switch product.type {
+                case .consumable where product.id.hasPrefix("com.baxtersa.reads.donation"):
+                    newTips.append(product)
+                case .nonConsumable where product.id.hasPrefix("com.baxtersa.reads.feature"):
+                    newFeatures.append(product)
                 default:
                     print("Unknown product")
                 }
             }
+            
+            tips = sortByPrice(newTips)
+            features = sortByPrice(newFeatures)
         } catch {
             print("Failed product request from the App Store server: \(error)")
         }
+    }
+
+    func sortByPrice(_ products: [Product]) -> [Product] {
+        products.sorted(by: { return $0.price < $1.price })
     }
 
     func purchase(_ product: Product) async throws -> Transaction? {
@@ -126,11 +138,9 @@ class Store: ObservableObject {
 
     func isPurchased(_ product: Product) async throws -> Bool {
         //Determine whether the user purchases a given product.
-        switch Tips(rawValue: product.id) {
-        case .small:
-            return purchasedSmallTip != nil
-        case .medium:
-            return purchasedMediumTip != nil
+        switch product.type {
+        case .nonConsumable:
+            return purchasedFeatures.contains(product)
         default:
             return false
         }
@@ -150,20 +160,19 @@ class Store: ObservableObject {
 
     @MainActor
     func updateCustomerProductStatus() async {
-        var purchasedSmallTip: Product? = nil
-        var purchasedMediumTip: Product? = nil
+        var purchasedFeatures: [Product] = []
         
         //Iterate through all of the user's purchased products.
         for await result in Transaction.currentEntitlements {
             do {
                 //Check whether the transaction is verified. If it isn’t, catch `failedVerification` error.
                 let transaction = try checkVerified(result)
-
-                switch Tips(rawValue: transaction.productID) {
-                case .small:
-                    purchasedSmallTip = smallTip
-                case .medium:
-                    purchasedMediumTip = mediumTip
+                
+                switch transaction.productType {
+                case .nonConsumable:
+                    if let feature = features.first(where: { $0.id == transaction.productID }) {
+                        purchasedFeatures.append(feature)
+                    }
                 default:
                     break
                 }
@@ -173,7 +182,6 @@ class Store: ObservableObject {
         }
 
         //Update the store information with the purchased products.
-        self.purchasedSmallTip = purchasedSmallTip
-        self.purchasedMediumTip = purchasedMediumTip
+        self.purchasedFeatures = purchasedFeatures
     }
 }

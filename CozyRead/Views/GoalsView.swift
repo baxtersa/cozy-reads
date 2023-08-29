@@ -12,35 +12,60 @@ struct GoalsView : View {
     @Environment(\.profile) private var profile
  
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
-    @State private var current = 26
+    @FetchRequest(sortDescriptors: []) private var yearlyGoals: FetchedResults<YearlyGoalEntity>
 
-    let target = 50
-    let currentYear: Int = Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023
+    private let currentYear: Int = Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023
+    @State private var selectedYear: Year = .year(Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023)
 
     var body: some View {
-        let books = books.filter{ $0.profile == profile.wrappedValue }
+        let books = books.filter{ $0.profile == profile.wrappedValue }.filter{ $0.year == selectedYear}
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text("Goals")
                         .font(.system(.title))
                     Spacer()
+                    let years = Array(Set(self.books.map{ $0.year }.filter{
+                        if case .year = $0 {
+                            return true
+                        } else {
+                            return false
+                        }
+                    })).sorted()
+                    Picker("Year", selection: $selectedYear) {
+                        ForEach(Array(years)) { year in
+                            Text(year.description)
+                        }
+                    }
+                    .pickerStyle(.menu)
 //                    XPProgressView()
 //                        .xpProgressStyle(.badge)
                 }
                 .padding(.horizontal, 10)
-                Text("Daily")
-                    .font(.system(.title2))
-                    .padding([.leading], 10)
-                DailyGoalsView()
+                if selectedYear == .year(currentYear) {
+                    Text("Daily")
+                        .font(.system(.title2))
+                        .padding([.leading], 10)
+                    DailyGoalsView()
+                }
                 Text("Monthly")
                     .font(.system(.title2))
                     .padding([.leading], 10)
-                MonthlyGoalsView(yearlyTarget: target)
+                if let target = yearlyGoals.first(where: { $0.targetYear == selectedYear }) {
+                    MonthlyGoalsView(yearlyTarget: target.goal)
+                } else {
+                    MonthlyGoalsTemplate()
+                }
                 Text("Yearly")
                     .font(.system(.title2))
                     .padding([.leading], 10)
-                YearlyGoalsView(target: target, current: books.filter{$0.year == .year(currentYear)}.count)
+                if let target = yearlyGoals.first(where: { $0.targetYear == selectedYear }) {
+                    YearlyGoalsView(target: target, current: books.count)
+                } else {
+                    if case let .year(num) = selectedYear {
+                        CreateYearlyGoal(year: num)
+                    }
+                }
                 Spacer()
             }
         }

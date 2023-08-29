@@ -11,7 +11,7 @@
         <attribute name="private_year" optional="YES" attributeType="String"/>
         <attribute name="rating" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="series" optional="YES" attributeType="String"/>
-        <attribute name="tags" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
+        <attribute name="tags" attributeType="Transformable" valueTransformerName="" customClassName="[String]"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileEntity" inverseName="books" inverseEntity="ProfileEntity"/>
     </entity>
@@ -21,9 +21,15 @@
         <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="books" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookCSVData" inverseName="profile" inverseEntity="BookCSVData"/>
         <relationship name="daysRead" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ReadingTrackerEntity" inverseName="profile" inverseEntity="ReadingTrackerEntity"/>
+        <relationship name="yearlyGoal" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YearlyGoalEntity" inverseName="profile" inverseEntity="YearlyGoalEntity"/>
     </entity>
     <entity name="ReadingTrackerEntity" representedClassName="ReadingTrackerEntity" syncable="YES">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileEntity" inverseName="daysRead" inverseEntity="ProfileEntity"/>
+    </entity>
+    <entity name="YearlyGoalEntity" representedClassName="YearlyGoalEntity" syncable="YES">
+        <attribute name="goal" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="year" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileEntity" inverseName="yearlyGoal" inverseEntity="ProfileEntity"/>
     </entity>
 </model>

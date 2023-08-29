@@ -9,45 +9,35 @@ import Foundation
 import StoreKit
 import SwiftUI
 
-struct BuyButtonStyle: ButtonStyle {
-    let isPurchased: Bool
-
-    init(isPurchased: Bool = false) {
-        self.isPurchased = isPurchased
-    }
-
-    func makeBody(configuration: Self.Configuration) -> some View {
-        var bgColor: Color = isPurchased ? Color.green : Color.blue
-        bgColor = configuration.isPressed ? bgColor.opacity(0.7) : bgColor.opacity(1)
-
-        return configuration.label
-            .frame(width: 50)
-            .padding(10)
-            .background(bgColor)
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
-    }
-}
-
 struct StoreView : View {
-    @EnvironmentObject var store: Store
-
+    @EnvironmentObject private var store: Store
+    @Environment(\.profileColor) private var profileColor
+    
     var body: some View {
         List {
-            Section("Tips") {
-                if let small = store.smallTip {
-                    StoreItem(product: small)
-                }
-                if let medium = store.mediumTip {
-                    StoreItem(product: medium)
+            Section("Developer Tips") {
+                Text("Support the app's development\n(does not unlock any functionality)")
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
+                    .listRowBackground(Rectangle().fill(profileColor))
+                    .foregroundColor(.white)
+
+                ForEach(store.tips) { tip in
+                    StoreItem(product: tip)
                 }
             }
             .listStyle(GroupedListStyle())
             
             Section("Features") {
-//                ForEach(store.nonRenewables) { product in
-//                    ListCellView(product: product, purchasingEnabled: store.purchasedSubscriptions.isEmpty)
-//                }
+                Text("Unlock additional functionality")
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
+                    .listRowBackground(Rectangle().fill(profileColor))
+                    .foregroundColor(.white)
+
+                ForEach(store.features) { feature in
+                    StoreItem(product: feature)
+                }
             }
             .listStyle(GroupedListStyle())
             

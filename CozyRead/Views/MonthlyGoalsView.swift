@@ -8,6 +8,36 @@
 import Foundation
 import SwiftUI
 
+struct MonthlyGoalsTemplate : View {
+    var body: some View {
+        ZStack {
+            ScrollView(.horizontal) {
+                ScrollViewReader { scrollView in
+                    HStack {
+                        ForEach(Calendar.current.shortStandaloneMonthSymbols, id: \.self) { month in
+                            MonthProgressBar(month: month, progress: 0)
+                        }
+                    }
+                    .onAppear {
+                        scrollView.scrollTo("currentMonth")
+                    }
+                }
+            }
+            .opacity(0.3)
+            Text("Create a yearly reading goal below to track monthly progress")
+                .multilineTextAlignment(.center)
+                .font(.system(.title3))
+                .italic()
+        }
+        .scrollDisabled(true)
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground)))
+        .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
+        .padding(.horizontal)
+        .frame(height: 200)
+    }
+}
+
 struct MonthProgressBar : View {
     @Environment(\.profileColor) private var profileColor
  
@@ -109,7 +139,10 @@ struct MonthlyGoalsView : View {
 
 struct MonthlyGoalsView_Previews : PreviewProvider {
     static var previews: some View {
-        MonthlyGoalsView(yearlyTarget: 50)
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        VStack {
+            MonthlyGoalsTemplate()
+            MonthlyGoalsView(yearlyTarget: 50)
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        }
     }
 }
