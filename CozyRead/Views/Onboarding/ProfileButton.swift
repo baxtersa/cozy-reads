@@ -17,7 +17,7 @@ struct ProfileButton : View {
 
     @Binding var editing: Bool
     
-    let profile: ProfileEntity
+    @ObservedObject var profile: ProfileEntity
     @FocusState var focusProfileName: Bool
     
     @ViewBuilder func makeSelectedBadge() -> some View {
@@ -47,6 +47,7 @@ struct ProfileButton : View {
     var body: some View {
         VStack {
             Button {
+//                profile.color = nil
                 if editing {
                     deleteConfirmation.toggle()
                 } else {
@@ -99,15 +100,21 @@ You will be able to link books to a new profile after creating one
 """)
             }
 
-            let binding = Binding(
-                get: { profile.name },
-                set: { profile.name = $0 }
-            )
-            TextField("Name", text: binding)
-                .font(.system(.title))
-                .bold()
-                .multilineTextAlignment(.center)
-                .focused($focusProfileName)
+            HStack {
+                let binding = Binding(
+                    get: { profile.name },
+                    set: { profile.name = $0 }
+                )
+                TextField("Name", text: binding)
+                    .font(.system(.title))
+                    .bold()
+                    .multilineTextAlignment(.center)
+                    .focused($focusProfileName)
+                    .fixedSize()
+                let _ = print("Showing color picker for \(profile.name): ", profile.color?.color)
+                ProfileColorPicker(profile: profile)
+                    .frame(width: 50)
+            }
         }
     }
 }

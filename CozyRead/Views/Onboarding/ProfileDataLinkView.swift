@@ -57,6 +57,7 @@ struct ProfileDataLinkView : View {
                                 viewContext.delete(book)
                             }
                             
+                            PersistenceController.shared.save()
                             selectedBooks.removeAll()
                         } label: {
                             Label("Delete", systemImage: "trash")
@@ -94,6 +95,7 @@ struct ProfileDataLinkView : View {
                             book.profile = profile
                         }
                         
+                        PersistenceController.shared.save()
                         selectedBooks.removeAll()
                     } label: {
                         Label("Link to Profile", systemImage: "link")

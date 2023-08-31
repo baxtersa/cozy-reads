@@ -10,11 +10,97 @@ import Foundation
 import SwiftUI
 
 struct AuthorGraphs : View {
+    @Environment(\.profileColor) private var profileColor
+    
     let books: [String:[BookCSVData]]
+    @Binding var year: Year
+    
+    var completed: [String:[BookCSVData]] {
+        books.mapValues{ $0.filter{ $0.year == year } }
+            .filter{ !$1.isEmpty }
+    }
 
     var body: some View {
+        let completed = completed
+            .sorted(by: { $0.value.count > $1.value.count })
+        let authorCounts = completed.flatMap{ author, books in
+            [author:Double(books.count)]
+        }
+
         VStack {
-            
+            let topFive = authorCounts.prefix(5)
+            let topFiveBooks = completed.prefix(5)
+            NavigationLink {
+                List(topFiveBooks, id: \.key) { author, books in
+                    Section(author) {
+                        ForEach(books) { book in
+                            Text(book.title)
+                        }
+                    }
+                }
+                .scrollContentBackground(.hidden)
+            } label: {
+                Graph(title: "Most Read Authors", data: topFive, id: \.key) { author, count in
+                    let xp: PlottableValue = .value("Count", count)
+                    let yp: PlottableValue = .value("Author", author)
+                    BarMark(x: xp, y: yp, width: 10)
+                        .annotation(position: AnnotationPosition.trailing) {
+                            Text(String(Int(count)))
+                        }
+                        .foregroundStyle(by: yp)
+                }
+                .chartXAxis(.hidden)
+                .frame(height: 250)
+            }
+
+            let sortedByRating = completed.sorted(by: { first, second in
+                let avg1 = first.value.reduce(0.0, { acc, book in
+                    acc + Float(book.rating) / Float(first.value.count)
+                })
+                let avg2 = second.value.reduce(0.0, { acc, book in
+                    acc + Float(book.rating) / Float(second.value.count)
+                })
+                return avg1 > avg2
+            }).prefix(5)
+            let highestRated = sortedByRating.flatMap{ author, books in
+                [author: Double(books.reduce(0.0, { acc, book in
+                    acc + Float(book.rating) / Float(books.count)
+                }))]
+            }
+            NavigationLink {
+                List(sortedByRating, id: \.key) { author, books in
+                    Section(author) {
+                        ForEach(books.sorted(by: { $0.rating > $1.rating })) { book in
+                            HStack {
+                                Text(book.title)
+                                Spacer()
+                                StarRating(rating: .constant(book.rating))
+                                    .ratingStyle(SolidRatingStyle(color: profileColor))
+                                    .fixedSize()
+                            }
+                        }
+                    }
+                }
+                .scrollContentBackground(.hidden)
+            } label: {
+                Graph(title: "Highest Rated", data: highestRated, id: \.key) { author, rating in
+                    let xp: PlottableValue = .value("Author", author)
+                    let yp: PlottableValue = .value("Rating", rating)
+                    PointMark(x: yp, y: xp)
+                        .symbolSize(rating * 150)
+                        .annotation(position: .overlay) {
+                            Text(String(format: "%0.1f", rating))
+                                .font(.system(.caption))
+                                .fixedSize()
+                                .foregroundColor(.white)
+                                .bold()
+                        }
+                        .foregroundStyle(by: xp)
+                        .offset(y: -10)
+                }
+                .chartXAxis(.hidden)
+                .frame(height: 250)
+            }
         }
     }
 }
@@ -29,7 +115,7 @@ struct AuthorGraphs_Previews : PreviewProvider {
                 $0.author
             })
             NavigationStack {
-                AuthorGraphs(books: dict)
+                AuthorGraphs(books: dict, year: .constant(.year(2023)))
             }
         }
     }

@@ -70,7 +70,7 @@ struct Graph<Data: RandomAccessCollection, ID: Hashable, Content: ChartContent, 
                     }
                 }
             }
-            .padding([.vertical, .trailing])
+            .padding()
         }
         .background {
             RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground))

@@ -51,6 +51,7 @@
 		D365AACF2A96402200CB2499 /* ProfileEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D365AACD2A96402200CB2499 /* ProfileEntity+CoreDataProperties.swift */; };
 		D374E95A2A7C429700FF9E9F /* TBRForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D374E9592A7C429700FF9E9F /* TBRForm.swift */; };
 		D3A0442F2A84092600E6462D /* DataCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A0442E2A84092600E6462D /* DataCardView.swift */; };
+		D3A3688A2AA101B3004F92E5 /* ProfileColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A368892AA101B3004F92E5 /* ProfileColorPicker.swift */; };
 		D3A94F952A93A11200ED4F1C /* OLSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A94F942A93A11200ED4F1C /* OLSearchResult.swift */; };
 		D3A94F972A93A15700ED4F1C /* OLSearchResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A94F962A93A15700ED4F1C /* OLSearchResultTests.swift */; };
 		D3A94F992A93B91200ED4F1C /* OLSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A94F982A93B91200ED4F1C /* OLSearchView.swift */; };
@@ -127,6 +128,7 @@
 		D365AACD2A96402200CB2499 /* ProfileEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D374E9592A7C429700FF9E9F /* TBRForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBRForm.swift; sourceTree = "<group>"; };
 		D3A0442E2A84092600E6462D /* DataCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCardView.swift; sourceTree = "<group>"; };
+		D3A368892AA101B3004F92E5 /* ProfileColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileColorPicker.swift; sourceTree = "<group>"; };
 		D3A94F942A93A11200ED4F1C /* OLSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLSearchResult.swift; sourceTree = "<group>"; };
 		D3A94F962A93A15700ED4F1C /* OLSearchResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLSearchResultTests.swift; sourceTree = "<group>"; };
 		D3A94F982A93B91200ED4F1C /* OLSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLSearchView.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 		D341C9CF2A9CE9CD0049F71C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D3A368892AA101B3004F92E5 /* ProfileColorPicker.swift */,
 				D3C048892A9FBDE1004C10B1 /* Graph.swift */,
 				D341C9DD2A9E82B30049F71C /* StoryReel.swift */,
 				D3531B902A82B1C0001A49BC /* StarRating.swift */,
@@ -481,6 +484,7 @@
 				D341C9DE2A9E82B30049F71C /* StoryReel.swift in Sources */,
 				D32BACE52A8E681200CBFB41 /* FlexBox.swift in Sources */,
 				D3106AF82A968F0D007B367B /* ProfileDataLinkView.swift in Sources */,
+				D3A3688A2AA101B3004F92E5 /* ProfileColorPicker.swift in Sources */,
 				D3106B042A98E888007B367B /* DynamicStack.swift in Sources */,
 				D3531B892A827D93001A49BC /* BookDataModel.swift in Sources */,
 				D3A0442F2A84092600E6462D /* DataCardView.swift in Sources */,

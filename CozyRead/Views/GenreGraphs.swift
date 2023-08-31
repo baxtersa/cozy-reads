@@ -35,6 +35,7 @@ struct GenreGraphs : View {
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
             } label: {
                 Graph(title: "Books Read", data: data, id: \.key) { genre, count in
                     let xp: PlottableValue = .value("Genre", genre.rawValue)
@@ -61,6 +62,7 @@ struct GenreGraphs : View {
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
             } label: {
                 Graph(title: "Average Rating", data: completed, id: \.key) { genre, books in
                     let avg = books.reduce(0, { acc, book in

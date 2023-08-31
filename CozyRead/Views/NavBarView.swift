@@ -73,7 +73,12 @@ struct NavBarView: View {
         .onAppear {
             print("Navbar appeared")
             envProfile.wrappedValue = profiles.first(where: { $0.uuid.uuidString == defaultProfile })
+            if let profile = envProfile.wrappedValue,
+               let color = profile.color {
+            }
         }
+        .profileColor(profileColor)
+        .tint(profileColor)
     }
 }
 

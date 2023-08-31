@@ -11,10 +11,11 @@ import SwiftUI
 struct ProfileSelection : View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.profileColor) var profileColor
-    @Environment(\.profile) var envProfile
 
     @EnvironmentObject private var store: Store
-
+    
+    @Binding var envProfile: ProfileEntity?
+    
     @AppStorage(Onboarding.Constants.onboardingVersion) private var hasSeenOnboardingView = false
     @AppStorage(Onboarding.Constants.defaultProfile) private var defaultProfile = ""
     
@@ -66,7 +67,7 @@ struct ProfileSelection : View {
                                 .multilineTextAlignment(.center)
                                 
                                 NavigationLink {
-                                    if let selectedProfile = envProfile.wrappedValue {
+                                    if let selectedProfile = envProfile {
                                         ProfileDataLinkView(profile: selectedProfile)
                                     }
                                 } label: {
@@ -123,13 +124,13 @@ struct ProfileSelection : View {
                             Button {
                                 hasSeenOnboardingView.toggle()
                             } label: {
-                                let text = envProfile.wrappedValue == nil ?
+                                let text = envProfile == nil ?
                                 "Select a profile to continue" :
                                 "Done"
                                 Text(text)
                             }
                             .buttonStyle(.borderedProminent)
-                            .disabled(envProfile.wrappedValue == nil)
+                            .disabled(envProfile == nil)
                         }
                     }
                 }
@@ -137,16 +138,16 @@ struct ProfileSelection : View {
             }
         }
         .foregroundColor(.white)
-        .background(envProfile.wrappedValue?.color?.color ?? profileColor)
+        .background(profileColor)
         .onAppear {
             // Default selected profile according to saved value
-            envProfile.wrappedValue = profiles.first(where: { $0.uuid.uuidString == defaultProfile })
+            envProfile = profiles.first(where: { $0.uuid.uuidString == defaultProfile })
 
             // Check purchases for unlocked features
             multipleProfilesUnlocked = store.multipleProfilesAvailable
         }
         .onChange(of: defaultProfile) { value in
-            envProfile.wrappedValue = profiles.first{ $0.uuid.uuidString == value }
+            envProfile = profiles.first{ $0.uuid.uuidString == value }
         }
         .onChange(of: profiles.count) { value in
             if value == 0 {
@@ -161,15 +162,30 @@ struct ProfileSelection : View {
 }
 
 struct Onboarding : View {
-    @Environment(\.profileColor) private var profileColor
+    @Environment(\.profile) private var profile
+
     @StateObject private var store = Store()
+
+//    @State private var profileColor = ProfileColorKey.defaultValue
+
+    @AppStorage(Onboarding.Constants.defaultProfile) private var profileUUID = ""
 
     var body: some View {
         NavigationStack {
-            ProfileSelection()
+            ProfileSelection(envProfile: profile)
         }
-        .tint(profileColor)
         .environmentObject(store)
+        .profileColor(profile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue)
+//        .profileColor(profileColor)
+        .tint(profile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue)
+//        .onChange(of: profile.wrappedValue) { _ in
+//            print("Profile changed")
+//            profileColor = profile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue
+//        }
+        .onChange(of: profile.wrappedValue?.color?.color) { _ in
+            print("Profile color changed")
+//            profileColor = profile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue
+        }
     }
 }
 

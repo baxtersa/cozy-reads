@@ -80,7 +80,7 @@ struct ShelvesView : View {
                         let dict = Dictionary(grouping: books, by: {
                             $0.author
                         })
-                        AuthorGraphs(books: dict)
+                        AuthorGraphs(books: dict, year: $year)
                     case .genre:
                         let dict = Dictionary(grouping: books, by: {
                             $0.genre
