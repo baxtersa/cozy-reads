@@ -20,6 +20,45 @@ protocol RatingStyle {
     func makeBody(configuration: Self.Configuration) -> Self.Body
 }
 
+private struct InternalRating : View {
+    let configuration: RatingStyleConfiguration
+    
+    @State private var longTap: Bool = false
+    
+    var body: some View {
+        HStack {
+            ForEach(1..<configuration.maxRating + 1, id: \.self) { value in
+                Image(systemName: "star")
+                    .resizable()
+                    .scaledToFit()
+                    .symbolVariant(value <= configuration.rating ? .fill : .none)
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        if value != configuration.rating {
+                            configuration.rating = value
+                        } else {
+                            configuration.rating = 0
+                        }
+                    }
+                    .onLongPressGesture {
+                        longTap.toggle()
+                    }
+            }
+        }
+        // TODO: Get quarter/half star ratings working
+//        .popover(isPresented: $longTap, arrowEdge: .top) {
+//            let view = Text("Popover")
+//                .foregroundColor(.blue)
+//
+//            if #available(iOS 16.4, *) {
+//                view.presentationCompactAdaptation(.popover)
+//            } else {
+//                view
+//            }
+//        }
+    }
+}
+
 struct GradientRatingStyle : RatingStyle {
     var colors: [Color] = [.blue, .purple]
 
@@ -36,23 +75,8 @@ struct GradientRatingStyle : RatingStyle {
                         }
                     }
                 }
-            HStack {
-                ForEach(1..<configuration.maxRating + 1, id: \.self) { value in
-                    Image(systemName: "star")
-                        .resizable()
-                        .scaledToFit()
-                        .symbolVariant(value <= configuration.rating ? .fill : .none)
-                        .foregroundColor(.clear)
-                        .contentShape(Circle())
-                        .onTapGesture {
-                            if value != configuration.rating {
-                                configuration.rating = value
-                            } else {
-                                configuration.rating = 0
-                            }
-                        }
-                }
-            }
+            InternalRating(configuration: configuration)
+                .foregroundColor(.clear)
         }
     }
 }
@@ -61,23 +85,8 @@ struct SolidRatingStyle : RatingStyle {
     let color: Color?
     
     func makeBody(configuration: Configuration) -> some View {
-        HStack {
-            ForEach(1..<configuration.maxRating + 1, id: \.self) { value in
-                Image(systemName: "star")
-                    .resizable()
-                    .scaledToFit()
-                    .symbolVariant(value <= configuration.rating ? .fill : .none)
-                    .foregroundColor(color)
-                    .contentShape(Circle())
-                    .onTapGesture {
-                        if value != configuration.rating {
-                            configuration.rating = value
-                        } else {
-                            configuration.rating = 0
-                        }
-                    }
-            }
-        }
+        InternalRating(configuration: configuration)
+            .foregroundColor(color)
     }
 }
     

@@ -15,7 +15,7 @@ struct TagToggles : View {
     }
 
     @Binding var tags: [ToggleState]
-    @State private var expand: Bool = true
+    @State private var expand: Bool = false
     @State private var newTag: String = ""
 
     var body: some View {
