@@ -66,7 +66,10 @@ fileprivate struct ConfirmButtons: View {
                 } else {
                     newBook = BookCSVData(context: viewContext)
                 }
-                newBook.dateAdded = Date.now
+
+                if newBook.dateAdded == nil {
+                    newBook.dateAdded = Date.now
+                }
                 newBook.title = title
                 newBook.author = author
                 

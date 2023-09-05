@@ -53,6 +53,10 @@ struct DataView : View {
             .filter{ !$1.isEmpty }
             .flatMap{
                 [$0: $1.sorted(by: {
+                    if case .tbr = $0.year,
+                       case .tbr = $1.year {
+                        return $0.dateAdded ?? .now > $1.dateAdded ?? .now
+                    }
                     if $0.dateCompleted != nil,
                        $1.dateCompleted == nil {
                         return true

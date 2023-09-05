@@ -61,6 +61,17 @@ struct PersistenceController {
         let persistance = CozyReadPersistentContainer(name: "CozyRead")
         container = persistance
         
+        // Only initialize the schema when building the app with the
+        // Debug build configuration.
+        #if DEBUG
+        do {
+            // Use the container to initialize the development schema.
+            try container.initializeCloudKitSchema(options: [])
+        } catch {
+            // Handle any errors.
+        }
+        #endif
+
 //        let defaultDirectoryURL = CozyReadPersistentContainer.defaultDirectoryURL()
 //        
 //        let appDirectoryURL = defaultDirectoryURL.appendingPathComponent("Application.sqlite")
