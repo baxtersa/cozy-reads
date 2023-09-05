@@ -10,7 +10,7 @@ import SwiftUI
 
 struct NavBarView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.profileColor) private var profileColor
+//    @Environment(\.profileColor) private var profileColor
     @Environment(\.profile) private var envProfile
     
     @AppStorage(Onboarding.Constants.onboardingVersion) private var hasSeenOnboarding = false
@@ -23,10 +23,8 @@ struct NavBarView: View {
             HStack {
                 Image(systemName: "book.fill")
                     .font(.system(.largeTitle))
-                    .foregroundColor(profileColor)
                 Text("CozyReads")
                     .font(.system(.largeTitle))
-                    .foregroundColor(profileColor)
                 Spacer()
                 Button {
                     withAnimation {
@@ -45,11 +43,11 @@ struct NavBarView: View {
                             }
                     }
                     .frame(width: 30)
-                    .foregroundColor(profileColor)
                 }
                 .scaledToFit()
             }
             .padding([.horizontal, .top])
+            .foregroundColor(envProfile.wrappedValue?.color?.color ?? Color("AccentColor"))
 
             TabView {
                 DashboardView()
@@ -75,10 +73,12 @@ struct NavBarView: View {
             envProfile.wrappedValue = profiles.first(where: { $0.uuid.uuidString == defaultProfile })
             if let profile = envProfile.wrappedValue,
                let color = profile.color {
+//                profile.color = color
             }
         }
-        .profileColor(profileColor)
-        .tint(profileColor)
+        .onChange(of: envProfile.wrappedValue) { _ in () }
+        .profileColor(envProfile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue)
+        .tint(envProfile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue)
     }
 }
 

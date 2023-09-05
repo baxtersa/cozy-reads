@@ -27,7 +27,10 @@ struct ProfileSelection : View {
     @FocusState private var focusProfileName: Bool
     
     @State private var editing: Bool = false
-    @State private var multipleProfilesUnlocked: Bool = false
+    private var multipleProfilesUnlocked: Bool {
+        // Check purchases for unlocked features
+        store.multipleProfilesAvailable
+    }
     
     var body: some View {
         VStack {
@@ -142,9 +145,6 @@ struct ProfileSelection : View {
         .onAppear {
             // Default selected profile according to saved value
             envProfile = profiles.first(where: { $0.uuid.uuidString == defaultProfile })
-
-            // Check purchases for unlocked features
-            multipleProfilesUnlocked = store.multipleProfilesAvailable
         }
         .onChange(of: defaultProfile) { value in
             envProfile = profiles.first{ $0.uuid.uuidString == value }
@@ -166,8 +166,6 @@ struct Onboarding : View {
 
     @StateObject private var store = Store()
 
-//    @State private var profileColor = ProfileColorKey.defaultValue
-
     @AppStorage(Onboarding.Constants.defaultProfile) private var profileUUID = ""
 
     var body: some View {
@@ -176,16 +174,7 @@ struct Onboarding : View {
         }
         .environmentObject(store)
         .profileColor(profile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue)
-//        .profileColor(profileColor)
         .tint(profile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue)
-//        .onChange(of: profile.wrappedValue) { _ in
-//            print("Profile changed")
-//            profileColor = profile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue
-//        }
-        .onChange(of: profile.wrappedValue?.color?.color) { _ in
-            print("Profile color changed")
-//            profileColor = profile.wrappedValue?.color?.color ?? ProfileColorKey.defaultValue
-        }
     }
 }
 

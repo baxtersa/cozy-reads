@@ -7,7 +7,7 @@
 
 import CoreData
 
-class CozyReadPersistentContainer : NSPersistentContainer {
+class CozyReadPersistentContainer : NSPersistentCloudKitContainer {
     let profile = UserDefaults.standard.bool(forKey: Onboarding.Constants.defaultProfile)
 
     var backgroundContext: NSManagedObjectContext? = nil

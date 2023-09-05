@@ -139,12 +139,6 @@ struct CurrentlyReadingView : View {
                 }
             }
         }
-        .onChange(of: profile.wrappedValue) { _ in
-            print("Profile change propogated")
-        }
-        .onAppear {
-            print("Currently reading appeared with profile: ", profile.wrappedValue?.name)
-        }
         .frame(maxWidth: .infinity)
     }
 }

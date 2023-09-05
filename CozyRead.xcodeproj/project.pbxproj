@@ -129,6 +129,7 @@
 		D374E9592A7C429700FF9E9F /* TBRForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBRForm.swift; sourceTree = "<group>"; };
 		D3A0442E2A84092600E6462D /* DataCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCardView.swift; sourceTree = "<group>"; };
 		D3A368892AA101B3004F92E5 /* ProfileColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileColorPicker.swift; sourceTree = "<group>"; };
+		D3A3688B2AA22987004F92E5 /* CozyRead.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CozyRead.entitlements; sourceTree = "<group>"; };
 		D3A94F942A93A11200ED4F1C /* OLSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLSearchResult.swift; sourceTree = "<group>"; };
 		D3A94F962A93A15700ED4F1C /* OLSearchResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLSearchResultTests.swift; sourceTree = "<group>"; };
 		D3A94F982A93B91200ED4F1C /* OLSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLSearchView.swift; sourceTree = "<group>"; };
@@ -283,6 +284,7 @@
 		D35FE9F72A79ADB1002B1987 /* CozyRead */ = {
 			isa = PBXGroup;
 			children = (
+				D3A3688B2AA22987004F92E5 /* CozyRead.entitlements */,
 				D341C9D52A9D20E90049F71C /* YearlyGoalEntity+CoreDataClass.swift */,
 				D341C9D62A9D20E90049F71C /* YearlyGoalEntity+CoreDataProperties.swift */,
 				D3106AFF2A97C840007B367B /* ReadingTrackerEntity+CoreDataClass.swift */,
@@ -678,6 +680,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = CozyRead/CozyRead.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -712,6 +715,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = CozyRead/CozyRead.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

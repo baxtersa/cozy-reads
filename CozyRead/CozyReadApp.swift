@@ -51,7 +51,7 @@ struct CozyReadApp: App {
                 NavBarView()
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .environment(\.profile, $profile)
-                    .profileColor(profile?.color?.color ?? ProfileColorKey.defaultValue)
+//                    .profileColor(profile?.color?.color ?? ProfileColorKey.defaultValue)
                     .transition(.slide)
                     .animation(.easeInOut(duration: 2), value: hasSeenOnboardingView)
             } else {
