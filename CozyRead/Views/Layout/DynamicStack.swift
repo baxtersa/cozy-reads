@@ -22,25 +22,33 @@ struct DynamicStack<Content: View> : View {
             .autoconnect()
 
         if UIDevice.current.userInterfaceIdiom == .pad {
-            Group {
-                switch orientation {
-                case .portrait, .portraitUpsideDown:
-                    VStack(alignment: alignment.horizontal, spacing: spacing) {
-                        content()
-                    }
-                case .landscapeLeft, .landscapeRight:
-                    HStack(alignment: alignment.vertical, spacing: spacing) {
-                        content()
-                    }
-                default:
-                    VStack(alignment: alignment.horizontal, spacing: spacing) {
-                        content()
-                    }
+            ViewThatFits {
+                HStack {
+                    content()
+                }
+                VStack {
+                    content()
                 }
             }
-            .onReceive(orientationChanged) { _ in
-                orientation = UIDevice.current.orientation
-            }
+//            Group {
+//                switch orientation {
+//                case .portrait, .portraitUpsideDown:
+//                    VStack(alignment: alignment.horizontal, spacing: spacing) {
+//                        content()
+//                    }
+//                case .landscapeLeft, .landscapeRight:
+//                    HStack(alignment: alignment.vertical, spacing: spacing) {
+//                        content()
+//                    }
+//                default:
+//                    VStack(alignment: alignment.horizontal, spacing: spacing) {
+//                        content()
+//                    }
+//                }
+//            }
+//            .onReceive(orientationChanged) { _ in
+//                orientation = UIDevice.current.orientation
+//            }
         } else {
             VStack(alignment: alignment.horizontal, spacing: spacing) {
                 content()

@@ -53,7 +53,7 @@ struct ChartView : View {
 //            .clipShape(RoundedRectangle(cornerRadius: 10))
 //        }
         .cornerRadius(20)
-        .padding(.horizontal, 10)
+        .padding(.horizontal)
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
     }
 }

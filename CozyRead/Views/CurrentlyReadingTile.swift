@@ -22,36 +22,26 @@ struct CurrentlyReadingTile : View {
     @State private var expand: Bool = false
     @State private var rating: Int = 0
     
-//    let data: ReadingModel
-
     var body: some View {
-        VStack {
-            HStack {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(book.title)
-                            .font(.system(.title3))
-                            .bold()
-                            .padding(.leading)
-                        Spacer()
-                        Image(systemName: "chevron.down")
-                            .animation(.easeInOut, value: expand)
-                            .rotationEffect(.degrees(expand ? 0 : -90))
-                    }
+        VStack(spacing: 10) {
+            VStack {
+                HStack {
+                    Text(book.title)
+                        .font(.system(.title3))
                     Spacer()
-                    HStack {
-                        Spacer()
-                        Text("by \(book.author)")
-                            .font(.system(.title3))
-                            .italic()
-                    }
+                    Image(systemName: "chevron.down")
+                        .animation(.easeInOut, value: expand)
+                        .rotationEffect(.degrees(expand ? 0 : -90))
                 }
-                .padding(.horizontal, 5)
-                .frame(maxHeight: 100)
-                .padding([.vertical, .trailing])
+                HStack {
+                    Spacer()
+                    Text("by \(book.author)")
+                        .italic()
+                }
             }
+//            .frame(maxHeight: 100)
             if expand {
-                VStack(spacing: 10) {
+                VStack {
                     StarRating(rating: $rating)
                         .ratingStyle(SolidRatingStyle(color: profileColor))
                         .frame(width: 200)
@@ -62,14 +52,13 @@ struct CurrentlyReadingTile : View {
                     } label: {
                         Label("Finished", systemImage: "checkmark")
                     }
-                    .buttonStyle(.borderedProminent)
-                    .padding(.bottom)
+                    .buttonStyle(.bordered)
                 }
-                .frame(maxHeight: 120)
+//                .frame(maxHeight: 80)
                 .clipped()
             }
         }
-        .background(Color(uiColor: .systemBackground))
+        .padding()
 //        .background {
 //            ZStack(alignment: .top) {
 //                Rectangle()
@@ -80,6 +69,7 @@ struct CurrentlyReadingTile : View {
 //            }
 //            .clipShape(RoundedRectangle(cornerRadius: 10))
 //        }
+        .background(Color(uiColor: .systemBackground))
         .cornerRadius(20)
         .padding(.horizontal)
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)

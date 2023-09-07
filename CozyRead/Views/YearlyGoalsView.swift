@@ -70,26 +70,7 @@ struct YearlyGoalsView : View {
     var body: some View {
         HStack {
             Spacer()
-            ZStack {
-                Circle()
-                    .stroke(profileColor, lineWidth: 30)
-                    .opacity(0.3)
-                Circle()
-                    .trim(from: 0, to: CGFloat(percentage))
-                    .stroke(profileColor, style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round))
-                    .rotationEffect(.degrees(270))
-                VStack {
-                    Text(String(format: "%.0f %%", percentage*100))
-                        .font(.system(.title))
-                        .bold()
-                    Text("\(current)/\(target.goal) books read")
-                        .italic()
-                }
-            }
-            .onTapGesture {
-                showSheet.toggle()
-            }
-            .frame(maxHeight: 200)
+            YearlyReadingProgress(target: target, current: current)
             Spacer()
         }
         .padding(.vertical, 30)

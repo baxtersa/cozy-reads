@@ -56,15 +56,15 @@ struct NavBarView: View {
                     }
                 ShelvesView()
                     .tabItem{
-                        Label("Shelves", systemImage: "books.vertical")
+                        Label("Shelves", systemImage: "chart.line.uptrend.xyaxis")
                     }
-                GoalsView()
-                    .tabItem{
-                        Label("Goals", systemImage: "chart.line.uptrend.xyaxis")
-                    }
+//                GoalsView()
+//                    .tabItem{
+//                        Label("Goals", systemImage: "chart.line.uptrend.xyaxis")
+//                    }
                 DataView()
                     .tabItem{
-                        Label("Data", systemImage: "cylinder.split.1x2")
+                        Label("Books", systemImage: "books.vertical")
                     }
             }
         }

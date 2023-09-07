@@ -53,11 +53,12 @@ struct ShelvesView : View {
                 }
 
 
-                Spacer()
-                
-                Reports(year: year) {
-                    Image(systemName: "play.fill")
-                }
+                // TODO: Figure out a better experience for "story reels"
+//                Spacer()
+//
+//                Reports(year: year) {
+//                    Image(systemName: "play.fill")
+//                }
             }
 
             Picker("Filter by", selection: $categoryFilter) {

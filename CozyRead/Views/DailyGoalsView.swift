@@ -13,9 +13,9 @@ private struct DayTracker : View {
     @Environment(\.profileColor) private var profileColor
     @Environment(\.profile) private var profile
 
-    let daysRead: [ReadingTrackerEntity]
+    private let daysRead: [ReadingTrackerEntity]
     @State private var dates: Set<DateComponents>
-    @Binding var displayPicker: Bool
+    @Binding private var displayPicker: Bool
     
     init(daysRead: [ReadingTrackerEntity], displayPicker: Binding<Bool>) {
         self.daysRead = daysRead
@@ -71,13 +71,13 @@ private struct CheckCircle : View {
     @Environment(\.profileColor) private var profileColor
     @Environment(\.profile) private var profile
     
-    @State var entry: ReadingTrackerEntity? = nil
+    let entry: ReadingTrackerEntity?
     let date: Date
     
     var body: some View {
         ZStack {
-            if entry != nil {
-                GeometryReader { geometry in
+            GeometryReader { geometry in
+                if entry != nil {
                     ZStack {
                         Circle()
                             .inset(by: 2.5)
@@ -94,17 +94,20 @@ private struct CheckCircle : View {
                             .fontWeight(.bold)
                             .frame(height: geometry.size.height / 5)
                     }
-                }
-            } else {
-                ZStack {
-                    Circle()
-                        .inset(by: 2.5)
-                        .stroke(profileColor, style: StrokeStyle(lineWidth: 5))
-                        .opacity(0.3)
-                        .contentShape(Circle())
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.clear)
-                        .fontWeight(.bold)
+                } else {
+                    ZStack {
+                        Circle()
+                            .inset(by: 2.5)
+                            .stroke(profileColor, style: StrokeStyle(lineWidth: 5))
+                            .opacity(0.3)
+                            .contentShape(Circle())
+                        Image(systemName: "checkmark")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.clear)
+                            .fontWeight(.bold)
+                            .frame(height: geometry.size.height / 5)
+                    }
                 }
             }
         }
@@ -117,12 +120,12 @@ private struct CheckCircle : View {
     private func onDayClicked() {
         if let entry = entry {
             viewContext.delete(entry)
-            self.entry = nil
+//            self.entry = nil
         } else {
             let newEntry = ReadingTrackerEntity(context: viewContext)
             newEntry.date = date
             newEntry.profile = profile.wrappedValue
-            self.entry = newEntry
+//            self.entry = newEntry
             
 //            XPLevels.shared.dayRead()
         }
@@ -132,21 +135,30 @@ private struct CheckCircle : View {
 }
 
 struct DailyGoalsView : View {
-    @Environment(\.managedObjectContext) var viewContext
-    @Environment(\.profile) var profile
+    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.profile) private var profile
 
-    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var daysRead: FetchedResults<ReadingTrackerEntity>
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)])
+    private var daysRead: FetchedResults<ReadingTrackerEntity>
 
     @State private var dates: Set<DateComponents> = []
     @State private var displayPicker: Bool = false
 
     var body: some View {
+//        if let profile = profile.wrappedValue {
+//            let _ = daysRead.filter{ $0.profile == nil }
+//                .forEach{ $0.profile = profile}
+//        }
         let daysRead = daysRead.filter{ $0.profile == profile.wrappedValue }
-        VStack {
+        VStack(alignment: .leading) {
+//            Text("Days Read")
+//                .font(.system(.title2))
+//                .padding()
+
             if displayPicker {
                 DayTracker(daysRead: daysRead, displayPicker: $displayPicker)
             } else {
-                VStack {
+                VStack{
                     let daysRead = daysRead.filter{ $0.profile == profile.wrappedValue }
                     VStack {
                         HStack(spacing: 10) {
@@ -193,7 +205,7 @@ struct DailyGoalsView : View {
                 .scaledToFit()
                 .padding(.vertical)
                 .scaledToFit()
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: 200)
             }
         }
         .background(

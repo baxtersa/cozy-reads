@@ -8,30 +8,11 @@
 import Foundation
 import SwiftUI
 
-struct SearchBar : View {
-    @Binding var searchText: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "magnifyingglass")
-            TextField("Search", text: $searchText)
-            Spacer()
-            if !searchText.isEmpty {
-                Image(systemName: "xmark.circle")
-                    .onTapGesture {
-                        searchText.removeAll()
-                    }
-            }
-        }
-        .padding(.all, 8)
-        .background(RoundedRectangle(cornerRadius: 10).opacity(0.08))
-    }
-}
-
 struct DataView : View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.profile) private var profile
-    
+    @Environment(\.profileColor) private var profileColor
+
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest)
     private var books: FetchedResults<BookCSVData>
 
@@ -40,13 +21,16 @@ struct DataView : View {
     @State private var searchText: String = ""
     @State private var editBook: BookCSVData? = nil
     @State private var formMode: TBRFormMode = .add
+
+    @State private var ratingFilter: Int = 0
     
     var body: some View {
         let books = books.filter{ $0.profile == profile.wrappedValue }
             .filter{
-                $0.title.lowercased().hasPrefix(searchText.lowercased()) ||
-                $0.author.lowercased().hasPrefix(searchText.lowercased()) ||
-                $0.series?.lowercased().hasPrefix(searchText.lowercased()) == true
+                searchText.isEmpty ||
+                $0.title.lowercased().contains(searchText.lowercased()) ||
+                $0.author.lowercased().contains(searchText.lowercased()) ||
+                $0.series?.lowercased().contains(searchText.lowercased()) == true
             }
         let dict = Dictionary(grouping: books, by: \.year)
             .sorted(by: { $0.key > $1.key })
@@ -88,11 +72,40 @@ struct DataView : View {
                         .tint(.red)
                     }
                     .buttonStyle(.bordered)
-//                    .labelStyle(.iconOnly)
                 }
             }
-            .padding(.horizontal)
             .animation(.easeInOut, value: selection)
+
+//            HStack {
+//                Picker(selection: $ratingFilter, label: Text("Rating")) {
+//                    ForEach(0..<6) { stars in
+//                        HStack {
+//                            StarRating(rating: .constant(stars))
+//                                .fixedSize()
+//                                .ratingStyle(SolidRatingStyle(color: profileColor))
+////                            Image(systemName: "star.fill")
+////                            Image(systemName: "star.fill")
+////                            Image(systemName: "star")
+////                            Image(systemName: "star")
+//                            //                        Section {
+//                            //                            HStack {
+//                            //                                ForEach(0..<3) { _ in
+//                            //                                    Image(systemName: "star.fill")
+//                            //                                }
+//                            //                                ForEach(stars..<6) { _ in
+//                            //                                    Image(systemName: "star")
+//                            //                                }
+//                            //                            }
+//                            //                            .tag(stars)
+//                            //                        }
+//                        }
+//                        .tag(stars)
+//                    }
+//                }
+//                .pickerStyle(.navigationLink)
+//                .foregroundColor(.black)
+//            }
+//            TagToggles(tags: .constant([]))
 
             DynamicStack(alignment: .center) {
                 VStack {
@@ -102,26 +115,26 @@ struct DataView : View {
                 }
                 .animation(.easeInOut, value: selection)
                 
-                List(dict, id: \.key, selection: $selection) { year, books in
-                    Section(year.description) {
-                        ForEach(books, id: \.self) { book in
-                            Text(book.title)
+                VStack {
+                    List(dict, id: \.key, selection: $selection) { year, books in
+                        Section(year.description) {
+                            ForEach(books, id: \.self) { book in
+                                Text(book.title)
+                            }
                         }
                     }
+                    .scrollContentBackground(.hidden)
+                    .animation(.easeInOut, value: selection)
+                    .environment(\.editMode, .constant(.active))
+                    
+                    Button {
+                        formMode = .add
+                        editBook = BookCSVData()
+                    } label: {
+                        Label("Add", systemImage: "plus")
+                    }
+                    .padding()
                 }
-                .scrollContentBackground(.hidden)
-                .animation(.easeInOut, value: selection)
-                .environment(\.editMode, .constant(.active))
-                
-                Button {
-                    formMode = .add
-                    editBook = BookCSVData()
-                } label: {
-                    Label("Add", systemImage: "plus")
-                }
-                .padding()
-            }
-            .toolbar {
             }
             .sheet(item: $editBook) { (book: BookCSVData) in
                 if formMode == .edit {
@@ -150,6 +163,7 @@ struct DataView : View {
             }
             .onChange(of: formMode) { _ in () }
         }
+        .padding(.horizontal)
     }
 }
 

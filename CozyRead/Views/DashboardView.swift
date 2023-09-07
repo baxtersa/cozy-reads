@@ -19,7 +19,8 @@ struct Overview : View {
         HStack {
             Text("Overview")
                 .font(.system(.title))
-                .padding(.leading, 10)
+                .padding(.leading)
+                .bold()
             
             Spacer()
             Picker("Year", selection: $overviewYear) {
@@ -27,8 +28,6 @@ struct Overview : View {
                     Text(year.description)
                 }
             }
-            .tint(profileColor)
-            .foregroundColor(profileColor)
         }
         .onChange(of: profileColor) { value in
             print("color changed", value.description)
@@ -54,35 +53,27 @@ struct DashboardView : View {
 
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                VStack {
-                    let years = Array(Set(books.map{ $0.year }.filter{
-                        if case .year = $0 {
-                            return true
-                        } else {
-                            return false
-                        }
-                    })).sorted()
-
-                    Overview(years: years, overviewYear: $overviewYear)
-                }
+                let years = Array(Set(books.map{ $0.year })).sorted()
                 
                 // TODO: Decide what to do about XP/Leveling System
                 //                ProfileView()
-
-//                if let profile = selectedProfile {
-//                    Text("Books: \(readThisYear.count)")
-//                    Text("Profile: \(profile.profile_books.map{$0.title}.description)")
-//                    Text("Profile Books: \(profile.profile_books.count)")
-//                }
                 
-                VStack(alignment: .leading) {
-                    Text("Progress")
-                        .font(.system(.title2))
-                        .padding(.leading)
-                    ChartView(chart: booksRead)
-                    ChartView(chart: avgRating)
+                //                    ReadTodayView()
+
+                VStack {
+                    Overview(years: years, overviewYear: $overviewYear)
+                
+                    DynamicStack {
+                        DailyGoalsView()
+                        if UIDevice.current.userInterfaceIdiom == .pad {
+                            Divider()
+                        }
+                        ReadingProgress(year: overviewYear)
+                    }
                 }
                 CurrentlyReadingView()
+                TBR()
+                Spacer(minLength: 50)
             }
         }
     }

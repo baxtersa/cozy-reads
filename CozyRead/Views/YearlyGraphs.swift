@@ -40,7 +40,7 @@ struct YearlyGraphs : View {
             HStack {
                 Text(String(format: "%0.2f%%", rate))
                 let direction = rate >= 0 ? "arrow.up" : "arrow.down"
-                Label("YoY", systemImage: direction)
+                Image(systemName: direction)
             }
             .foregroundColor(rate >= 0 ? .green : .red)
         } else {
@@ -57,7 +57,17 @@ struct YearlyGraphs : View {
         }
 
         VStack {
-            Graph(title: "Books Read", subtitle: yearOverYear, data: data, id: \.key) { year, count in
+            Graph(title: "Books Read", subtitle: {
+                HStack {
+                    yearOverYear
+
+                    Spacer()
+
+                    Text("\(books.compactMap{ $1.count }.reduce(0, { acc, count in acc + count }))")
+                    Image(systemName: "book")
+                }
+                .padding(.horizontal)
+            }(), data: data, id: \.key) { year, count in
                 let xp: PlottableValue = .value("Year", year.description)
                 let yp: PlottableValue =  .value("Books Read", count)
                 LineMark(x: xp, y: yp)

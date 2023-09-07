@@ -8,7 +8,7 @@
 import CoreData
 
 class CozyReadPersistentContainer : NSPersistentCloudKitContainer {
-    let profile = UserDefaults.standard.bool(forKey: Onboarding.Constants.defaultProfile)
+    let loginTime = UserDefaults.standard.bool(forKey: Onboarding.Constants.defaultProfile)
 
     var backgroundContext: NSManagedObjectContext? = nil
 }

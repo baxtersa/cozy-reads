@@ -8,144 +8,28 @@
 import Foundation
 import SwiftUI
 
-struct SelectBookSheet : View {
-    @Environment(\.profile) private var profile
-
-    @FetchRequest(fetchRequest: BookCSVData.fetchRequest(
-        sortDescriptors: [SortDescriptor(\.dateAdded, order: .reverse)],
-        predicate: NSPredicate(format: "private_year == 'TBR'")
-    )) private var books: FetchedResults<BookCSVData>
-
-    @State private var searchText: String = ""
-    @State private var addBook: Bool = false
-
-    @Binding var showSheet: Bool
-
-    var body: some View {
-        let books = books.filter{ $0.profile == profile.wrappedValue }
-        if addBook {
-            TBRForm(year: .reading)
-        } else {
-            VStack {
-                SearchBar(searchText: $searchText)
-                
-                List {
-                    Section("TBR") {
-                        let tbr = books.filter{ $0.year == .tbr }.filter{ (book: BookCSVData) in
-                            book.title.lowercased().hasPrefix(searchText.lowercased()) ||
-                            book.author.lowercased().hasPrefix(searchText.lowercased())
-                        }
-                        ForEach(tbr, id: \.self) { book in
-                            HStack {
-                                if book.coverId != 0,
-                                   let coverUrl = OLSearchView.coverUrlBase?.appending(path: "\(book.coverId)-M.jpg") {
-                                    AsyncImage(
-                                        url: coverUrl,
-                                        content: { image in
-                                            image
-                                                .resizable()
-                                        },
-                                        placeholder: {
-                                            ProgressView().progressViewStyle(.circular)
-                                        }
-                                    )
-                                    .mask {
-                                        Circle()
-                                    }
-                                    .frame(width: 70, height: 70)
-                                }
-                                VStack(alignment: .leading) {
-                                    Text(book.title)
-                                        .font(.system(.title3))
-                                    HStack {
-                                        Spacer()
-                                        Text("by \(book.author)")
-                                            .italic()
-                                            .font(.system(.footnote))
-                                    }
-                                }
-                                .swipeActions {
-                                    Button {
-                                        book.setYear(.reading)
-                                        book.dateStarted = Date.now
-                                        
-                                        PersistenceController.shared.save()
-                                        showSheet = false
-                                    } label: {
-                                        Text("Start Reading")
-                                    }
-                                    .tint(.green)
-                                }
-                            }
-                        }
-                    }
-                }
-                .scrollContentBackground(.hidden)
-                
-                Button {
-                    addBook.toggle()
-                } label: {
-                    Label("Add", systemImage: "plus")
-                }
-            }
-            .padding()
-        }
-    }
-}
-
-struct StartReadingView : View {
-    @State private var showSheet: Bool = false
-    @State private var searchText: String = ""
-
-    var body: some View {
-        VStack {
-            HStack {
-                Button {
-                    showSheet.toggle()
-                } label: {
-                    Label("New Book", systemImage: "plus.circle")
-                }
-                .buttonStyle(.borderedProminent)
-            }
-        }
-        .sheet(isPresented: $showSheet) {
-            SelectBookSheet(showSheet: $showSheet)
-        }
-    }
-}
-
 struct CurrentlyReadingView : View {
-    @Environment(\.profile) private var profile
-
-    @FetchRequest(fetchRequest: BookCSVData.fetchRequest(
-        sortDescriptors: [],
-        predicate: NSPredicate(format: "private_year == 'Reading'")
-    )) var books: FetchedResults<BookCSVData>
-    
     var body: some View {
-        let books = books.filter{ $0.profile == profile.wrappedValue }
-
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("Currently Reading")
                     .font(.system(.title2))
-                Spacer()
-                StartReadingView()
+                    .bold()
             }
-        .padding(.horizontal)
-            ScrollView {
-                ForEach(books, id: \.self) { book in
-                    CurrentlyReadingTile(book: book)
-                }
-            }
+
+            ReadingList()
         }
+        .padding(.horizontal)
         .frame(maxWidth: .infinity)
     }
 }
 
 struct CurrentlyReadingView_Previews: PreviewProvider {
     static var previews: some View {
-        CurrentlyReadingView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ScrollView {
+            CurrentlyReadingView()
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+                .frame(height: 300)
+        }
     }
 }

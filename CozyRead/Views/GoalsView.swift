@@ -41,16 +41,16 @@ struct GoalsView : View {
 //                    XPProgressView()
 //                        .xpProgressStyle(.badge)
                 }
-                .padding(.horizontal, 10)
+                .padding(.horizontal)
                 if selectedYear == .year(currentYear) {
                     Text("Daily")
                         .font(.system(.title2))
-                        .padding([.leading], 10)
+                        .padding([.leading])
                     DailyGoalsView()
                 }
                 Text("Monthly")
                     .font(.system(.title2))
-                    .padding([.leading], 10)
+                    .padding([.leading])
                 if let target = yearlyGoals.first(where: { $0.targetYear == selectedYear }) {
                     MonthlyGoalsView(yearlyTarget: target.goal)
                 } else {
@@ -58,7 +58,7 @@ struct GoalsView : View {
                 }
                 Text("Yearly")
                     .font(.system(.title2))
-                    .padding([.leading], 10)
+                    .padding([.leading])
                 if let target = yearlyGoals.first(where: { $0.targetYear == selectedYear }) {
                     YearlyGoalsView(target: target, current: books.count)
                 } else {

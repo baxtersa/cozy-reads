@@ -106,7 +106,7 @@ extension Year {
     static let defaultSelections: [Year] = [
         .tbr,
         .reading,
-    ] + (0..<5).map {
+    ] + (0..<10).map {
         let current = Calendar.current.component(.year, from: .now)
         return .year(current - $0)
     }
