@@ -12,6 +12,8 @@ struct ProfileButton : View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.profile) private var selectedProfile
 
+    @EnvironmentObject private var store: Store
+
     @AppStorage(Onboarding.Constants.onboardingVersion) private var hasSeenOnboardingView = false
     @AppStorage(Onboarding.Constants.defaultProfile) private var defaultProfile = ""
 
@@ -20,7 +22,7 @@ struct ProfileButton : View {
     @ObservedObject var profile: ProfileEntity
     @FocusState var focusProfileName: Bool
     
-    @ViewBuilder func makeSelectedBadge() -> some View {
+    @ViewBuilder private func makeSelectedBadge() -> some View {
         ZStack(alignment: .bottomTrailing) {
             Image(systemName: "checkmark.circle")
                 .font(.title2)
@@ -31,7 +33,7 @@ struct ProfileButton : View {
         }
     }
 
-    @ViewBuilder func makeDeleteBadge() -> some View {
+    @ViewBuilder private func makeDeleteBadge() -> some View {
         ZStack(alignment: .bottomTrailing) {
             Image(systemName: "minus.circle")
                 .font(.title2)
@@ -43,6 +45,9 @@ struct ProfileButton : View {
     }
     
     @State private var deleteConfirmation: Bool = false
+    private var colorThemesUnlocked: Bool {
+        store.colorThemesAvailable
+    }
 
     var body: some View {
         VStack {
@@ -111,9 +116,11 @@ You will be able to link books to a new profile after creating one
                     .multilineTextAlignment(.center)
                     .focused($focusProfileName)
                     .fixedSize()
-                let _ = print("Showing color picker for \(profile.name): ", profile.color?.color)
-                ProfileColorPicker(profile: profile)
-                    .frame(width: 50)
+                if colorThemesUnlocked {
+                    let _ = print("Showing color picker for \(profile.name): ", profile.color?.color)
+                    ProfileColorPicker(profile: profile)
+                        .frame(width: 50)
+                }
             }
         }
     }
@@ -130,5 +137,6 @@ struct ProfileButton_Previews : PreviewProvider {
 
     static var previews: some View {
         ProfileButton(editing: .constant(false), profile: profile)
+            .environmentObject(Store())
     }
 }

@@ -46,7 +46,8 @@ struct YearlyReadingProgress : View {
 
 struct YearlyGoalProgress : View {
     @Environment(\.profileColor) private var profileColor
-
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @ObservedObject var target: YearlyGoalEntity
     let current: Int
 
@@ -59,6 +60,8 @@ struct YearlyGoalProgress : View {
         lineWidth / 2
     }
     
+    @State private var editGoal: Bool = false
+
     var body: some View {
         VStack {
             Text("Books Read")
@@ -76,18 +79,58 @@ struct YearlyGoalProgress : View {
             .frame(height: 80)
             Label("\(current)/\(target.goal)", systemImage: "book")
         }
+        .onTapGesture {
+            editGoal.toggle()
+        }
+        .sheet(isPresented: $editGoal) {
+            Form {
+                Section("Yearly Target") {
+                    Picker("Target", selection: $target.goal) {
+                        ForEach(0..<201) { num in
+                            Text(String(num))
+                        }
+                    }
+
+                    Button {
+                        editGoal.toggle()
+                    } label: {
+                        Text("Save")
+                    }
+                    .tint(.blue)
+                    .frame(maxWidth: .infinity, alignment: .center)
+
+                    Button(role: .destructive) {
+                        viewContext.delete(target)
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
+                    .foregroundColor(.red)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
+            .onDisappear {
+                PersistenceController.shared.save()
+            }
+        }
     }
 }
 
 struct YearlyTotal : View {
     @Environment(\.profileColor) private var profileColor
+    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.profile) private var profile
 
     let read: Int
-
+    let year: Int
+    
     private let lineWidth: CGFloat = 16
     private var inset: CGFloat {
         lineWidth / 2
     }
+
+    @State private var setGoal: Bool = false
+    @State private var target: Int = 10
     
     var body: some View {
         VStack {
@@ -103,6 +146,34 @@ struct YearlyTotal : View {
             .frame(height: 80)
             .foregroundColor(profileColor)
             Text("\(read) books")
+        }
+        .onTapGesture {
+            setGoal.toggle()
+        }
+        .sheet(isPresented: $setGoal) {
+            Form {
+                Section("Set a goal") {
+                    Picker("Target", selection: $target) {
+                        ForEach(0..<201) { num in
+                            Text(String(num))
+                        }
+                    }
+
+                    Button {
+                        let goal = YearlyGoalEntity(context: viewContext)
+                        goal.goal = target
+                        goal.profile = profile.wrappedValue
+                        goal.setYear(year: year)
+
+                        PersistenceController.shared.save()
+
+                        setGoal.toggle()
+                    } label: {
+                        Text("Save")
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
         }
     }
 }
@@ -159,21 +230,19 @@ struct ReadingProgress : View {
         let books = books.filter{ $0.profile == profile.wrappedValue }.filter{ $0.year == year}
     
         HStack {
-            if let target = yearlyGoals.first(where: { $0.targetYear == year }) {
-                YearlyGoalProgress(target: target, current: books.count)
-            } else {
-                switch year {
-                case .year(let num):
-                    YearlyTotal(read: books.count)
-                case .reading:
-                    EmptyView()
-//                    Text("Currently reading \(books.count) books")
-                case .tbr:
-                    EmptyView()
-//                    Text("\(books.count) books to be read")
+            switch year {
+            case .year(let num):
+                if let target = yearlyGoals.first(where: { $0.targetYear == year }) {
+                    YearlyGoalProgress(target: target, current: books.count)
+                } else {
+                    YearlyTotal(read: books.count, year: num)
                 }
+                YearlyAverageRating(books: books)
+            case .reading:
+                EmptyView()
+            case .tbr:
+                EmptyView()
             }
-            YearlyAverageRating(books: books)
         }
         .padding(.vertical)
         .background(Color(uiColor: .systemBackground))
@@ -188,6 +257,8 @@ struct ReadingProgress_Previews : PreviewProvider {
         VStack {
             ReadingProgress(year: .year(2022))
             ReadingProgress(year: .year(2023))
+            ReadingProgress(year: .tbr)
+            ReadingProgress(year: .reading)
         }
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }

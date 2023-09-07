@@ -62,7 +62,7 @@ struct NavBarView: View {
 //                    .tabItem{
 //                        Label("Goals", systemImage: "chart.line.uptrend.xyaxis")
 //                    }
-                DataView()
+                DataViewV2()
                     .tabItem{
                         Label("Books", systemImage: "books.vertical")
                     }

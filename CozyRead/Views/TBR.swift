@@ -23,14 +23,14 @@ struct SelectBookSheet : View {
         if addBook {
             TBRForm()
         } else {
-            VStack {
-                SearchBar(searchText: $searchText)
-                
+            NavigationStack {
                 List {
                     Section("TBR") {
                         let tbr = books.filter{ $0.year == .tbr }.filter{ (book: BookCSVData) in
-                            book.title.lowercased().hasPrefix(searchText.lowercased()) ||
-                            book.author.lowercased().hasPrefix(searchText.lowercased())
+                            searchText.isEmpty ||
+                            book.title.localizedCaseInsensitiveContains(searchText) ||
+                            book.author.localizedCaseInsensitiveContains(searchText) ||
+                            book.series?.localizedCaseInsensitiveContains(searchText) == true
                         }
                         ForEach(tbr, id: \.self) { book in
                             HStack(spacing: 10) {
@@ -85,6 +85,7 @@ struct SelectBookSheet : View {
                     Label("Add", systemImage: "plus")
                 }
             }
+            .searchable(text: $searchText)
             .padding()
         }
     }

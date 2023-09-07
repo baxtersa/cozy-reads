@@ -24,7 +24,10 @@ struct Overview : View {
             
             Spacer()
             Picker("Year", selection: $overviewYear) {
-                ForEach(years) { year in
+                ForEach(years.filter{
+                    guard case .year = $0 else { return false }
+                    return true
+                }) { year in
                     Text(year.description)
                 }
             }

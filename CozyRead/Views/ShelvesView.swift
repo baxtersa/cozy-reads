@@ -61,42 +61,46 @@ struct ShelvesView : View {
 //                }
             }
 
-            Picker("Filter by", selection: $categoryFilter) {
-                ForEach(Category.allCases, id: \.self) { filter in
-                    Text(filter.rawValue.capitalized)
-                }
-            }
-            .pickerStyle(.segmented)
-            
-            TagToggles(tags: $tagFilter)
-                .padding()
-                .background {
-                    RoundedRectangle(cornerRadius: 10).fill(.ultraThinMaterial)
-                }
-
             NavigationStack {
-                ScrollView {
-                    switch categoryFilter {
-                    case .author:
-                        let dict = Dictionary(grouping: books, by: {
-                            $0.author
-                        })
-                        AuthorGraphs(books: dict, year: $year)
-                    case .genre:
-                        let dict = Dictionary(grouping: books, by: {
-                            $0.genre
-                        })
-                        GenreGraphs(books: dict, year: $year)
-                    case .year:
-                        let dict = Dictionary(grouping: books, by: {
-                            $0.year
-                        })
-                        YearlyGraphs(books: dict)
+                Picker("Filter by", selection: $categoryFilter) {
+                    ForEach(Category.allCases, id: \.self) { filter in
+                        Text(filter.rawValue.capitalized)
                     }
+                }
+                .pickerStyle(.segmented)
+
+                ScrollView {
+                    TagToggles(tags: $tagFilter)
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 10).fill(.ultraThinMaterial)
+                        }
+
+                    VStack {
+                        switch categoryFilter {
+                        case .author:
+                            let dict = Dictionary(grouping: books, by: {
+                                $0.author
+                            })
+                            AuthorGraphs(books: dict, year: $year)
+                        case .genre:
+                            let dict = Dictionary(grouping: books, by: {
+                                $0.genre
+                            })
+                            GenreGraphs(books: dict, year: $year)
+                        case .year:
+                            let dict = Dictionary(grouping: books, by: {
+                                $0.year
+                            })
+                            YearlyGraphs(books: dict, year: .year(currentYear))
+                        }
+                    }
+                    .padding(.horizontal)
                 }
             }
             .animation(.linear, value: categoryFilter)
             .animation(.linear, value: tagFilter)
+            .frame(maxWidth: .infinity)
         }
         .frame(maxHeight: .infinity, alignment: .top)
         .padding(.horizontal)

@@ -63,6 +63,9 @@ struct Graph<Data: RandomAccessCollection, ID: Hashable, Content: ChartContent, 
                     AxisMarks(values: .automatic) { value in
                         AxisValueLabel()
                     }
+                    AxisMarks(values: .stride(by: .month)) { value in
+                        AxisValueLabel()
+                    }
                 }
                 .chartYAxis {
                     AxisMarks(values: .automatic) { value in
@@ -75,7 +78,6 @@ struct Graph<Data: RandomAccessCollection, ID: Hashable, Content: ChartContent, 
         .background {
             RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground))
         }
-        .padding(.horizontal)
         .shadow(color: Color("ShadowColor"), radius: 10, x: 3, y: 5)
     }
 }
