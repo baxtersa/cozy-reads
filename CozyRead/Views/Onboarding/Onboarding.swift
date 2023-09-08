@@ -113,7 +113,8 @@ struct ProfileSelection : View {
                                         .font(.title)
                                 }
                             } else {
-                                Text("Check out the shop to unlock multiple profiles!")
+                                Text("Check out the shop to unlock multiple profiles and additional themes!")
+                                    .multilineTextAlignment(.center)
                                 
                                 NavigationLink {
                                     StoreView()

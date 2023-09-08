@@ -9,9 +9,6 @@ import Foundation
 import SwiftUI
 
 struct Overview : View {
-    @Environment(\.profile) private var profile
-    @Environment(\.profileColor) private var profileColor
-
     let years: [Year]
     @Binding var overviewYear: Year
 
@@ -31,9 +28,6 @@ struct Overview : View {
                     Text(year.description)
                 }
             }
-        }
-        .onChange(of: profileColor) { value in
-            print("color changed", value.description)
         }
     }
 }

@@ -86,7 +86,7 @@ struct YearlyGraphs : View {
                let startDate = Calendar.current.date(from: DateComponents(year: num)),
                let nextYear = Calendar.current.date(byAdding: .year, value: 1, to: startDate),
                let endDate = Calendar.current.date(byAdding: .day, value: -1, to: nextYear) {
-                Graph(title: "\(year.description) Progress", subtitle: subtitle, data: dict, id: \.key) { components, books in
+                Graph(title: "\(year.description) Progress", subtitle: subtitle.padding(.leading), data: dict, id: \.key) { components, books in
                     if let date = Calendar.current.date(from: components) {
                         let xp: PlottableValue = .value("Month", date, unit: .month)
                         let count = thisYear.reduce(0, { acc, book in
@@ -120,7 +120,7 @@ struct YearlyGraphs : View {
 
                     Spacer()
 
-                    Text("\(books.compactMap{ $1.count }.reduce(0, { acc, count in acc + count }))")
+                    Text("All-time: \(books.compactMap{ $1.count }.reduce(0, { acc, count in acc + count }))")
                     Image(systemName: "book")
                 }
                 .padding(.horizontal)

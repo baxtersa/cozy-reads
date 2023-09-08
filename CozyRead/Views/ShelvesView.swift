@@ -73,7 +73,7 @@ struct ShelvesView : View {
                     TagToggles(tags: $tagFilter)
                         .padding()
                         .background {
-                            RoundedRectangle(cornerRadius: 10).fill(.ultraThinMaterial)
+                            RoundedRectangle(cornerRadius: 10).fill(Color(uiColor: .secondarySystemBackground))
                         }
 
                     VStack {

@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import struct SwiftUI.Color
 
 class CozyReadPersistentContainer : NSPersistentCloudKitContainer {
     let loginTime = UserDefaults.standard.bool(forKey: Onboarding.Constants.defaultProfile)
@@ -32,6 +33,7 @@ struct PersistenceController {
         let profile = ProfileEntity(context: viewContext)
         profile.uuid = UUID()
         profile.name = "Sam"
+        profile.color = SerializableColor(from: Color.blue)
         UserDefaults.standard.setValue(profile.uuid.uuidString, forKey: Onboarding.Constants.defaultProfile)
         
         let goal = YearlyGoalEntity(context: viewContext)

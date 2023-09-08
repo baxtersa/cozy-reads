@@ -102,7 +102,7 @@ struct YearlyGoalProgress : View {
                     Button(role: .destructive) {
                         viewContext.delete(target)
                     } label: {
-                        Label("Delete", systemImage: "trash")
+                        Text("Delete")
                     }
                     .tint(.red)
                     .foregroundColor(.red)

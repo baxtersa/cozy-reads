@@ -73,6 +73,7 @@ struct DataViewV2 : View {
                                         .italic()
                                 }
                             }
+                            .padding(.vertical, 10)
                         }
                     }
                 }
