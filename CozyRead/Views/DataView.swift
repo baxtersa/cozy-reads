@@ -31,49 +31,57 @@ struct DataViewV2 : View {
 
     @State private var ratingFilter: Int = 0
     
+    @State private var dict: [Dictionary<Year, [BookCSVData]>.Element] = []
+    
     var body: some View {
-        let books = books.filter{ $0.profile == profile.wrappedValue }
-            .filter{
-                searchText.isEmpty ||
-                $0.title.lowercased().contains(searchText.lowercased()) ||
-                $0.author.lowercased().contains(searchText.lowercased()) ||
-                $0.series?.lowercased().contains(searchText.lowercased()) == true
-            }
-        let dict = Dictionary(grouping: books, by: \.year)
-            .sorted(by: { $0.key > $1.key })
-            .filter{ !$1.isEmpty }
-            .flatMap{
-                [$0: $1.sorted(by: {
-                    if case .tbr = $0.year,
-                       case .tbr = $1.year {
-                        return $0.dateAdded ?? .now > $1.dateAdded ?? .now
-                    }
-                    if $0.dateCompleted != nil,
-                       $1.dateCompleted == nil {
-                        return true
-                    }
-                    return $0.dateCompleted ?? .now > $1.dateCompleted ?? .now
-                })]
-            }
-
-        NavigationSplitView {
+        //        NavigationSplitView {
+        NavigationStack {
             VStack {
-                List(dict, id: \.key, selection: $selection) { year, books in
+                List(dict, id: \.key) { year, books in
+                    let _ = print("Updating list")
                     Section(year.description) {
-                        ForEach(books, id: \.self) { book in
-                            VStack(alignment: .leading, spacing: 10) {
-                                Text(book.title)
-                                HStack {
-                                    if let series = book.series {
-                                        Text(series)
-                                            .font(.system(.caption))
+                        ForEach(books, id: \.id) { book in
+                            NavigationLink {
+                                DataCardView(book: .constant(book))
+                                //                    .animation(.easeInOut, value: selection)
+                                    .toolbar {
+                                        HStack {
+                                            Button {
+                                                formMode = .edit
+                                                editBook = book
+                                            } label: {
+                                                Label("Edit", systemImage: "pencil")
+                                                    .frame(height: 20)
+                                            }
+                                            .tint(.orange)
+                                            
+                                            Button(role: .destructive) {
+                                                viewContext.delete(book)
+                                                selection = nil
+                                                PersistenceController.shared.save()
+                                            } label: {
+                                                Label("Trash", systemImage: "trash")
+                                                    .frame(height: 20)
+                                            }
+                                            .tint(.red)
+                                        }
+                                        .buttonStyle(.bordered)
                                     }
-                                    Spacer()
-                                    Text("by \(book.author)")
-                                        .italic()
+                            } label: {
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Text(book.title)
+                                    HStack {
+                                        if let series = book.series {
+                                            Text(series)
+                                                .font(.system(.caption))
+                                        }
+                                        Spacer()
+                                        Text("by \(book.author)")
+                                            .italic()
+                                    }
                                 }
+                                .padding(.vertical, 10)
                             }
-                            .padding(.vertical, 10)
                         }
                     }
                 }
@@ -114,41 +122,93 @@ struct DataViewV2 : View {
                 }
             }
             .onChange(of: formMode) { _ in () }
-        } detail: {
-            if let book = selection {
-                DataCardView(book: .constant(book))
-//                    .animation(.easeInOut, value: selection)
-                    .toolbar {
-                        HStack {
-                            Button {
-                                formMode = .edit
-                                editBook = selection
-                            } label: {
-                                Label("Edit", systemImage: "pencil")
-                                    .frame(height: 20)
-                            }
-                            .tint(.orange)
-                            
-                            Button(role: .destructive) {
-                                viewContext.delete(book)
-                                selection = nil
-                                PersistenceController.shared.save()
-                            } label: {
-                                Label("Trash", systemImage: "trash")
-                                    .frame(height: 20)
-                            }
-                            .tint(.red)
-                        }
-                        .buttonStyle(.bordered)
-                    }
-            } else {
-                Text("Select a book")
-                    .font(.system(.title))
-                    .italic()
-            }
+            //
         }
+//        } detail: {
+//            if let book = books.first(where: { $0.id == selection }) {
+//                DataCardView(book: .constant(book))
+////                    .animation(.easeInOut, value: selection)
+//                    .toolbar {
+//                        HStack {
+//                            Button {
+//                                formMode = .edit
+//                                editBook = book
+//                            } label: {
+//                                Label("Edit", systemImage: "pencil")
+//                                    .frame(height: 20)
+//                            }
+//                            .tint(.orange)
+//
+//                            Button(role: .destructive) {
+//                                viewContext.delete(book)
+//                                selection = nil
+//                                PersistenceController.shared.save()
+//                            } label: {
+//                                Label("Trash", systemImage: "trash")
+//                                    .frame(height: 20)
+//                            }
+//                            .tint(.red)
+//                        }
+//                        .buttonStyle(.bordered)
+//                    }
+//            } else {
+//                Text("Select a book")
+//                    .font(.system(.title))
+//                    .italic()
+//            }
+//        }
         .padding(.horizontal)
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .onAppear {
+            let books = books.filter{ $0.profile == profile.wrappedValue }
+                .filter{
+                    searchText.isEmpty ||
+                    $0.title.lowercased().contains(searchText.lowercased()) ||
+                    $0.author.lowercased().contains(searchText.lowercased()) ||
+                    $0.series?.lowercased().contains(searchText.lowercased()) == true
+                }
+            dict = Dictionary(grouping: books, by: \.year)
+                .sorted(by: { $0.key > $1.key })
+                .filter{ !$1.isEmpty }
+                .flatMap{
+                    [$0: $1.sorted(by: {
+                        if case .tbr = $0.year,
+                           case .tbr = $1.year {
+                            return $0.dateAdded ?? .now > $1.dateAdded ?? .now
+                        }
+                        if $0.dateCompleted != nil,
+                           $1.dateCompleted == nil {
+                            return true
+                        }
+                        return $0.dateCompleted ?? .now > $1.dateCompleted ?? .now
+                    })]
+                }
+        }
+        .onChange(of: searchText) { _ in
+            let books = books.filter{ $0.profile == profile.wrappedValue }
+                .filter{
+                    searchText.isEmpty ||
+                    $0.title.lowercased().contains(searchText.lowercased()) ||
+                    $0.author.lowercased().contains(searchText.lowercased()) ||
+                    $0.series?.lowercased().contains(searchText.lowercased()) == true
+                }
+            dict = Dictionary(grouping: books, by: \.year)
+                .sorted(by: { $0.key > $1.key })
+                .filter{ !$1.isEmpty }
+                .flatMap{
+                    [$0: $1.sorted(by: {
+                        if case .tbr = $0.year,
+                           case .tbr = $1.year {
+                            return $0.dateAdded ?? .now > $1.dateAdded ?? .now
+                        }
+                        if $0.dateCompleted != nil,
+                           $1.dateCompleted == nil {
+                            return true
+                        }
+                        return $0.dateCompleted ?? .now > $1.dateCompleted ?? .now
+                    })]
+                }
+        }
     }
 }
 
