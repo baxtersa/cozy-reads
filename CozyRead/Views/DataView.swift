@@ -34,40 +34,40 @@ struct DataViewV2 : View {
     @State private var dict: [Dictionary<Year, [BookCSVData]>.Element] = []
     
     var body: some View {
-        //        NavigationSplitView {
-        NavigationStack {
+                NavigationSplitView {
+//        NavigationStack {
             VStack {
-                List(dict, id: \.key) { year, books in
+                List(dict, id: \.key, selection: $selection) { year, books in
                     let _ = print("Updating list")
                     Section(year.description) {
-                        ForEach(books, id: \.id) { book in
-                            NavigationLink {
-                                DataCardView(book: .constant(book))
-                                //                    .animation(.easeInOut, value: selection)
-                                    .toolbar {
-                                        HStack {
-                                            Button {
-                                                formMode = .edit
-                                                editBook = book
-                                            } label: {
-                                                Label("Edit", systemImage: "pencil")
-                                                    .frame(height: 20)
-                                            }
-                                            .tint(.orange)
-                                            
-                                            Button(role: .destructive) {
-                                                viewContext.delete(book)
-                                                selection = nil
-                                                PersistenceController.shared.save()
-                                            } label: {
-                                                Label("Trash", systemImage: "trash")
-                                                    .frame(height: 20)
-                                            }
-                                            .tint(.red)
-                                        }
-                                        .buttonStyle(.bordered)
-                                    }
-                            } label: {
+                        ForEach(books, id: \.self) { book in
+//                            NavigationLink {
+//                                DataCardView(book: .constant(book))
+//                                //                    .animation(.easeInOut, value: selection)
+//                                    .toolbar {
+//                                        HStack {
+//                                            Button {
+//                                                formMode = .edit
+//                                                editBook = book
+//                                            } label: {
+//                                                Label("Edit", systemImage: "pencil")
+//                                                    .frame(height: 20)
+//                                            }
+//                                            .tint(.orange)
+//
+//                                            Button(role: .destructive) {
+//                                                viewContext.delete(book)
+//                                                selection = nil
+//                                                PersistenceController.shared.save()
+//                                            } label: {
+//                                                Label("Trash", systemImage: "trash")
+//                                                    .frame(height: 20)
+//                                            }
+//                                            .tint(.red)
+//                                        }
+//                                        .buttonStyle(.bordered)
+//                                    }
+//                            } label: {
                                 VStack(alignment: .leading, spacing: 10) {
                                     Text(book.title)
                                     HStack {
@@ -81,7 +81,7 @@ struct DataViewV2 : View {
                                     }
                                 }
                                 .padding(.vertical, 10)
-                            }
+//                            }
                         }
                     }
                 }
@@ -123,40 +123,40 @@ struct DataViewV2 : View {
             }
             .onChange(of: formMode) { _ in () }
             //
-        }
-//        } detail: {
-//            if let book = books.first(where: { $0.id == selection }) {
-//                DataCardView(book: .constant(book))
-////                    .animation(.easeInOut, value: selection)
-//                    .toolbar {
-//                        HStack {
-//                            Button {
-//                                formMode = .edit
-//                                editBook = book
-//                            } label: {
-//                                Label("Edit", systemImage: "pencil")
-//                                    .frame(height: 20)
-//                            }
-//                            .tint(.orange)
-//
-//                            Button(role: .destructive) {
-//                                viewContext.delete(book)
-//                                selection = nil
-//                                PersistenceController.shared.save()
-//                            } label: {
-//                                Label("Trash", systemImage: "trash")
-//                                    .frame(height: 20)
-//                            }
-//                            .tint(.red)
-//                        }
-//                        .buttonStyle(.bordered)
-//                    }
-//            } else {
-//                Text("Select a book")
-//                    .font(.system(.title))
-//                    .italic()
-//            }
 //        }
+        } detail: {
+            if let book = selection {
+                DataCardView(book: .constant(book))
+//                    .animation(.easeInOut, value: selection)
+                    .toolbar {
+                        HStack {
+                            Button {
+                                formMode = .edit
+                                editBook = book
+                            } label: {
+                                Label("Edit", systemImage: "pencil")
+                                    .frame(height: 20)
+                            }
+                            .tint(.orange)
+
+                            Button(role: .destructive) {
+                                viewContext.delete(book)
+                                selection = nil
+                                PersistenceController.shared.save()
+                            } label: {
+                                Label("Trash", systemImage: "trash")
+                                    .frame(height: 20)
+                            }
+                            .tint(.red)
+                        }
+                        .buttonStyle(.bordered)
+                    }
+            } else {
+                Text("Select a book")
+                    .font(.system(.title))
+                    .italic()
+            }
+        }
         .padding(.horizontal)
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         .onAppear {
@@ -350,8 +350,8 @@ struct DataView_Previews : PreviewProvider {
     }()
 
     static var previews: some View {
-        DataView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//        DataView()
+//            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
         DataViewV2()
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
