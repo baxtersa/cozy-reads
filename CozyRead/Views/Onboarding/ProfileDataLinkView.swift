@@ -13,8 +13,6 @@ struct ProfileDataLinkView : View {
     @Environment(\.profileColor) private var profileColor
     @Environment(\.dismiss) private var dismiss
 
-    @State private var editMode: EditMode = .active
-
     let profile: ProfileEntity
 
     @FetchRequest(fetchRequest: BookCSVData.fetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "profile == nil")))
@@ -62,6 +60,7 @@ struct ProfileDataLinkView : View {
                         } label: {
                             Label("Delete", systemImage: "trash")
                                 .labelStyle(.titleAndIcon)
+                                .tint(.red)
                         }
                         .disabled(selectedBooks.isEmpty)
                     }
@@ -77,7 +76,7 @@ struct ProfileDataLinkView : View {
                                 Label("Select All", systemImage: "checkmark.circle")
                                     .labelStyle(.titleAndIcon)
                             } else {
-                                Label("Unelect All", systemImage: "xmark.circle")
+                                Label("Unselect All", systemImage: "xmark.circle")
                                     .labelStyle(.titleAndIcon)
                             }
 
@@ -85,7 +84,7 @@ struct ProfileDataLinkView : View {
                         .disabled(books.isEmpty)
                     }
                 }
-                .environment(\.editMode, $editMode)
+                .environment(\.editMode, .constant(.active))
                 .listStyle(.plain)
 
                 HStack {
@@ -126,7 +125,9 @@ struct ProfileDataLinkView_Previews : PreviewProvider {
     }()
 
     static var previews: some View {
-        ProfileDataLinkView(profile: profile)
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        NavigationStack {
+            ProfileDataLinkView(profile: profile)
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        }
     }
 }

@@ -38,11 +38,26 @@ struct TagToggles : View {
                         .toggleStyle(.button)
                         .buttonStyle(.borderedProminent)
                 }
-                AddTag(newTag: $newTag)
-                    .onSubmit {
-                        tags.append(ToggleState(tag: newTag, state: true))
-                        newTag.removeAll()
+                HStack {
+                    AddTag(newTag: $newTag)
+                        .onSubmit {
+                            tags.append(ToggleState(tag: newTag, state: true))
+                            newTag.removeAll()
+                        }
+                    let selectAll = tags.contains{ !$0.state }
+                    Button {
+                        if selectAll {
+                            $tags.forEach{ $0.wrappedValue.state = true }
+                        } else {
+                            $tags.forEach{ $0.wrappedValue.state = false }
+                        }
+                    } label: {
+                        let label = selectAll ?
+                        "Select All" : "Unselect All"
+                        Text(label)
                     }
+                }
+                .buttonStyle(.bordered)
             }
         }
     }
