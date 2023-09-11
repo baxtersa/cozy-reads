@@ -120,7 +120,7 @@ struct YearlyGraphs : View {
 
                     Spacer()
 
-                    Text("All-time: \(books.compactMap{ $1.count }.reduce(0, { acc, count in acc + count }))")
+                    Text("All-time: \(completed.compactMap{ $1.count }.reduce(0, { acc, count in acc + count }))")
                     Image(systemName: "book")
                 }
                 .padding(.horizontal)
