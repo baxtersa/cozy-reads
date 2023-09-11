@@ -45,7 +45,7 @@ fileprivate struct ConfirmButtons: View {
     @Binding var readType: ReadType
     @Binding var year: Year
     @Binding var completedDate: Date
-    @Binding var rating: Int
+    @Binding var rating: Double
 
     @Binding var tags: [TagToggles.ToggleState]
     @Binding var coverId: Int?
@@ -141,7 +141,7 @@ struct TBRForm : View {
     @State var readType: ReadType = .owned_physical
     @State var year: Year = .tbr
     @State var completedDate: Date = .now
-    @State var rating: Int = 0
+    @State var rating: Double = 0
 
     @State var tags = BookCSVData.defaultTags.map{TagToggles.ToggleState(tag: $0)}
     @State private var coverId: Int? = nil

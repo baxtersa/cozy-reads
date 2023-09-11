@@ -8,8 +8,65 @@
 import Foundation
 import SwiftUI
 
+private struct Selected : View {
+    @Environment(\.profileColor) private var profileColor
+
+    @Binding var selection: Double?
+
+    let numerator: Int
+    let denominator: Int
+
+    private var value: Double {
+        Double(numerator) / Double(denominator)
+    }
+    
+    var body: some View {
+        Group {
+            if selection == value {
+                Text("\(numerator)/\(denominator)")
+                    .padding()
+                    .background {
+                        Circle()
+                            .fill(profileColor)
+                    }
+                    .foregroundColor(.white)
+                    .onTapGesture {
+                        selection = nil
+                    }
+            } else {
+                Text("\(numerator)/\(denominator)")
+                    .padding()
+                    .background {
+                        Circle()
+                            .inset(by: 2.5)
+                            .stroke(profileColor, lineWidth: 5)
+                    }
+                    .onTapGesture {
+                        selection = value
+                    }
+            }
+        }
+        .font(.system(.title3))
+    }
+}
+
+struct QuarterStars : View {
+    let configuration: RatingStyleConfiguration
+    
+    @State private var selection: Double? = nil
+    
+    var body: some View {
+        HStack {
+            Selected(selection: $selection, numerator: 1, denominator: 4)
+            Selected(selection: $selection, numerator: 1, denominator: 2)
+            Selected(selection: $selection, numerator: 3, denominator: 4)
+        }
+        .padding()
+    }
+}
+
 struct RatingStyleConfiguration {
-    @Binding var rating: Int
+    @Binding var rating: Double
     let maxRating = 5
 }
 
@@ -31,14 +88,15 @@ private struct InternalRating : View {
                 Image(systemName: "star")
                     .resizable()
                     .scaledToFit()
-                    .symbolVariant(value <= configuration.rating ? .fill : .none)
+                    .symbolVariant(Double(value) <= configuration.rating ? .fill : .none)
                     .contentShape(Circle())
                     .onTapGesture {
-                        if value != configuration.rating {
-                            configuration.rating = value
+                        if Double(value) != configuration.rating {
+                            configuration.rating = Double(value)
                         } else {
                             configuration.rating = 0
                         }
+                        let _ = print("tapped: ", configuration.rating, value)
                     }
                     .onLongPressGesture {
                         longTap.toggle()
@@ -46,9 +104,8 @@ private struct InternalRating : View {
             }
         }
         // TODO: Get quarter/half star ratings working
-//        .popover(isPresented: $longTap, arrowEdge: .top) {
-//            let view = Text("Popover")
-//                .foregroundColor(.blue)
+//        .popover(isPresented: $longTap) {
+//            let view = QuarterStars(configuration: configuration)
 //
 //            if #available(iOS 16.4, *) {
 //                view.presentationCompactAdaptation(.popover)
@@ -71,7 +128,7 @@ struct GradientRatingStyle : RatingStyle {
                             Image(systemName: "star")
                                 .resizable()
                                 .scaledToFit()
-                                .symbolVariant(value <= configuration.rating ? .fill : .none)
+                                .symbolVariant(Double(value) <= configuration.rating ? .fill : .none)
                         }
                     }
                 }
@@ -123,7 +180,7 @@ extension View {
 
 struct StarRating: View {
     @Environment(\.ratingStyle) var style
-    @Binding var rating: Int
+    @Binding var rating: Double
 
     var body: some View {
         style.makeBody(configuration: RatingStyleConfiguration(rating: $rating))
@@ -131,9 +188,11 @@ struct StarRating: View {
 }
 
 struct StarRating_Previews : PreviewProvider {
-    @State static private var rating: Int = 0
+    @State static private var rating: Double = 0
     
     static var previews: some View {
         StarRating(rating: $rating)
+        
+        QuarterStars(configuration: RatingStyleConfiguration(rating: $rating))
     }
 }

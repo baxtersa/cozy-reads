@@ -39,7 +39,8 @@ struct DataViewV2 : View {
             VStack {
                 List(dict, id: \.key, selection: $selection) { year, books in
                     let _ = print("Updating list")
-                    Section(year.description) {
+                    DisclosureGroup {
+//                    Section(year.description) {
                         ForEach(books, id: \.self) { book in
 //                            NavigationLink {
 //                                DataCardView(book: .constant(book))
@@ -83,6 +84,9 @@ struct DataViewV2 : View {
                                 .padding(.vertical, 10)
 //                            }
                         }
+                    } label: {
+                        Text(year.description)
+                            .foregroundColor(Color(uiColor: .secondaryLabel))
                     }
                 }
                 .scrollContentBackground(.hidden)

@@ -20,7 +20,7 @@ struct CurrentlyReadingTile : View {
     let book: BookCSVData
     
     @State private var expand: Bool = false
-    @State private var rating: Int = 0
+    @State private var rating: Double = 0
     
     var body: some View {
         VStack(spacing: 10) {

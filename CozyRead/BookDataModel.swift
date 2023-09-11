@@ -148,7 +148,7 @@ public class BookCSVData : NSManagedObject, InitFromDictionary, Identifiable {
     @NSManaged public var author: String
     @NSManaged public var series: String?
 
-    @NSManaged public var rating: NSInteger
+    @NSManaged public var rating: Double
     @NSManaged public var dateAdded: Date?
     @NSManaged public var dateCompleted: Date?
     @NSManaged public var dateStarted: Date?
@@ -207,7 +207,7 @@ public class BookCSVData : NSManagedObject, InitFromDictionary, Identifiable {
         let entity = NSEntityDescription.entity(forEntityName: "BookCSVData", in: context)!
         self.init(entity: entity, insertInto: context)
 
-        let rating = Int(from["Rating"] ?? "0") ?? 0
+        let rating = Double(from["Rating"] ?? "0") ?? 0
         
         if let tags = from["Tags"] {
             self.tags = tags.split(separator: ",").map{String($0)}
