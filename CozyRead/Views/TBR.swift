@@ -55,6 +55,10 @@ struct SelectBookSheet : View {
                                     Text(book.title)
                                         .font(.system(.title3))
                                     HStack {
+                                        if let series = book.series {
+                                            Text(series)
+                                                .font(.system(.caption))
+                                        }
                                         Spacer()
                                         Text("by \(book.author)")
                                             .italic()

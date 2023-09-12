@@ -80,7 +80,7 @@ protocol RatingStyle {
 private struct InternalRating : View {
     let configuration: RatingStyleConfiguration
     
-    @State private var longTap: Bool = false
+    @State private var longTap: Bool = true
     
     var body: some View {
         HStack {

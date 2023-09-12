@@ -22,6 +22,8 @@
 		D31963A42A7ACC2C002A685E /* MonthlyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31963A32A7ACC2C002A685E /* MonthlyGoalsView.swift */; };
 		D32BACE32A8E646100CBFB41 /* TagToggles.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32BACE22A8E646100CBFB41 /* TagToggles.swift */; };
 		D32BACE52A8E681200CBFB41 /* FlexBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32BACE42A8E681200CBFB41 /* FlexBox.swift */; };
+		D32FC2052AB0A82100334627 /* BookPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC2042AB0A82100334627 /* BookPage.swift */; };
+		D32FC2092AB0ACF700334627 /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC2082AB0ACF700334627 /* BookList.swift */; };
 		D33BC9D22AA91D0F00D4208C /* ReadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33BC9D12AA91D0F00D4208C /* ReadingList.swift */; };
 		D33BC9D42AAA132400D4208C /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33BC9D32AAA132400D4208C /* SearchBar.swift */; };
 		D341C9C52A9CE0460049F71C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D341C9C42A9CE0450049F71C /* StoreKit.framework */; };
@@ -100,6 +102,8 @@
 		D31963A32A7ACC2C002A685E /* MonthlyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyGoalsView.swift; sourceTree = "<group>"; };
 		D32BACE22A8E646100CBFB41 /* TagToggles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagToggles.swift; sourceTree = "<group>"; };
 		D32BACE42A8E681200CBFB41 /* FlexBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexBox.swift; sourceTree = "<group>"; };
+		D32FC2042AB0A82100334627 /* BookPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookPage.swift; sourceTree = "<group>"; };
+		D32FC2082AB0ACF700334627 /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
 		D33BC9D12AA91D0F00D4208C /* ReadingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingList.swift; sourceTree = "<group>"; };
 		D33BC9D32AAA132400D4208C /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		D341C9C42A9CE0450049F71C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -185,6 +189,7 @@
 		D31963942A79AF92002A685E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D32FC2042AB0A82100334627 /* BookPage.swift */,
 				D33BC9D12AA91D0F00D4208C /* ReadingList.swift */,
 				D3698A9E2AA90856000E69EE /* ReadingProgress.swift */,
 				D3698A9C2AA9012A000E69EE /* TBR.swift */,
@@ -246,6 +251,7 @@
 		D341C9CF2A9CE9CD0049F71C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D32FC2082AB0ACF700334627 /* BookList.swift */,
 				D33BC9D32AAA132400D4208C /* SearchBar.swift */,
 				D3A368892AA101B3004F92E5 /* ProfileColorPicker.swift */,
 				D3C048892A9FBDE1004C10B1 /* Graph.swift */,
@@ -498,6 +504,7 @@
 				D3C0488E2AA0E9B1004C10B1 /* YearlyGraphs.swift in Sources */,
 				D35FEA022A79ADB2002B1987 /* Persistence.swift in Sources */,
 				D31963A02A7AC73F002A685E /* GoalsView.swift in Sources */,
+				D32FC2092AB0ACF700334627 /* BookList.swift in Sources */,
 				D31963982A7AA6AE002A685E /* DashboardView.swift in Sources */,
 				D341C9DE2A9E82B30049F71C /* StoryReel.swift in Sources */,
 				D32BACE52A8E681200CBFB41 /* FlexBox.swift in Sources */,
@@ -537,6 +544,7 @@
 				D33BC9D42AAA132400D4208C /* SearchBar.swift in Sources */,
 				D341C9D82A9D20E90049F71C /* YearlyGoalEntity+CoreDataProperties.swift in Sources */,
 				D3531B8F2A828A40001A49BC /* DataView.swift in Sources */,
+				D32FC2052AB0A82100334627 /* BookPage.swift in Sources */,
 				D341C9D42A9CFB310049F71C /* StoreItem.swift in Sources */,
 				D32BACE32A8E646100CBFB41 /* TagToggles.swift in Sources */,
 				D374E95A2A7C429700FF9E9F /* TBRForm.swift in Sources */,

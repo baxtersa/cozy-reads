@@ -9,6 +9,46 @@ import Charts
 import Foundation
 import SwiftUI
 
+struct MostRead : View {
+    let completed: [String:[BookCSVData]]
+
+    var body: some View {
+        let completed = completed
+            .sorted(by: { $0.value.count > $1.value.count })
+
+        let authorCounts = completed.flatMap{ author, books in
+            [author:Double(books.count)]
+        }
+        
+        let topFive = authorCounts.prefix(5)
+        let topFiveBooks = completed.prefix(5)
+        NavigationLink {
+            BookList(data: Array(topFiveBooks), sectionTitle: { $0 }) { book in
+                VStack(alignment: .leading) {
+                    Text(book.title)
+                        .font(.system(.title3))
+                    if let series = book.series {
+                        Text(series)
+                            .font(.system(.caption))
+                    }
+                }
+            }
+        } label: {
+            Graph(title: "Most Read Authors", data: topFive, id: \.key) { author, count in
+                let xp: PlottableValue = .value("Count", count)
+                let yp: PlottableValue = .value("Author", author)
+                BarMark(x: xp, y: yp, width: 10)
+                    .annotation(position: AnnotationPosition.trailing) {
+                        Text(String(Int(count)))
+                    }
+                    .foregroundStyle(by: yp)
+            }
+            .chartXAxis(.hidden)
+            .frame(height: 250)
+        }
+    }
+}
+
 struct AuthorGraphs : View {
     @Environment(\.profileColor) private var profileColor
     
@@ -23,36 +63,10 @@ struct AuthorGraphs : View {
     var body: some View {
         let completed = completed
             .sorted(by: { $0.value.count > $1.value.count })
-        let authorCounts = completed.flatMap{ author, books in
-            [author:Double(books.count)]
-        }
 
         VStack {
-            let topFive = authorCounts.prefix(5)
-            let topFiveBooks = completed.prefix(5)
-            NavigationLink {
-                List(topFiveBooks, id: \.key) { author, books in
-                    Section(author) {
-                        ForEach(books) { book in
-                            Text(book.title)
-                        }
-                    }
-                }
-                .scrollContentBackground(.hidden)
-            } label: {
-                Graph(title: "Most Read Authors", data: topFive, id: \.key) { author, count in
-                    let xp: PlottableValue = .value("Count", count)
-                    let yp: PlottableValue = .value("Author", author)
-                    BarMark(x: xp, y: yp, width: 10)
-                        .annotation(position: AnnotationPosition.trailing) {
-                            Text(String(Int(count)))
-                        }
-                        .foregroundStyle(by: yp)
-                }
-                .chartXAxis(.hidden)
-                .frame(height: 250)
-            }
-
+            MostRead(completed: self.completed)
+            
             let sortedByRating = completed.sorted(by: { first, second in
                 let avg1 = first.value.reduce(0.0, { acc, book in
                     acc + Float(book.rating) / Float(first.value.count)
@@ -68,20 +82,23 @@ struct AuthorGraphs : View {
                 }))]
             }
             NavigationLink {
-                List(sortedByRating, id: \.key) { author, books in
-                    Section(author) {
-                        ForEach(books.sorted(by: { $0.rating > $1.rating })) { book in
-                            HStack {
-                                Text(book.title)
-                                Spacer()
-                                StarRating(rating: .constant(book.rating))
-                                    .ratingStyle(SolidRatingStyle(color: profileColor))
-                                    .fixedSize()
+                BookList(data: Array(sortedByRating), sectionTitle: { $0 }) { book in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(book.title)
+                                .font(.system(.title3))
+                            if let series = book.series {
+                                Text(series)
+                                    .font(.system(.caption))
                             }
                         }
+                        Spacer()
+                        StarRating(rating: .constant(book.rating))
+                            .ratingStyle(SolidRatingStyle(color: profileColor))
+                            .contentShape(Rectangle())
+                            .fixedSize()
                     }
                 }
-                .scrollContentBackground(.hidden)
             } label: {
                 Graph(title: "Highest Rated", data: highestRated, id: \.key) { author, rating in
                     let xp: PlottableValue = .value("Author", author)

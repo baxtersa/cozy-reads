@@ -28,14 +28,22 @@ struct GenreGraphs : View {
 
         VStack {
             NavigationLink {
-                List(completed, id: \.key) { genre, books in
-                    Section(genre.rawValue) {
-                        ForEach(books) { book in
-                            Text(book.title)
+                BookList(data: Array(completed), sectionTitle: { $0.rawValue }) { book in
+                    VStack(alignment: .leading) {
+                        Text(book.title)
+                            .font(.system(.title3))
+                        HStack {
+                            if let series = book.series {
+                                Text(series)
+                                    .font(.system(.caption))
+                            }
+                            Spacer()
+                            Text("by \(book.author)")
+                                .font(.system(.footnote))
+                                .italic()
                         }
                     }
                 }
-                .scrollContentBackground(.hidden)
             } label: {
                 Graph(title: "Books Read", data: data, id: \.key) { genre, count in
                     let xp: PlottableValue = .value("Genre", genre.rawValue)
@@ -49,20 +57,23 @@ struct GenreGraphs : View {
             }
 
             NavigationLink {
-                List(completed, id: \.key) { genre, books in
-                    Section(genre.rawValue) {
-                        ForEach(books) { book in
-                            HStack {
-                                Text(book.title)
-                                Spacer()
-                                StarRating(rating: .constant(book.rating))
-                                    .ratingStyle(SolidRatingStyle(color: profileColor))
-                                    .fixedSize()
+                BookList(data: completed, sectionTitle: { $0.rawValue }) { book in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(book.title)
+                                .font(.system(.title3))
+                            if let series = book.series {
+                                Text(series)
+                                    .font(.system(.caption))
                             }
                         }
+                        Spacer()
+                        StarRating(rating: .constant(book.rating))
+                            .ratingStyle(SolidRatingStyle(color: profileColor))
+                            .contentShape(Rectangle())
+                            .fixedSize()
                     }
                 }
-                .scrollContentBackground(.hidden)
             } label: {
                 Graph(title: "Average Rating", data: completed, id: \.key) { genre, books in
                     let avg = books.reduce(0, { acc, book in
@@ -93,14 +104,22 @@ struct GenreGraphs : View {
                 let tagBooks = tags.map { tag in
                     (tag, allBooks.filter{ $0.tags.contains(tag) })
                 }
-                List(tagBooks, id: \.0) { tag, books in
-                    Section(tag) {
-                        ForEach(books) { book in
-                            Text(book.title)
+                BookList(data: tagBooks, sectionTitle: { $0 }) { book in
+                    VStack(alignment: .leading) {
+                        Text(book.title)
+                            .font(.system(.title3))
+                        HStack {
+                            if let series = book.series {
+                                Text(series)
+                                    .font(.system(.caption))
+                            }
+                            Spacer()
+                            Text("by \(book.author)")
+                                .font(.system(.footnote))
+                                .italic()
                         }
                     }
                 }
-                .scrollContentBackground(.hidden)
             } label: {
                 Graph(title: "Tags", data: tagCounts, id: \.0) { (tag, count) in
                     let xp: PlottableValue = .value("Tag", tag)
