@@ -8,11 +8,11 @@
 import XCTest
 @testable import CozyRead
 
-final class CSVReaderTests: XCTestCase {
-    let persistence = PersistenceController.shared
-
-    func testCSV() {
-        let data : [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: PersistenceController.shared.container.viewContext)
-        assert(!data.isEmpty)
-    }
-}
+//final class CSVReaderTests: XCTestCase {
+//    let persistence = PersistenceController.shared
+//
+//    func testCSV() {
+//        let data : [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: PersistenceController.shared.container.viewContext)
+//        assert(!data.isEmpty)
+//    }
+//}

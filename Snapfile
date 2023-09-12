@@ -11,6 +11,9 @@
 #   "Apple TV 1080p",
 #   "Apple Watch Series 6 - 44mm"
 # ])
+devices([
+    "iPhone 14"
+])
 
 # languages([
 #   "en-US",
@@ -26,7 +29,7 @@
 # output_directory("./screenshots")
 
 # remove the '#' to clear all previously generated screenshots before creating new ones
-# clear_previous_screenshots(true)
+clear_previous_screenshots(true)
 
 # Remove the '#' to set the status bar to 9:41 AM, and show full battery and reception. See also override_status_bar_arguments for custom options.
 # override_status_bar(true)

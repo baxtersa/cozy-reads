@@ -39,7 +39,6 @@
 		D341C9DE2A9E82B30049F71C /* StoryReel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D341C9DD2A9E82B30049F71C /* StoryReel.swift */; };
 		D3518A642A9638ED00A6BC7B /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3518A632A9638ED00A6BC7B /* Onboarding.swift */; };
 		D3531B812A817CA5001A49BC /* ShelvesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B802A817CA5001A49BC /* ShelvesView.swift */; };
-		D3531B832A81B744001A49BC /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = D3531B822A81B744001A49BC /* data.csv */; };
 		D3531B862A81B7D6001A49BC /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B852A81B7D6001A49BC /* CSVReader.swift */; };
 		D3531B872A81B819001A49BC /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = D3531B822A81B744001A49BC /* data.csv */; };
 		D3531B892A827D93001A49BC /* BookDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3531B882A827D93001A49BC /* BookDataModel.swift */; };
@@ -475,7 +474,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D35FE9FD2A79ADB2002B1987 /* Assets.xcassets in Resources */,
-				D3531B832A81B744001A49BC /* data.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
