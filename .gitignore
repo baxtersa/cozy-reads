@@ -6,3 +6,6 @@ xcuserdata/
 *.xccheckout
 
 .DS_Store
+
+## Fastlane output
+screenshots
