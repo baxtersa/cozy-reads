@@ -57,7 +57,6 @@ struct YearlyGraphs : View {
             .filter{ $0.key == year }
             .flatMap{ $0.value }
             .compactMap{ $0.dateCompleted }
-        let _ = print(thisYear.map{$0})
         if let goal = goals.first(where: { $0.targetYear == year }) {
             Text("\(thisYear.count)/\(goal.goal) books")
         } else {

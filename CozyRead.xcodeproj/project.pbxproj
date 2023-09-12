@@ -24,6 +24,7 @@
 		D32BACE52A8E681200CBFB41 /* FlexBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32BACE42A8E681200CBFB41 /* FlexBox.swift */; };
 		D32FC2052AB0A82100334627 /* BookPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC2042AB0A82100334627 /* BookPage.swift */; };
 		D32FC2092AB0ACF700334627 /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC2082AB0ACF700334627 /* BookList.swift */; };
+		D32FC20B2AB0BF9B00334627 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC20A2AB0BF9B00334627 /* SnapshotHelper.swift */; };
 		D33BC9D22AA91D0F00D4208C /* ReadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33BC9D12AA91D0F00D4208C /* ReadingList.swift */; };
 		D33BC9D42AAA132400D4208C /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33BC9D32AAA132400D4208C /* SearchBar.swift */; };
 		D341C9C52A9CE0460049F71C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D341C9C42A9CE0450049F71C /* StoreKit.framework */; };
@@ -104,6 +105,7 @@
 		D32BACE42A8E681200CBFB41 /* FlexBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexBox.swift; sourceTree = "<group>"; };
 		D32FC2042AB0A82100334627 /* BookPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookPage.swift; sourceTree = "<group>"; };
 		D32FC2082AB0ACF700334627 /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
+		D32FC20A2AB0BF9B00334627 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		D33BC9D12AA91D0F00D4208C /* ReadingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingList.swift; sourceTree = "<group>"; };
 		D33BC9D32AAA132400D4208C /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		D341C9C42A9CE0450049F71C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -349,6 +351,7 @@
 		D35FEA172A79ADB2002B1987 /* CozyReadUITests */ = {
 			isa = PBXGroup;
 			children = (
+				D32FC20A2AB0BF9B00334627 /* SnapshotHelper.swift */,
 				D35FEA182A79ADB2002B1987 /* CozyReadUITests.swift */,
 				D35FEA1A2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift */,
 			);
@@ -567,6 +570,7 @@
 			files = (
 				D35FEA1B2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift in Sources */,
 				D35FEA192A79ADB2002B1987 /* CozyReadUITests.swift in Sources */,
+				D32FC20B2AB0BF9B00334627 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
