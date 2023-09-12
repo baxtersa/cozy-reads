@@ -53,11 +53,17 @@ struct AuthorGraphs : View {
     @Environment(\.profileColor) private var profileColor
     
     let books: [String:[BookCSVData]]
-    @Binding var year: Year
+    @Binding var year: YearFilter
     
     var completed: [String:[BookCSVData]] {
-        books.mapValues{ $0.filter{ $0.year == year } }
-            .filter{ !$1.isEmpty }
+        books.mapValues{ $0.filter{
+            if case let .year(year) = year {
+                return $0.year == year
+            } else {
+                return $0.year != .tbr && $0.year != .reading
+            }
+        }}
+        .filter{ !$1.isEmpty }
     }
 
     var body: some View {
@@ -132,7 +138,7 @@ struct AuthorGraphs_Previews : PreviewProvider {
                 $0.author
             })
             NavigationStack {
-                AuthorGraphs(books: dict, year: .constant(.year(2023)))
+                AuthorGraphs(books: dict, year: .constant(.year(year: .year(2023))))
             }
         }
     }

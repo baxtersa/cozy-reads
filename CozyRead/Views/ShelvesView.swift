@@ -17,6 +17,11 @@ fileprivate enum Category : String, CaseIterable {
     case year
 }
 
+enum YearFilter: Hashable {
+    case all_time
+    case year(year: Year)
+}
+
 struct ShelvesView : View {
     @Environment(\.profile) private var profile
 
@@ -24,7 +29,7 @@ struct ShelvesView : View {
 
     private let currentYear = Calendar.current.dateComponents([.year], from: .now).year ?? 2023
 
-    @State private var year: Year = .year(Calendar.current.dateComponents([.year], from: .now).year ?? 2023)
+    @State private var year: YearFilter = .year(year:  .year(Calendar.current.dateComponents([.year], from: .now).year ?? 2023))
     @State private var categoryFilter: Category = .year
     @State private var tagFilter: [TagToggles.ToggleState] = []
     
@@ -45,8 +50,11 @@ struct ShelvesView : View {
                 if categoryFilter != .year {
                     let years: [Year] = Array(Set(books.map{ $0.year })).sorted()
                     Picker("Year", selection: $year) {
+                        Text("All-Time")
+                            .tag(YearFilter.all_time)
                         ForEach(Array(years)) { year in
                             Text(year.description)
+                                .tag(YearFilter.year(year: year))
                         }
                     }
                     .pickerStyle(.menu)
@@ -115,7 +123,13 @@ struct ShelvesView : View {
         }
         .onChange(of: categoryFilter) { _ in
             tagFilter = Array(Set(books
-                .filter{ $0.year == year }
+                .filter{
+                    if case let .year(year) = year {
+                        return $0.year == year
+                    } else {
+                        return $0.year != .tbr && $0.year != .reading
+                    }
+                }
                 .flatMap{ $0.tags }))
             .map{ tag in
                 TagToggles.ToggleState(tag: tag, state: !books.filter{

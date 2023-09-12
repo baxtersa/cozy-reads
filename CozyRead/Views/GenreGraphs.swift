@@ -15,10 +15,16 @@ struct GenreGraphs : View {
     let books: [Genre:[BookCSVData]]
 
     var completed: [Genre:[BookCSVData]] {
-        books.mapValues{ $0.filter{ $0.year == year } }
+        books.mapValues{ $0.filter{
+            if case let .year(year) = year {
+                return $0.year == year
+            } else {
+                return $0.year != .tbr && $0.year != .reading
+            }
+        } }
     }
 
-    @Binding var year: Year
+    @Binding var year: YearFilter
 
     var body: some View {
         let completed = completed.sorted(by: { $0.key < $1.key }).filter{ !$1.isEmpty }
@@ -149,7 +155,7 @@ struct GenreGrapsh_Previews : PreviewProvider {
                 $0.genre
             })
             NavigationStack {
-                GenreGraphs(books: dict, year: .constant(.year(2023)))
+                GenreGraphs(books: dict, year: .constant(.year(year: .year(2023))))
             }
         }
     }

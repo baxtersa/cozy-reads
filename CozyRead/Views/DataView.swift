@@ -54,7 +54,9 @@ struct DataView : View {
                 List(dict, id: \.key) { year, books in
                     Section(year.description) {
                         ForEach(books, id: \.self) { book in
-                            NavigationLink(value: book) {
+                            NavigationLink {
+                                BookPage(book: book, formMode: $formMode, editBook: $editBook)
+                            } label: {
                                 VStack(alignment: .leading, spacing: 10) {
                                     Text(book.title)
                                     HStack {
@@ -68,9 +70,6 @@ struct DataView : View {
                                             .font(.system(.footnote))
                                     }
                                 }
-                            }
-                            .navigationDestination(for: BookCSVData.self) { book in
-                                BookPage(book: book, formMode: $formMode, editBook: $editBook)
                             }
                         }
                     }
