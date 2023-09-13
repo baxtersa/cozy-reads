@@ -23,6 +23,8 @@ enum YearFilter: Hashable {
 }
 
 struct ShelvesView : View {
+    static private let defaultCategory = "default_category"
+    
     @Environment(\.profile) private var profile
 
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
@@ -30,9 +32,10 @@ struct ShelvesView : View {
     private let currentYear = Calendar.current.dateComponents([.year], from: .now).year ?? 2023
 
     @State private var year: YearFilter = .year(year:  .year(Calendar.current.dateComponents([.year], from: .now).year ?? 2023))
-    @State private var categoryFilter: Category = .year
     @State private var tagFilter: [TagToggles.ToggleState] = []
-    
+
+    @AppStorage(ShelvesView.defaultCategory) private var categoryFilter: Category = .year
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             let books = books

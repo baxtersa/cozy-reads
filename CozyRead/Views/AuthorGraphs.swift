@@ -21,9 +21,8 @@ struct MostRead : View {
         }
         
         let topFive = authorCounts.prefix(5)
-        let topFiveBooks = completed.prefix(5)
         NavigationLink {
-            BookList(data: Array(topFiveBooks), sectionTitle: { $0 }) { book in
+            BookList(data: completed, sectionTitle: { $0 }) { book in
                 VStack(alignment: .leading) {
                     Text(book.title)
                         .font(.system(.title3))
@@ -81,7 +80,7 @@ struct AuthorGraphs : View {
                     acc + Float(book.rating) / Float(second.value.count)
                 })
                 return avg1 > avg2
-            }).prefix(5)
+            })
             let highestRated = sortedByRating.flatMap{ author, books in
                 [author: Double(books.reduce(0.0, { acc, book in
                     acc + Float(book.rating) / Float(books.count)
@@ -106,7 +105,7 @@ struct AuthorGraphs : View {
                     }
                 }
             } label: {
-                Graph(title: "Highest Rated", data: highestRated, id: \.key) { author, rating in
+                Graph(title: "Highest Rated", data: highestRated.prefix(5), id: \.key) { author, rating in
                     let xp: PlottableValue = .value("Author", author)
                     let yp: PlottableValue = .value("Rating", rating)
                     PointMark(x: yp, y: xp)

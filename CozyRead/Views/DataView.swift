@@ -97,7 +97,7 @@ struct DataView : View {
                         author: book.author,
                         series: book.series ?? "",
                         selectedGenre: book.genre,
-                        readType: book.readType ?? .owned_physical,
+                        readType: book.readType ?? .physical,
                         year: book.year,
                         completedDate: book.dateCompleted ?? .now,
                         rating: book.rating,

@@ -47,7 +47,6 @@ struct Header : View {
 
 struct NavBarView: View {
     @Environment(\.managedObjectContext) private var viewContext
-//    @Environment(\.profileColor) private var profileColor
     @Environment(\.profile) private var envProfile
 
     @State private var profileColor = ProfileColorKey.defaultValue

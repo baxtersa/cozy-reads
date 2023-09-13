@@ -9,41 +9,6 @@ import CoreData
 import Foundation
 import SwiftUI
 
-@objc
-public enum Genres : Int, CaseIterable, Hashable, Identifiable, CustomStringConvertible {
-    case fantasy
-    case sci_fi
-    case sci_fantasy
-    case space_opera
-    case contemporary
-    case horror
-    case literary
-    case nonfiction
-    case romance
-    case historical
-    case mystery
-    case unknown
-    
-    public var description: String {
-        switch self {
-        case .fantasy: return "Fantasy"
-        case .sci_fi: return "Sci-fi"
-        case .sci_fantasy: return "Sci-fantasy"
-        case .space_opera: return "Space Opera"
-        case .contemporary: return "Contemporary"
-        case .horror: return "Horror"
-        case .literary: return "Literary Fiction"
-        case .nonfiction: return "Nonfiction"
-        case .romance: return "Romance"
-        case .historical: return "Historical Fiction"
-        case .mystery: return "Mystery"
-        case .unknown: return "Unknown"
-        }
-    }
-        
-    public var id: Self { self }
-}
-
 public enum Genre : String, CaseIterable, Hashable, Identifiable {
     case fantasy = "Fantasy"
     case sci_fi = "Sci-fi"
@@ -54,7 +19,18 @@ public enum Genre : String, CaseIterable, Hashable, Identifiable {
     case romance = "Romance"
     case historical = "Historical Fiction"
     case mystery = "Mystery"
-
+    case magical_realism = "Magical Realism"
+    case crime = "Crime"
+    case thriller = "Thriller"
+    case memoir = "Memoir"
+    case biography = "Biography"
+    case autobiography = "Autobiography"
+    case poetry = "Poetry"
+    case manga = "Manga"
+    case comic = "Comic"
+    case ya = "Young Adult"
+    case middle_grade = "Middle Grade"
+    
     public var id: Self { self }
 }
 
@@ -64,7 +40,7 @@ extension Genre: Comparable {
     }
 }
 
-public enum Year : Equatable, Hashable, Comparable, Identifiable {
+public enum Year : Equatable, Hashable, Identifiable {
     case year(_: Int)
     case tbr
     case reading
@@ -112,7 +88,7 @@ extension Year {
     }
 }
 
-extension Year {
+extension Year: Comparable {
     static public func > (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
         case (.reading, _): return true
@@ -125,13 +101,24 @@ extension Year {
 }
 
 public enum ReadType : String, CaseIterable, Hashable, Identifiable {
-    case owned_physical = "Owned - Physical"
-    case owned_ebook = "Owned - Apple Books"
-    case libby = "Libby"
-    case library = "Library"
+    case physical = "Physical"
+    case ebook = "eBook"
     case audiobook = "Audiobook"
 
     public var id: Self { self }
+    
+    public init?(rawValue: String) {
+        switch rawValue {
+        case "Physical", "Owned - Physical", "Library":
+            self = .physical
+        case "eBook", "Owned - Apple Books", "Libby":
+            self = .ebook
+        case "Audiobook":
+            self = .audiobook
+        default:
+            self = .physical
+        }
+    }
 }
 
 public enum ParseError : Error {
@@ -171,7 +158,7 @@ public class BookCSVData : NSManagedObject, InitFromDictionary, Identifiable {
     @nonobjc public var readType: ReadType? {
         ReadType(rawValue: private_readType)
     }
-
+    
     @nonobjc public required convenience init(managedContext: NSManagedObjectContext, year: Year? = nil, genre: Genre? = nil, readType: ReadType? = nil) {
         let entity = NSEntityDescription.entity(forEntityName: "BookCSVData", in: managedContext)!
         self.init(entity: entity, insertInto: managedContext)

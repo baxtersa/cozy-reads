@@ -138,7 +138,7 @@ struct TBRForm : View {
     @State var series: String = ""
 
     @State var selectedGenre: Genre = .fantasy
-    @State var readType: ReadType = .owned_physical
+    @State var readType: ReadType = .physical
     @State var year: Year = .tbr
     @State var completedDate: Date = .now
     @State var rating: Double = 0
@@ -182,6 +182,7 @@ struct TBRForm : View {
                             Text(year.description)
                         }
                     }
+
                     if case let .year(num) = year {
                         if let startDate = Calendar.current.date(from: DateComponents(year: num)),
                            let nextYear = Calendar.current.date(byAdding: .year, value: 1, to: startDate),
