@@ -33,7 +33,7 @@ struct MostRead : View {
                 }
             }
         } label: {
-            Graph(title: "Most Read Authors", data: topFive, id: \.key) { author, count in
+            Graph(title: "Most Read", data: topFive, id: \.key) { author, count in
                 let xp: PlottableValue = .value("Count", count)
                 let yp: PlottableValue = .value("Author", author)
                 BarMark(x: xp, y: yp, width: 10)
