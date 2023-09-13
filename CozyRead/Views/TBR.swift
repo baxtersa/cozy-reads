@@ -112,7 +112,11 @@ struct StartReadingView : View {
             }
         }
         .sheet(isPresented: $showSheet) {
-            SelectBookSheet(books: books, showSheet: $showSheet)
+            if books.isEmpty {
+                TBRForm()
+            } else {
+                SelectBookSheet(books: books, showSheet: $showSheet)
+            }
         }
     }
 }
@@ -122,7 +126,11 @@ struct TBR : View {
 
     @FetchRequest(fetchRequest: BookCSVData.fetchRequest(
         sortDescriptors: [SortDescriptor(\.dateAdded, order: .reverse)],
-        predicate: NSPredicate(format: "private_year == 'TBR'")
+        predicate: NSCompoundPredicate(orPredicateWithSubpredicates: [
+             NSPredicate(format: "private_year == 'To Read'"),
+             NSPredicate(format: "private_year == 'TBR'"),
+             NSPredicate(format: "private_year == 'To Be Read'")
+        ])
     ))
     private var books: FetchedResults<BookCSVData>
     

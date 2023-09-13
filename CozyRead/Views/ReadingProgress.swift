@@ -232,7 +232,7 @@ struct ReadingProgress : View {
         HStack {
             switch year {
             case .year(let num):
-                if let target = yearlyGoals.first(where: { $0.targetYear == year }) {
+                if let target = yearlyGoals.first(where: { $0.targetYear == year && $0.profile == profile.wrappedValue }) {
                     YearlyGoalProgress(target: target, current: books.count)
                 } else {
                     YearlyTotal(read: books.count, year: num)

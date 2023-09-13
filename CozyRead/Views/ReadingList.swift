@@ -92,11 +92,17 @@ struct ReadingList : View {
         let books = books.filter{ $0.profile == profile.wrappedValue }
 
         VStack {
-            ForEach(books) { book in
-                Item(book: book)
-
-                if book != books.last {
-                    Divider()
+            if books.isEmpty {
+                Text("Start reading a book from your \"To Read\" list or add a new one")
+                    .multilineTextAlignment(.center)
+                    .italic()
+            } else {
+                ForEach(books) { book in
+                    Item(book: book)
+                    
+                    if book != books.last {
+                        Divider()
+                    }
                 }
             }
         }

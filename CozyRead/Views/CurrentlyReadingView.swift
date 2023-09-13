@@ -10,17 +10,15 @@ import SwiftUI
 
 struct CurrentlyReadingView : View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("Currently Reading")
-                    .font(.system(.title2))
-                    .bold()
-            }
+        VStack(alignment: .leading) {
+            Text("Currently Reading")
+                .font(.system(.title2))
+                .bold()
 
             ReadingList()
+                .frame(maxWidth: .infinity)
         }
         .padding(.horizontal)
-        .frame(maxWidth: .infinity)
     }
 }
 
