@@ -9,69 +9,12 @@ import Foundation
 import SwiftUI
 
 struct TagInfo : View {
-    @Environment(\.editMode) private var editMode
-    private var isEditing: Bool { editMode?.wrappedValue.isEditing == true }
-
-    let book: BookCSVData
     var text: String
-    @State private var editText: String = ""
     
     var body: some View {
-        ZStack {
-            if isEditing {
-                HStack {
-                    Text(text)
-                    //                    TextField("Edit", text: $editText)
-                    //                        .onSubmit {
-                    //                            if let originalTagIndex = book.tags.firstIndex(of: text) {
-                    //                                book.tags[originalTagIndex] = editText
-                    //                                PersistenceController.shared.save()
-                    //                            }
-                    //                        }
-                    Image(systemName: "xmark.circle")
-                        .onTapGesture {
-                            book.tags.removeAll { $0 == text }
-                            PersistenceController.shared.save()
-                        }
-                }
-                .padding(5)
-                .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
-            } else {
-                Text(text)
-                    .padding(5)
-                    .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
-            }
-        }
-    }
-}
-
-struct AddTag : View {
-//    let book: BookCSVData
-
-    @State private var typing: Bool = false
-    @FocusState private var focusTagEntry: Bool
-    @Binding var newTag: String
-    
-    var body: some View {
-        if typing {
-            TextField("Enter Tag", text: $newTag)
-                .onSubmit {
-                    typing.toggle()
-                    newTag.removeAll()
-                    focusTagEntry = false
-                }
-                .focused($focusTagEntry)
-                .padding(5)
-                .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
-        } else {
-            Button {
-                typing.toggle()
-                focusTagEntry = true
-            } label: {
-                Text("Add Tag")
-            }
-            .buttonStyle(.bordered)
-        }
+        Text(text)
+            .padding(5)
+            .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
     }
 }
 
@@ -82,45 +25,45 @@ struct DataCardView: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 10) {
-                // TODO: figure out why this is needed to align text to leading edge
-                VStack {}
-                    .frame(maxWidth: .infinity)
-
+            VStack(alignment: .leading) {
                 Text(book.title)
                     .font(.system(.largeTitle))
                 
-//                HStack {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Spacer()
-                        if let series = book.series {
-                            Text(series)
-                                .font(.system(.title2))
-                        }
-                        
-                        Text("by \(book.author)")
-                            .font(.system(.body))
-                            .italic()
-                        
-                        Spacer()
-                        
+                VStack(alignment: .leading) {
+                    Spacer()
+                    if let series = book.series {
+                        Text(series)
+                            .font(.system(.title2))
+                    }
+                    
+                    Text("by \(book.author)")
+                        .font(.system(.body))
+                        .italic()
+                    
+                    Spacer()
+                    
                     FlexBox(data: book.tags, spacing: 10) { tag in
-                        TagInfo(book: book, text: tag)
+                        TagInfo(text: tag)
                     }
-
-                        switch book.year {
-                        case .year:
-                            StarRating(rating: .constant(book.rating))
-                                .ratingStyle(SolidRatingStyle(color: .white))
-                                .fixedSize()
+                    
+                    switch book.year {
+                    case .year:
+                        StarRating(rating: .constant(book.rating))
+                            .ratingStyle(SolidRatingStyle(color: .white))
+                            .fixedSize()
+                        HStack {
                             Label("Finished", systemImage: "checkmark.circle")
-                        case .reading:
-                            Label("Currently Reading", systemImage: "ellipsis.circle")
-                        case .tbr:
-                            Label("To Be Read", systemImage: "circle")
+                            if let dateCompleted = book.dateCompleted {
+                                Spacer()
+                                Text(dateCompleted.formatted(date: .abbreviated, time: .omitted))
+                            }
                         }
+                    case .reading:
+                        Label("Currently Reading", systemImage: "ellipsis.circle")
+                    case .tbr:
+                        Label("To Be Read", systemImage: "circle")
                     }
-//                }
+                }
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -182,7 +125,6 @@ struct DataCardView_Previews : PreviewProvider {
 
     static var previews: some View {
         VStack {
-            EditButton()
             DataCardView(book: .constant(finishedBook))
             DataCardView(book: .constant(tbrBook))
         }

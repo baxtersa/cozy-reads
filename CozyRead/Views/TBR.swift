@@ -25,62 +25,61 @@ struct SelectBookSheet : View {
         } else {
             NavigationStack {
                 List {
-                    Section("TBR") {
-                        let tbr = books.filter{ $0.year == .tbr }.filter{ (book: BookCSVData) in
-                            searchText.isEmpty ||
-                            book.title.localizedCaseInsensitiveContains(searchText) ||
-                            book.author.localizedCaseInsensitiveContains(searchText) ||
-                            book.series?.localizedCaseInsensitiveContains(searchText) == true
-                        }
-                        ForEach(tbr, id: \.self) { book in
-                            HStack(spacing: 10) {
-                                if book.coverId != 0,
-                                   let coverUrl = OLSearchView.coverUrlBase?.appending(path: "\(book.coverId)-M.jpg") {
-                                    AsyncImage(
-                                        url: coverUrl,
-                                        content: { image in
-                                            image
-                                                .resizable()
-                                        },
-                                        placeholder: {
-                                            ProgressView().progressViewStyle(.circular)
-                                        }
-                                    )
-                                    .mask {
-                                        Circle()
+                    let tbr = books.filter{ $0.year == .tbr }.filter{ (book: BookCSVData) in
+                        searchText.isEmpty ||
+                        book.title.localizedCaseInsensitiveContains(searchText) ||
+                        book.author.localizedCaseInsensitiveContains(searchText) ||
+                        book.series?.localizedCaseInsensitiveContains(searchText) == true
+                    }
+                    ForEach(tbr, id: \.self) { book in
+                        HStack(spacing: 10) {
+                            if book.coverId != 0,
+                               let coverUrl = OLSearchView.coverUrlBase?.appending(path: "\(book.coverId)-M.jpg") {
+                                AsyncImage(
+                                    url: coverUrl,
+                                    content: { image in
+                                        image
+                                            .resizable()
+                                    },
+                                    placeholder: {
+                                        ProgressView().progressViewStyle(.circular)
                                     }
-                                    .frame(width: 70, height: 70)
+                                )
+                                .mask {
+                                    Circle()
                                 }
-                                VStack(alignment: .leading) {
-                                    Text(book.title)
-                                        .font(.system(.title3))
-                                    HStack {
-                                        if let series = book.series {
-                                            Text(series)
-                                                .font(.system(.caption))
-                                        }
-                                        Spacer()
-                                        Text("by \(book.author)")
-                                            .italic()
-                                            .font(.system(.footnote))
+                                .frame(width: 70, height: 70)
+                            }
+                            VStack(alignment: .leading) {
+                                Text(book.title)
+                                    .font(.system(.title3))
+                                HStack {
+                                    if let series = book.series {
+                                        Text(series)
+                                            .font(.system(.caption))
                                     }
+                                    Spacer()
+                                    Text("by \(book.author)")
+                                        .italic()
+                                        .font(.system(.footnote))
                                 }
-                                .swipeActions {
-                                    Button {
-                                        book.setYear(.reading)
-                                        book.dateStarted = Date.now
-                                        
-                                        PersistenceController.shared.save()
-                                        showSheet = false
-                                    } label: {
-                                        Text("Start Reading")
-                                    }
-                                    .tint(.green)
+                            }
+                            .swipeActions {
+                                Button {
+                                    book.setYear(.reading)
+                                    book.dateStarted = Date.now
+                                    
+                                    PersistenceController.shared.save()
+                                    showSheet = false
+                                } label: {
+                                    Text("Start Reading")
                                 }
+                                .tint(.green)
                             }
                         }
                     }
                 }
+                .navigationTitle("To Read")
                 .scrollContentBackground(.hidden)
                 
                 Button {

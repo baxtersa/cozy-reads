@@ -10,26 +10,26 @@ import Foundation
 import SwiftUI
 
 public enum Genre : String, CaseIterable, Hashable, Identifiable {
-    case fantasy = "Fantasy"
-    case sci_fi = "Sci-fi"
+    case autobiography = "Autobiography"
+    case biography = "Biography"
+    case comic = "Comic"
     case contemporary = "Contemporary"
+    case crime = "Crime"
+    case fantasy = "Fantasy"
+    case historical = "Historical Fiction"
     case horror = "Horror"
     case literary = "Literary Fiction"
-    case nonfiction = "Nonfiction"
-    case romance = "Romance"
-    case historical = "Historical Fiction"
-    case mystery = "Mystery"
     case magical_realism = "Magical Realism"
-    case crime = "Crime"
-    case thriller = "Thriller"
-    case memoir = "Memoir"
-    case biography = "Biography"
-    case autobiography = "Autobiography"
-    case poetry = "Poetry"
     case manga = "Manga"
-    case comic = "Comic"
-    case ya = "Young Adult"
+    case memoir = "Memoir"
     case middle_grade = "Middle Grade"
+    case mystery = "Mystery"
+    case nonfiction = "Nonfiction"
+    case poetry = "Poetry"
+    case romance = "Romance"
+    case sci_fi = "Sci-fi"
+    case thriller = "Thriller"
+    case ya = "Young Adult"
     
     public var id: Self { self }
 }
@@ -51,7 +51,7 @@ public enum Year : Equatable, Hashable, Identifiable {
         }
 
         switch from {
-        case "TBR":
+        case "TBR", "To Read", "To Be Read":
             self = .tbr
         case "Reading":
             self = .reading
@@ -71,7 +71,7 @@ public enum Year : Equatable, Hashable, Identifiable {
         case .reading:
             return "Reading"
         case .tbr:
-            return "TBR"
+            return "To Read"
         }
     }
     

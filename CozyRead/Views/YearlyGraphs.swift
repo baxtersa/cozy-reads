@@ -9,10 +9,96 @@ import Charts
 import Foundation
 import SwiftUI
 
-struct YearlyGraphs : View {
+struct MonthlyProgress : View {
     @FetchRequest(sortDescriptors: [])
     private var goals: FetchedResults<YearlyGoalEntity>
-    
+
+    let books: [Year:[BookCSVData]]
+    let year: Year
+
+    @ViewBuilder var subtitle: some View {
+        let thisYear = books
+            .filter{ $0.key == year }
+            .flatMap{ $0.value }
+            .compactMap{ $0.dateCompleted }
+        if let goal = goals.first(where: { $0.targetYear == year }) {
+            Text("\(thisYear.count)/\(goal.goal) books")
+        } else {
+            Text("\(thisYear.count) books")
+        }
+    }
+
+    var body: some View {
+        let thisYear = (books.first{$0.key == year}.map{$0.value} ?? [])
+            .filter{$0.dateCompleted != nil}
+        let dict = Dictionary(grouping: thisYear, by: {
+            Calendar.current.dateComponents([.month, .year], from: $0.dateCompleted ?? .now)
+        })
+            .filter{ $0.key.month != nil }
+            .sorted(by: {$0.key.month ?? 0 < $1.key.month ?? 0})
+
+        let goal = goals.first{ $0.targetYear == year }
+ 
+        if case let .year(num) = year,
+           let startDate = Calendar.current.date(from: DateComponents(year: num)),
+           let nextYear = Calendar.current.date(byAdding: .year, value: 1, to: startDate),
+           let endDate = Calendar.current.date(byAdding: .day, value: -1, to: nextYear) {
+            NavigationLink {
+                BookList(data: dict, sectionTitle: { component in
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "MMMM"
+                    guard let month = Calendar.current.date(from: component) else { return "Unknown" }
+                    return dateFormatter.string(from: month)
+                }) { book in
+                    VStack(alignment: .leading) {
+                        Text(book.title)
+                            .font(.system(.title3))
+                        HStack {
+                            if let series = book.series {
+                                Text(series)
+                                    .font(.system(.caption))
+                            }
+                            Spacer()
+                            Text("by \(book.author)")
+                                .font(.system(.footnote))
+                                .italic()
+                        }
+                    }
+                }
+            } label: {
+                Graph(title: "\(year.description) Progress", subtitle: subtitle.padding(.leading), data: dict, id: \.key) { components, books in
+                    if let date = Calendar.current.date(from: components) {
+                        let xp: PlottableValue = .value("Month", date, unit: .month)
+                        let count = thisYear.reduce(0, { acc, book in
+                            if let dateCompleted = book.dateCompleted,
+                               let completed = Calendar.current.dateComponents([.month], from: dateCompleted).month,
+                               let current = components.month,
+                               completed < current {
+                                return acc + 1
+                            } else {
+                                return acc
+                            }
+                        })
+                        let yp: PlottableValue =  .value("Books Read", count)
+                        LineMark(x: xp, y: yp)
+                            .interpolationMethod(.catmullRom)
+
+                        if let goal = goal {
+                            LineMark(x: .value("Month", startDate, unit: .month), y: .value("Trend", 0))
+                                .lineStyle(StrokeStyle(lineWidth: 0.5, dash: [20]))
+                                .lineStyle(by: .value("Trend", 0))
+                            LineMark(x: .value("Month", endDate, unit: .month), y: .value("Trend", goal.goal))
+                                .lineStyle(by: .value("Trend", 0))
+                        }
+                    }
+                }
+                .chartXScale(domain: [startDate, endDate])
+            }
+        }
+    }
+}
+
+struct YearlyGraphs : View {
     let books: [Year:[BookCSVData]]
     let year: Year
     
@@ -52,18 +138,6 @@ struct YearlyGraphs : View {
         }
     }
 
-    @ViewBuilder var subtitle: some View {
-        let thisYear = books
-            .filter{ $0.key == year }
-            .flatMap{ $0.value }
-            .compactMap{ $0.dateCompleted }
-        if let goal = goals.first(where: { $0.targetYear == year }) {
-            Text("\(thisYear.count)/\(goal.goal) books")
-        } else {
-            Text("\(thisYear.count) books")
-        }
-    }
-
     @State private var appear: Bool = false
 
     var body: some View {
@@ -71,47 +145,9 @@ struct YearlyGraphs : View {
         let data = completed.flatMap{ year, books in
             [year:Double(books.count)]
         }
-        let goal = goals.first{ $0.targetYear == year }
 
         VStack {
-            let thisYear = (completed.first{$0.key == year}.map{$0.value} ?? [])
-                .compactMap{$0.dateCompleted}
-            let dict = Dictionary(grouping: thisYear, by: {
-                Calendar.current.dateComponents([.month, .year], from: $0)
-            })
-                .filter{ $0.key.month != nil }
-                .sorted(by: {$0.key.month ?? 0 < $1.key.month ?? 0})
-            if case let .year(num) = year,
-               let startDate = Calendar.current.date(from: DateComponents(year: num)),
-               let nextYear = Calendar.current.date(byAdding: .year, value: 1, to: startDate),
-               let endDate = Calendar.current.date(byAdding: .day, value: -1, to: nextYear) {
-                Graph(title: "\(year.description) Progress", subtitle: subtitle.padding(.leading), data: dict, id: \.key) { components, books in
-                    if let date = Calendar.current.date(from: components) {
-                        let xp: PlottableValue = .value("Month", date, unit: .month)
-                        let count = thisYear.reduce(0, { acc, book in
-                            if let completed = Calendar.current.dateComponents([.month], from: book).month,
-                               let current = components.month,
-                               completed < current {
-                                return acc + 1
-                            } else {
-                                return acc
-                            }
-                        })
-                        let yp: PlottableValue =  .value("Books Read", count)
-                        LineMark(x: xp, y: yp)
-                            .interpolationMethod(.catmullRom)
-
-                        if let goal = goal {
-                            LineMark(x: .value("Month", startDate, unit: .month), y: .value("Trend", 0))
-                                .lineStyle(StrokeStyle(lineWidth: 0.5, dash: [20]))
-                                .lineStyle(by: .value("Trend", 0))
-                            LineMark(x: .value("Month", endDate, unit: .month), y: .value("Trend", goal.goal))
-                                .lineStyle(by: .value("Trend", 0))
-                        }
-                    }
-                }
-                .chartXScale(domain: [startDate, endDate])
-            }
+            MonthlyProgress(books: books, year: year)
                 
             Graph(title: "Books Read", subtitle: {
                 HStack {

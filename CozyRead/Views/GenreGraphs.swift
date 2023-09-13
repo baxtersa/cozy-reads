@@ -104,7 +104,8 @@ struct GenreGraphs : View {
             let tags: [String] = Array(Set(books.flatMap{$1.flatMap{$0.tags}}))
             let tagCounts  = tags.map{ tag in
                 (tag, allBooks.filter{ $0.tags.contains(tag) }.count)
-            }.sorted(by: { $0.1 < $1.1 })
+            }.filter{ $0.1 > 0 }
+                .sorted(by: { $0.1 < $1.1 })
 
             NavigationLink {
                 let tagBooks = tags.map { tag in
@@ -145,7 +146,7 @@ struct GenreGraphs : View {
     }
 }
 
-struct GenreGrapsh_Previews : PreviewProvider {
+struct GenreGraphs_Previews : PreviewProvider {
     private struct PreviewWrapper : View {
         @FetchRequest(fetchRequest: BookCSVData.getFetchRequest)
         private var books: FetchedResults<BookCSVData>

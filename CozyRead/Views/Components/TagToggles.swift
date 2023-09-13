@@ -8,6 +8,34 @@
 import Foundation
 import SwiftUI
 
+struct AddTag : View {
+    @State private var typing: Bool = false
+    @FocusState private var focusTagEntry: Bool
+    @Binding var newTag: String
+    
+    var body: some View {
+        if typing {
+            TextField("Enter Tag", text: $newTag)
+                .onSubmit {
+                    typing.toggle()
+                    newTag.removeAll()
+                    focusTagEntry = false
+                }
+                .focused($focusTagEntry)
+                .padding(5)
+                .background(RoundedRectangle(cornerRadius: 5).fill(Color(white: 1, opacity: 0.2)))
+        } else {
+            Button {
+                typing.toggle()
+                focusTagEntry = true
+            } label: {
+                Text("Add Tag")
+            }
+            .buttonStyle(.bordered)
+        }
+    }
+}
+
 struct TagToggles : View {
     struct ToggleState : Hashable {
         let tag: String
