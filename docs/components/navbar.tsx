@@ -4,11 +4,9 @@ import logo from "@/public/img/CozyReads.png"
 
 export default function Navbar() {
     const navigation = [
-        "Product",
         "Features",
-        "Pricing",
-        "Company",
-        "Blog",
+        "About",
+        "Support"
     ];
 
     return (

@@ -10,10 +10,12 @@ export default function Home() {
             <Navbar />
             <Hero />
             <SectionTitle pretitle="CozyReads Features" title="What you get with CozyReads">
-                This section is to highlight a promo or demo video of your product.
-                Analysts says a landing page with video has 3% more conversion rate. So,
-                don&apos;t forget to add one. Just like this.
-            </SectionTitle>
+                CozyReads is a reading habit tracker with a personal touch. Set goals, track
+                your progress, and visualize your taste in books without the pressure of a
+                social media community and comparison culture. Customize tags and filter graphs
+                however you wish. Plan out your "To Read" list so that you are always looking
+                forward to your next book.
+           </SectionTitle>
             <Features data={featureDevices} imgPos='right' />
             <Features data={featureOne} imgPos={undefined} />
             <Features data={featureIAP} imgPos='right' />
