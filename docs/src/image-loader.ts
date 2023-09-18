@@ -3,5 +3,5 @@ export default function imageLoader({
   }: {
     src: string
   }) {
-    return `https://baxtersa.github.io/cozy-reads/${src}`
+    return `https://baxtersa.github.io/${src}`
   }
