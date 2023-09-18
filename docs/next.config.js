@@ -5,7 +5,8 @@ const nextConfig = {
         loader: 'custom',
         loaderFile: './src/image-loader.ts',
     },
-    assetPrefix: '/cozy-reads/'
+    assetPrefix: '/cozy-reads/',
+    basePath: '/cozy-reads/'
 }
 
 module.exports = nextConfig
