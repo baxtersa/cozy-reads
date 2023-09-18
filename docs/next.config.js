@@ -6,7 +6,7 @@ const nextConfig = {
         loaderFile: './src/image-loader.ts',
     },
     assetPrefix: '/cozy-reads/',
-    basePath: '/cozy-reads/'
+    basePath: '/cozy-reads'
 }
 
 module.exports = nextConfig
