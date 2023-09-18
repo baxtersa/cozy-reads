@@ -24,7 +24,6 @@
 		D32BACE52A8E681200CBFB41 /* FlexBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32BACE42A8E681200CBFB41 /* FlexBox.swift */; };
 		D32FC2052AB0A82100334627 /* BookPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC2042AB0A82100334627 /* BookPage.swift */; };
 		D32FC2092AB0ACF700334627 /* BookList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC2082AB0ACF700334627 /* BookList.swift */; };
-		D32FC20B2AB0BF9B00334627 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D32FC20A2AB0BF9B00334627 /* SnapshotHelper.swift */; };
 		D33BC9D22AA91D0F00D4208C /* ReadingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33BC9D12AA91D0F00D4208C /* ReadingList.swift */; };
 		D33BC9D42AAA132400D4208C /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33BC9D32AAA132400D4208C /* SearchBar.swift */; };
 		D341C9C52A9CE0460049F71C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D341C9C42A9CE0450049F71C /* StoreKit.framework */; };
@@ -52,6 +51,8 @@
 		D35FEA192A79ADB2002B1987 /* CozyReadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35FEA182A79ADB2002B1987 /* CozyReadUITests.swift */; };
 		D35FEA1B2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35FEA1A2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift */; };
 		D3603FFC2AA7BA5E00F29153 /* ReadTodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3603FFB2AA7BA5E00F29153 /* ReadTodayView.swift */; };
+		D362CF152AB1F79A00BE0E34 /* data.csv in Resources */ = {isa = PBXBuildFile; fileRef = D3531B822A81B744001A49BC /* data.csv */; };
+		D362CF172AB2030A00BE0E34 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D362CF162AB2030A00BE0E34 /* SnapshotHelper.swift */; };
 		D365AACE2A96402200CB2499 /* ProfileEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D365AACC2A96402200CB2499 /* ProfileEntity+CoreDataClass.swift */; };
 		D365AACF2A96402200CB2499 /* ProfileEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D365AACD2A96402200CB2499 /* ProfileEntity+CoreDataProperties.swift */; };
 		D3698A9D2AA9012A000E69EE /* TBR.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3698A9C2AA9012A000E69EE /* TBR.swift */; };
@@ -104,7 +105,6 @@
 		D32BACE42A8E681200CBFB41 /* FlexBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexBox.swift; sourceTree = "<group>"; };
 		D32FC2042AB0A82100334627 /* BookPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookPage.swift; sourceTree = "<group>"; };
 		D32FC2082AB0ACF700334627 /* BookList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookList.swift; sourceTree = "<group>"; };
-		D32FC20A2AB0BF9B00334627 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		D33BC9D12AA91D0F00D4208C /* ReadingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingList.swift; sourceTree = "<group>"; };
 		D33BC9D32AAA132400D4208C /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		D341C9C42A9CE0450049F71C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -125,7 +125,7 @@
 		D3531B882A827D93001A49BC /* BookDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDataModel.swift; sourceTree = "<group>"; };
 		D3531B8E2A828A40001A49BC /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 		D3531B902A82B1C0001A49BC /* StarRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRating.swift; sourceTree = "<group>"; };
-		D35FE9F52A79ADB1002B1987 /* CozyRead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CozyRead.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D35FE9F52A79ADB1002B1987 /* CozyReads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CozyReads.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D35FE9F82A79ADB1002B1987 /* CozyReadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyReadApp.swift; sourceTree = "<group>"; };
 		D35FE9FC2A79ADB2002B1987 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D35FE9FF2A79ADB2002B1987 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -137,6 +137,7 @@
 		D35FEA182A79ADB2002B1987 /* CozyReadUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyReadUITests.swift; sourceTree = "<group>"; };
 		D35FEA1A2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyReadUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D3603FFB2AA7BA5E00F29153 /* ReadTodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadTodayView.swift; sourceTree = "<group>"; };
+		D362CF162AB2030A00BE0E34 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		D365AACC2A96402200CB2499 /* ProfileEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D365AACD2A96402200CB2499 /* ProfileEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D3698A9C2AA9012A000E69EE /* TBR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBR.swift; sourceTree = "<group>"; };
@@ -296,7 +297,7 @@
 		D35FE9F62A79ADB1002B1987 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D35FE9F52A79ADB1002B1987 /* CozyRead.app */,
+				D35FE9F52A79ADB1002B1987 /* CozyReads.app */,
 				D35FEA0A2A79ADB2002B1987 /* CozyReadTests.xctest */,
 				D35FEA142A79ADB2002B1987 /* CozyReadUITests.xctest */,
 			);
@@ -306,6 +307,7 @@
 		D35FE9F72A79ADB1002B1987 /* CozyRead */ = {
 			isa = PBXGroup;
 			children = (
+				D362CF162AB2030A00BE0E34 /* SnapshotHelper.swift */,
 				D3A3688B2AA22987004F92E5 /* CozyRead.entitlements */,
 				D341C9D52A9D20E90049F71C /* YearlyGoalEntity+CoreDataClass.swift */,
 				D341C9D62A9D20E90049F71C /* YearlyGoalEntity+CoreDataProperties.swift */,
@@ -350,7 +352,6 @@
 		D35FEA172A79ADB2002B1987 /* CozyReadUITests */ = {
 			isa = PBXGroup;
 			children = (
-				D32FC20A2AB0BF9B00334627 /* SnapshotHelper.swift */,
 				D35FEA182A79ADB2002B1987 /* CozyReadUITests.swift */,
 				D35FEA1A2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift */,
 			);
@@ -368,9 +369,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D35FE9F42A79ADB1002B1987 /* CozyRead */ = {
+		D35FE9F42A79ADB1002B1987 /* CozyReads */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D35FEA1E2A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyRead" */;
+			buildConfigurationList = D35FEA1E2A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyReads" */;
 			buildPhases = (
 				D35FE9F12A79ADB1002B1987 /* Sources */,
 				D35FE9F22A79ADB1002B1987 /* Frameworks */,
@@ -380,11 +381,11 @@
 			);
 			dependencies = (
 			);
-			name = CozyRead;
+			name = CozyReads;
 			packageProductDependencies = (
 			);
 			productName = CozyRead;
-			productReference = D35FE9F52A79ADB1002B1987 /* CozyRead.app */;
+			productReference = D35FE9F52A79ADB1002B1987 /* CozyReads.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D35FEA092A79ADB2002B1987 /* CozyReadTests */ = {
@@ -461,7 +462,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D35FE9F42A79ADB1002B1987 /* CozyRead */,
+				D35FE9F42A79ADB1002B1987 /* CozyReads */,
 				D35FEA092A79ADB2002B1987 /* CozyReadTests */,
 				D35FEA132A79ADB2002B1987 /* CozyReadUITests */,
 			);
@@ -473,6 +474,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D362CF152AB1F79A00BE0E34 /* data.csv in Resources */,
 				D35FE9FD2A79ADB2002B1987 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,7 +570,7 @@
 			files = (
 				D35FEA1B2A79ADB2002B1987 /* CozyReadUITestsLaunchTests.swift in Sources */,
 				D35FEA192A79ADB2002B1987 /* CozyReadUITests.swift in Sources */,
-				D32FC20B2AB0BF9B00334627 /* SnapshotHelper.swift in Sources */,
+				D362CF172AB2030A00BE0E34 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,12 +579,12 @@
 /* Begin PBXTargetDependency section */
 		D35FEA0C2A79ADB2002B1987 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D35FE9F42A79ADB1002B1987 /* CozyRead */;
+			target = D35FE9F42A79ADB1002B1987 /* CozyReads */;
 			targetProxy = D35FEA0B2A79ADB2002B1987 /* PBXContainerItemProxy */;
 		};
 		D35FEA162A79ADB2002B1987 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D35FE9F42A79ADB1002B1987 /* CozyRead */;
+			target = D35FE9F42A79ADB1002B1987 /* CozyReads */;
 			targetProxy = D35FEA152A79ADB2002B1987 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -862,7 +864,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D35FEA1E2A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyRead" */ = {
+		D35FEA1E2A79ADB2002B1987 /* Build configuration list for PBXNativeTarget "CozyReads" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D35FEA1F2A79ADB2002B1987 /* Debug */,

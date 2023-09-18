@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D35FE9F42A79ADB1002B1987"
-               BuildableName = "CozyRead.app"
-               BlueprintName = "CozyRead"
+               BuildableName = "CozyReads.app"
+               BlueprintName = "CozyReads"
                ReferencedContainer = "container:CozyRead.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -69,8 +69,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D35FE9F42A79ADB1002B1987"
-            BuildableName = "CozyRead.app"
-            BlueprintName = "CozyRead"
+            BuildableName = "CozyReads.app"
+            BlueprintName = "CozyReads"
             ReferencedContainer = "container:CozyRead.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -113,8 +113,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D35FE9F42A79ADB1002B1987"
-            BuildableName = "CozyRead.app"
-            BlueprintName = "CozyRead"
+            BuildableName = "CozyReads.app"
+            BlueprintName = "CozyReads"
             ReferencedContainer = "container:CozyRead.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
