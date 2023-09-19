@@ -96,7 +96,6 @@ private struct InternalRating : View {
                         } else {
                             configuration.rating = 0
                         }
-                        let _ = print("tapped: ", configuration.rating, value)
                     }
                     .onLongPressGesture {
                         longTap.toggle()

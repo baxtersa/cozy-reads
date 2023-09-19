@@ -50,16 +50,32 @@ struct ProfileSelection : View {
 
                     VStack {
                         Spacer()
-                        HStack(alignment: .lastTextBaseline, spacing: 30) {
-                            ForEach(profiles) { profile in
-                                ProfileButton(
-                                    editing: $editing,
-                                    profile: profile
-                                )
-                                .frame(width: 100, height: 150)
+                        if profiles.count > 2 {
+                            ScrollView(.horizontal) {
+                                HStack(alignment: .lastTextBaseline, spacing: 30) {
+                                    ForEach(profiles) { profile in
+                                        ProfileButton(
+                                            editing: $editing,
+                                            profile: profile
+                                        )
+                                        .frame(height: 150)
+                                        .scaledToFit()
+                                    }
+                                }
+                            }
+                        } else {
+                            HStack(alignment: .lastTextBaseline, spacing: 30) {
+                                ForEach(profiles) { profile in
+                                    ProfileButton(
+                                        editing: $editing,
+                                        profile: profile
+                                    )
+                                    .frame(height: 150)
+                                    .scaledToFit()
+                                }
                             }
                         }
-                        .frame(maxWidth: .infinity)
+//                        .frame(maxWidth: .infinity)
                         
                         if !editing && !unassignedBooks.isEmpty {
                             VStack(spacing: 20) {

@@ -145,16 +145,8 @@ struct DailyGoalsView : View {
     @State private var displayPicker: Bool = false
 
     var body: some View {
-//        if let profile = profile.wrappedValue {
-//            let _ = daysRead.filter{ $0.profile == nil }
-//                .forEach{ $0.profile = profile}
-//        }
         let daysRead = daysRead.filter{ $0.profile == profile.wrappedValue }
         VStack(alignment: .leading) {
-//            Text("Days Read")
-//                .font(.system(.title2))
-//                .padding()
-
             if displayPicker {
                 DayTracker(daysRead: daysRead, displayPicker: $displayPicker)
             } else {

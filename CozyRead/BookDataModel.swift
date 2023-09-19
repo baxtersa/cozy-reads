@@ -256,19 +256,7 @@ extension BookCSVData {
 }
 
 extension BookCSVData {
-    static let defaultTags: [String] = [
-        "Fantasy",
-        "Sci-fi",
-        "Contemporary",
-        "Horror",
-        "Literary",
-        "Nonfiction",
-        "Romance",
-        "Historical Fiction",
-        "Mystery",
-        "True Crime",
-        "Thriller"
-    ]
+    static let defaultTags: [String] = Genre.allCases.map{ $0.rawValue }
 }
 
 public protocol InitFromDictionary {

@@ -62,6 +62,7 @@ struct ProfileButton : View {
             } label: {
                 ZStack {
                     Circle()
+                        .inset(by: 2.5)
                         .stroke(lineWidth: 5)
                     Image(systemName: "person")
                         .resizable()
@@ -79,6 +80,7 @@ struct ProfileButton : View {
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
+                .scaledToFit()
             }
             .confirmationDialog("Delete", isPresented: $deleteConfirmation) {
                 Button(role: .destructive) {
@@ -117,7 +119,6 @@ You will be able to link books to a new profile after creating one
                     .focused($focusProfileName)
                     .fixedSize()
                 if colorThemesUnlocked {
-                    let _ = print("Showing color picker for \(profile.name): ", profile.color?.color)
                     ProfileColorPicker(profile: profile)
                         .frame(width: 50)
                 }
