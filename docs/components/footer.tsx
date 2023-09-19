@@ -8,9 +8,18 @@ const AppDescription = "Build healthy reading habits by tracking reading progres
 
 export default function Footer() {
     const navigation = [
-        "Features",
-        "About",
-        "Support",
+        {
+            title: "Features",
+            link: "/"
+        },
+        {
+            title: "About",
+            link: "/about"
+        },
+        {
+            title: "Support",
+            link: "/support"
+        }
     ];
     return (
         <div className="relative">
@@ -39,8 +48,8 @@ export default function Footer() {
                     <div>
                         <div className="flex flex-wrap w-full -mt-2 -ml-3 lg:ml-0">
                             {navigation.map((item, index) => (
-                                <Link key={index} href="/" className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-gradientDark focus:text-gradientDark focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700">
-                                    {item}
+                                <Link key={index} href={item.link} className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-gradientDark focus:text-gradientDark focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700">
+                                    {item.title}
                                 </Link>
                             ))}
                         </div>
