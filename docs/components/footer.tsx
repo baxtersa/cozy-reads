@@ -23,6 +23,13 @@ export default function Footer() {
             link: "/support"
         }
     ];
+    const legal = [
+        {
+            title: "Privacy",
+            link: "/privacy"
+        }
+    ];
+
     return (
         <div className="relative">
             <Container>
@@ -56,6 +63,16 @@ export default function Footer() {
                             ))}
                         </div>
                     </div>
+                    <div>
+                        <div className="flex flex-wrap w-full -mt-2 -ml-3 lg:ml-0">
+                            {legal.map((item, index) => (
+                                <Link key={index} href={item.link} className="w-full px-4 py-2 text-gray-500 rounded-md dark:text-gray-300 hover:text-gradientDark focus:text-gradientDark focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700">
+                                    {item.title}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+
                     <div className="">
                         <div>Follow us</div>
                         <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">
