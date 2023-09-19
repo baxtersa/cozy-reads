@@ -17,7 +17,7 @@ export default function About() {
             <Container className="flex flex-wrap mb-20 lg:gap-10 lg:flex-nowrap ">
                 <div className={`flex flex-wrap items-center w-full`}>
                     <div>
-                        <div align="center" className="flex flex-col w-full mt-4">
+                        <div className="flex flex-col w-full mt-4">
                             <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">
                                 {data.title}
                             </h1>
