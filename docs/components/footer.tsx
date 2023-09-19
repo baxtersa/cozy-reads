@@ -3,6 +3,8 @@ import Image from "next/image";
 import React from "react";
 import Container from "./container";
 
+import logo from "@/public/img/CozyReads.png"
+
 const AppTitle = "CozyReads"
 const AppDescription = "Build healthy reading habits by tracking reading progress and planning future reads."
 
@@ -30,7 +32,7 @@ export default function Footer() {
                             {" "}
                             <Link href="/" className="flex items-center space-x-2 text-2xl font-medium text-gradientDark dark:text-gray-100">
                                 <Image
-                                    src="/img/CozyReads.png"
+                                    src={logo}
                                     alt="N"
                                     width="32"
                                     height="32"
