@@ -97,6 +97,5 @@ struct NavBarView_Previews: PreviewProvider {
     static var previews: some View {
         NavBarView()
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//            .environment(\.profileColor, .red)
     }
 }

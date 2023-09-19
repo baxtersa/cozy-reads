@@ -21,7 +21,13 @@ final class CozyReadUITests: XCTestCase {
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
     
-    func testOverviewScreenshot() {
+    func testOverviewScreenshots() {
+        let app = XCUIApplication()
+
         snapshot("01Overview")
+        
+        app.tabBars.buttons["Shelves"].tap()
+        
+        snapshot("02Shelves")
     }
 }

@@ -8,18 +8,10 @@
 import CoreData
 import struct SwiftUI.Color
 
-class CozyReadPersistentContainer : NSPersistentCloudKitContainer {
-    let loginTime = UserDefaults.standard.bool(forKey: Onboarding.Constants.defaultProfile)
-
-    var backgroundContext: NSManagedObjectContext? = nil
-}
-
 struct PersistenceController {
-    static let shared = PersistenceController()
-
-    static var preview: PersistenceController = {
-        let result = PersistenceController(inMemory: true)
-        let viewContext = result.container.viewContext
+    private func populateStore() {
+        print("Populating")
+        let viewContext = container.viewContext
 
         // Fake some reading dates
         if let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Calendar.current.startOfDay(for: .now)),
@@ -29,23 +21,25 @@ struct PersistenceController {
                 entry.date = day
             }
         }
-        
+
         let profile = ProfileEntity(context: viewContext)
         profile.uuid = UUID()
         profile.name = "Sam"
-        profile.color = SerializableColor(from: Color.blue)
         UserDefaults.standard.setValue(profile.uuid.uuidString, forKey: Onboarding.Constants.defaultProfile)
-        
+        UserDefaults.standard.setValue(true, forKey: Onboarding.Constants.onboardingVersion)
+
         let goal = YearlyGoalEntity(context: viewContext)
         goal.setYear(year: 2023)
         goal.goal = 45
         goal.profile = profile
-        
+
         let books: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: viewContext)
-//        books.forEach{ book in
-//            book.profile = profile
-//        }
-        
+        if UserDefaults.standard.bool(forKey: "FASTLANE_SNAPSHOT") {
+            books.forEach{ book in
+                book.profile = profile
+            }
+        }
+
         do {
             try viewContext.save()
         } catch {
@@ -54,14 +48,20 @@ struct PersistenceController {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+    }
+
+    static let shared = PersistenceController()
+
+    static var preview: PersistenceController = {
+        let result = PersistenceController(inMemory: true)
+        result.populateStore()
         return result
     }()
 
-    let container: CozyReadPersistentContainer
+    let container: NSPersistentCloudKitContainer
 
     private init(inMemory: Bool = false) {
-        let persistance = CozyReadPersistentContainer(name: "CozyRead")
-        container = persistance
+        container = NSPersistentCloudKitContainer(name: "CozyRead")
         
         // Only initialize the schema when building the app with the
         // Debug build configuration.
@@ -74,23 +74,10 @@ struct PersistenceController {
         }
         #endif
 
-//        let defaultDirectoryURL = CozyReadPersistentContainer.defaultDirectoryURL()
-//        
-//        let appDirectoryURL = defaultDirectoryURL.appendingPathComponent("Application.sqlite")
-//        let appStoreDescription = NSPersistentStoreDescription(url: appDirectoryURL)
-//        appStoreDescription.configuration = "Application"
-//        
-//        container.persistentStoreDescriptions = [appStoreDescription]
-//        container.loadPersistentStores { _, error in
-//            ()
-//        }
-//        
-//        let profileDirectoryURL = defaultDirectoryURL.appendingPathComponent("Profile.sqlite")
-        if inMemory {
+        if inMemory || UserDefaults.standard.bool(forKey: "FASTLANE_SNAPSHOT") {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
-//        let _: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: container.viewContext)
-
+        
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -108,8 +95,11 @@ struct PersistenceController {
             }
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
-//
-//        container.backgroundContext = container.newBackgroundContext()
+
+        if UserDefaults.standard.bool(forKey: "FASTLANE_SNAPSHOT") {
+            populateStore()
+//            let _: [BookCSVData] = CSVReader.readCSV(inputFile: "data.csv", context: container.viewContext)
+        }
     }
 
     func save() {
@@ -124,18 +114,4 @@ struct PersistenceController {
             }
         }
     }
-//
-//    func backgroundSave() {
-//        if let context = container.backgroundContext {
-//            context.perform {
-//                if context.hasChanges {
-//                    do {
-//                        try context.save()
-//                    } catch {
-//                        print(error.localizedDescription)
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
