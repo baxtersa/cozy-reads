@@ -1,5 +1,4 @@
 import Hero from '@/components/hero'
-import Navbar from '@/components/navbar'
 import SectionTitle from '@/components/sectionTitle'
 import { Features, featureDevices, featureOne, featureIAP } from '@/components/features'
 
@@ -7,7 +6,6 @@ import { Features, featureDevices, featureOne, featureIAP } from '@/components/f
 export default function Home() {
     return (
         <>
-            <Navbar />
             <Hero />
             <SectionTitle pretitle="CozyReads Features" title="What you get with CozyReads">
                 CozyReads is a reading habit tracker with a personal touch. Set
@@ -20,10 +18,6 @@ export default function Home() {
             <Features data={featureDevices} imgPos='right' />
             <Features data={featureOne} imgPos={undefined} />
             <Features data={featureIAP} imgPos='right' />
-            <SectionTitle pretitle="FAQ" title="Frequently Asked Questions">
-                Common questions are answered below. Please open an Issue on the
-                Github page for further support.
-            </SectionTitle>
         </>
     )
 }
