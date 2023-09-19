@@ -10,6 +10,8 @@ import Foundation
 import SwiftUI
 
 struct MonthlyProgress : View {
+    @Environment(\.profile) private var profile
+
     @FetchRequest(sortDescriptors: [])
     private var goals: FetchedResults<YearlyGoalEntity>
 
@@ -21,11 +23,15 @@ struct MonthlyProgress : View {
             .filter{ $0.key == year }
             .flatMap{ $0.value }
             .compactMap{ $0.dateCompleted }
-        if let goal = goals.first(where: { $0.targetYear == year }) {
+        if let goal = goal {
             Text("\(thisYear.count)/\(goal.goal) books")
         } else {
             Text("\(thisYear.count) books")
         }
+    }
+    
+    private var goal: YearlyGoalEntity? {
+        goals.filter{ $0.profile == profile.wrappedValue }.first{ $0.targetYear == year }
     }
 
     var body: some View {
@@ -36,8 +42,6 @@ struct MonthlyProgress : View {
         })
             .filter{ $0.key.month != nil }
             .sorted(by: {$0.key.month ?? 0 < $1.key.month ?? 0})
-
-        let goal = goals.first{ $0.targetYear == year }
  
         if case let .year(num) = year,
            let startDate = Calendar.current.date(from: DateComponents(year: num)),
