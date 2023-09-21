@@ -41,7 +41,7 @@ struct MonthlyProgress : View {
             Calendar.current.dateComponents([.month, .year], from: $0.dateCompleted ?? .now)
         })
             .filter{ $0.key.month != nil }
-            .sorted(by: {$0.key.month ?? 0 < $1.key.month ?? 0})
+            .sorted(by: {$0.key.month ?? 0 > $1.key.month ?? 0})
  
         if case let .year(num) = year,
            let startDate = Calendar.current.date(from: DateComponents(year: num)),
