@@ -142,6 +142,12 @@ struct YearlyTotal : View {
                 Image(systemName: "book.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                Image(systemName: "plus.circle")
+                    .foregroundColor(.white)
+                    .font(.system(.title))
+                    .bold()
+                    .background(Circle())
+                    .offset(x: 40, y: 30)
             }
             .frame(height: 80)
             .foregroundColor(profileColor)
