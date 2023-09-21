@@ -102,6 +102,48 @@ struct MonthlyProgress : View {
     }
 }
 
+struct ReadingActivity: View {
+    @Environment(\.profile) private var profile
+
+    @FetchRequest(sortDescriptors: [])
+    private var activity: FetchedResults<ReadingTrackerEntity>
+    
+    let year: Year
+
+    var body: some View {
+        let activity = activity
+            .filter{ $0.profile == profile.wrappedValue }
+            .compactMap{ $0.date }
+            .filter{ date in
+                guard let activityYear = Calendar.current.dateComponents([.year], from: date).year else { return false }
+                guard case let .year(year) = year else { return false }
+                return activityYear == year
+            }
+        let dict = Dictionary(grouping: activity, by: {
+            Calendar.current.dateComponents([.month, .year], from: $0)
+        })
+            .sorted(by: { $0.key.month ?? 0 > $1.key.month ?? 0 })
+
+        if case let .year(num) = year,
+           let startDate = Calendar.current.date(from: DateComponents(year: num)),
+           let nextYear = Calendar.current.date(byAdding: .year, value: 1, to: startDate),
+           let endDate = Calendar.current.date(byAdding: .day, value: -1, to: nextYear) {
+            Graph(title: "Reading Activity", data: dict, id: \.key) { month, activities in
+                if let month = Calendar.current.date(from: month) {
+                    let xp: PlottableValue = .value("Month", month, unit: .month)
+                    let ypStart: PlottableValue = .value("Days Read", -activities.count)
+                    let ypEnd: PlottableValue = .value("Days Read", activities.count)
+                    RectangleMark(x: xp, yStart: ypStart, yEnd: ypEnd)
+                        .cornerRadius(10)
+                }
+            }
+            .chartXScale(domain: [startDate, endDate])
+            .chartYAxis(.hidden)
+            .chartYScale(domain: [-31,31])
+        }
+    }
+}
+
 struct YearlyGraphs : View {
     let books: [Year:[BookCSVData]]
     let year: Year
@@ -152,7 +194,9 @@ struct YearlyGraphs : View {
 
         VStack {
             MonthlyProgress(books: books, year: year)
-                
+
+            ReadingActivity(year: year)
+
             Graph(title: "Books Read", subtitle: {
                 HStack {
                     yearOverYear
