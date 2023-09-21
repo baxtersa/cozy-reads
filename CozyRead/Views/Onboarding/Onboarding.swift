@@ -38,15 +38,29 @@ struct ProfileSelection : View {
                 CreateProfileView(focusProfileName: $focusProfileName)
             } else {
                 ZStack {
-                    Button {
-                        editing.toggle()
-                    } label: {
-                        Image(systemName: "gearshape")
-                            .font(.title)
-                            .symbolVariant(editing ? .fill : .none)
+                    HStack {
+                        NavigationLink {
+                            StoreView()
+                        } label: {
+                            Image(systemName: "cart")
+                                .font(.system(.title))
+                        }
+                        .buttonStyle(.bordered)
+                        .padding()
+                        .frame(maxHeight: .infinity, alignment: .topTrailing)
+
+                        Spacer()
+                        
+                        Button {
+                            editing.toggle()
+                        } label: {
+                            Image(systemName: "gearshape")
+                                .font(.system(.title))
+                                .symbolVariant(editing ? .fill : .none)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                     }
-                    .padding()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
 
                     VStack {
                         Spacer()
@@ -128,20 +142,13 @@ struct ProfileSelection : View {
                                     Label("Add", systemImage: "plus.circle")
                                         .font(.title)
                                 }
+                                .padding(.vertical)
                             } else {
                                 Text("Check out the shop to unlock multiple profiles and additional themes!")
                                     .multilineTextAlignment(.center)
                                     .padding(.horizontal)
-                                
-                                NavigationLink {
-                                    StoreView()
-                                } label: {
-                                    Label("Shop", systemImage: "cart")
-                                        .font(.system(.title))
-                                }
-                                .buttonStyle(.bordered)
                             }
-                            
+
                             Button {
                                 hasSeenOnboardingView.toggle()
                             } label: {
