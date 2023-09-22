@@ -33,7 +33,7 @@ struct MostRead : View {
                 }
             }
         } label: {
-            Graph(title: "Most Read", data: topFive, id: \.key) { author, count in
+            Graph(title: "Most Read", data: topFive, id: \.key, isLink: true) { author, count in
                 let xp: PlottableValue = .value("Count", count)
                 let yp: PlottableValue = .value("Author", author)
                 BarMark(x: xp, y: yp, width: 10)
@@ -105,7 +105,7 @@ struct AuthorGraphs : View {
                     }
                 }
             } label: {
-                Graph(title: "Highest Rated", data: highestRated.prefix(5), id: \.key) { author, rating in
+                Graph(title: "Highest Rated", data: highestRated.prefix(5), id: \.key, isLink: true) { author, rating in
                     let xp: PlottableValue = .value("Author", author)
                     let yp: PlottableValue = .value("Rating", rating)
                     PointMark(x: yp, y: xp)

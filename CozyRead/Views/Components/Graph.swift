@@ -25,30 +25,42 @@ struct Graph<Data: RandomAccessCollection, ID: Hashable, Content: ChartContent, 
     let data: Data
     
     let id: KeyPath<Data.Element, ID>
+
+    var isLink: Bool = false
+
     @ChartContentBuilder let content: (Data.Element) -> Content
     
-    init(title: String, subtitle: SubView?, data: Data, id: KeyPath<Data.Element, ID>, @ChartContentBuilder content: @escaping (Data.Element) -> Content) {
+    init(title: String, subtitle: SubView?, data: Data, id: KeyPath<Data.Element, ID>, isLink: Bool = false, @ChartContentBuilder content: @escaping (Data.Element) -> Content) {
         self.title = title
         self.subtitle = subtitle
         self.data = data
         self.id = id
+        self.isLink = isLink
         self.content = content
     }
     
-    init(title: String, data: Data, id: KeyPath<Data.Element, ID>, @ChartContentBuilder content: @escaping (Data.Element) -> Content) where SubView == EmptyView {
+    init(title: String, data: Data, id: KeyPath<Data.Element, ID>, isLink: Bool = false, @ChartContentBuilder content: @escaping (Data.Element) -> Content) where SubView == EmptyView {
         self.title = title
         self.subtitle = nil
         self.data = data
         self.id = id
+        self.isLink = isLink
         self.content = content
     }
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title)
-                .font(.system(.title2))
-                .bold()
-                .padding([.leading, .top])
+            HStack {
+                Text(title)
+                    .font(.system(.title2))
+                    .bold()
+                    .padding([.leading, .top])
+                if isLink {
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .padding([.trailing, .top])
+                }
+            }
             if let subtitle = subtitle {
                 subtitle
                     .padding(.leading)
@@ -86,10 +98,17 @@ struct Graph_Previews : PreviewProvider {
     static let data = ["A": 1].map{$0}
 
     static var previews: some View {
-        Graph(title: "Title", data: data, id: \.key) { (key: String, value: Int) in
-            let xp: PlottableValue = .value("Year", key)
-            let yp: PlottableValue =  .value("Books Read", value)
-            BarMark(x: xp, y: yp)
+        NavigationStack {
+            NavigationLink {
+                
+            } label: {
+                Graph(title: "Title", data: data, id: \.key, isLink: true) { (key: String, value: Int) in
+                    let xp: PlottableValue = .value("Year", key)
+                    let yp: PlottableValue =  .value("Books Read", value)
+                    BarMark(x: xp, y: yp)
+                }
+            }
+            .tint(.primary)
         }
     }
 }

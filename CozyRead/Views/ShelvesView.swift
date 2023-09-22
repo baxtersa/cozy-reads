@@ -112,6 +112,7 @@ struct ShelvesView : View {
                         }
                     }
                     .padding(.horizontal)
+                    .tint(.primary)
                 }
             }
             .animation(.linear, value: categoryFilter)

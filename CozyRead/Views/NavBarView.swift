@@ -17,6 +17,7 @@ struct Header : View {
         HStack {
             Image(systemName: "book.fill")
                 .font(.system(.largeTitle))
+                .foregroundColor(profileColor)
             Text("CozyReads")
                 .font(.system(.largeTitle))
             Spacer()
@@ -41,7 +42,6 @@ struct Header : View {
             .scaledToFit()
         }
         .padding([.horizontal, .top])
-        .foregroundColor(profileColor)
     }
 }
 

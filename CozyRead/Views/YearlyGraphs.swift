@@ -70,7 +70,7 @@ struct MonthlyProgress : View {
                     }
                 }
             } label: {
-                Graph(title: "\(year.description) Progress", subtitle: subtitle.padding(.leading), data: dict, id: \.key) { components, books in
+                Graph(title: "\(year.description) Progress", subtitle: subtitle.padding(.leading), data: dict, id: \.key, isLink: true) { components, books in
                     if let date = Calendar.current.date(from: components) {
                         let xp: PlottableValue = .value("Month", date, unit: .month)
                         let count = thisYear.reduce(0, { acc, book in

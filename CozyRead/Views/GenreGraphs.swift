@@ -51,7 +51,7 @@ struct GenreGraphs : View {
                     }
                 }
             } label: {
-                Graph(title: "Books Read", data: data, id: \.key) { genre, count in
+                Graph(title: "Books Read", data: data, id: \.key, isLink: true) { genre, count in
                     let xp: PlottableValue = .value("Genre", genre.rawValue)
                     let yp: PlottableValue =  .value("Books Read", count)
                     BarMark(x: xp, y: yp)
@@ -81,7 +81,7 @@ struct GenreGraphs : View {
                     }
                 }
             } label: {
-                Graph(title: "Average Rating", data: completed, id: \.key) { genre, books in
+                Graph(title: "Average Rating", data: completed, id: \.key, isLink: true) { genre, books in
                     let avg = books.reduce(0, { acc, book in
                         acc + Float(book.rating) / Float(books.count)
                     })
@@ -128,7 +128,7 @@ struct GenreGraphs : View {
                     }
                 }
             } label: {
-                Graph(title: "Tags", data: tagCounts, id: \.0) { (tag, count) in
+                Graph(title: "Tags", data: tagCounts, id: \.0, isLink: true) { (tag, count) in
                     let xp: PlottableValue = .value("Tag", tag)
                     let yp: PlottableValue =  .value("Books Read", count)
                     

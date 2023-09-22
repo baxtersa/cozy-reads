@@ -137,7 +137,7 @@ struct TBRForm : View {
 
     @State var series: String = ""
 
-    @State var selectedGenre: Genre = .fantasy
+    @State var selectedGenre: Genre = .undefined
     @State var readType: ReadType = .physical
     @State var year: Year = .tbr
     @State var completedDate: Date = .now
@@ -160,8 +160,8 @@ struct TBRForm : View {
                 }
 
                 Section("Book Info") {
-                    TextField("Title", text: $title)
-                    TextField("Author", text: $author)
+                    TextField("Title (required)", text: $title)
+                    TextField("Author (required)", text: $author)
                     TextField("Series", text: $series)
                     Picker("Genre", selection: $selectedGenre) {
                         ForEach(Genre.allCases) { (genre: Genre) in

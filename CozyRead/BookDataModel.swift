@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 public enum Genre : String, CaseIterable, Hashable, Identifiable {
+    case undefined = "Undefined"
     case autobiography = "Autobiography"
     case biography = "Biography"
     case comic = "Comic"
@@ -146,7 +147,7 @@ public class BookCSVData : NSManagedObject, InitFromDictionary, Identifiable {
 
     @NSManaged private var private_genre: String
     @nonobjc public var genre: Genre {
-        Genre(rawValue: private_genre) ?? .fantasy
+        Genre(rawValue: private_genre) ?? .undefined
     }
 
     @NSManaged private var private_year: String
