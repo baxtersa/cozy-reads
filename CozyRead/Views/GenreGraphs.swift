@@ -27,7 +27,7 @@ struct GenreGraphs : View {
     @Binding var year: YearFilter
 
     var body: some View {
-        let completed = completed.sorted(by: { $0.key < $1.key }).filter{ !$1.isEmpty }
+        let completed = completed.sorted(by: { $0.value.count > $1.value.count }).filter{ !$1.isEmpty }
         let data = completed.flatMap{ genre, books in
             [genre:Double(books.count)]
         }
@@ -54,12 +54,13 @@ struct GenreGraphs : View {
                 Graph(title: "Books Read", data: data, id: \.key, isLink: true) { genre, count in
                     let xp: PlottableValue = .value("Genre", genre.rawValue)
                     let yp: PlottableValue =  .value("Books Read", count)
-                    BarMark(x: xp, y: yp)
+                    BarMark(x: yp, y: xp)
                         .foregroundStyle(by: xp)
-                        .annotation {
+                        .annotation(position: .trailing) {
                             Text(String(Int(count)))
                         }
                 }
+                .chartXAxis(.hidden)
             }
 
             NavigationLink {
@@ -105,12 +106,14 @@ struct GenreGraphs : View {
             let tagCounts  = tags.map{ tag in
                 (tag, allBooks.filter{ $0.tags.contains(tag) }.count)
             }.filter{ $0.1 > 0 }
-                .sorted(by: { $0.1 < $1.1 })
+                .sorted(by: { $0.1 > $1.1 })
 
             NavigationLink {
                 let tagBooks = tags.map { tag in
                     (tag, allBooks.filter{ $0.tags.contains(tag) })
                 }
+                    .sorted(by: { $0.1.count > $1.1.count })
+
                 BookList(data: tagBooks, sectionTitle: { $0 }) { book in
                     VStack(alignment: .leading) {
                         Text(book.title)
@@ -128,19 +131,21 @@ struct GenreGraphs : View {
                     }
                 }
             } label: {
-                Graph(title: "Tags", data: tagCounts, id: \.0, isLink: true) { (tag, count) in
+                Graph(title: "Tags", data: tagCounts.prefix(5), id: \.0, isLink: true) { (tag, count) in
                     let xp: PlottableValue = .value("Tag", tag)
                     let yp: PlottableValue =  .value("Books Read", count)
                     
                     if #available(iOS 17.0, *) {
                     } else {
-                        BarMark(x: xp, y: yp)
+                        BarMark(x: yp, y: xp)
                             .foregroundStyle(by: xp)
-                            .annotation {
+                            .annotation(position: .trailing) {
                                 Text(String(Int(count)))
                             }
                     }
                 }
+                .chartXAxis(.hidden)
+                .frame(height: 250)
             }
         }
     }
