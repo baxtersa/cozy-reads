@@ -48,7 +48,7 @@ private struct Item : View {
                         
                         expand.toggle()
                     } label: {
-                        Label("Finished", systemImage: "checkmark")
+                        Text("Finish")
                     }
                     .buttonStyle(.bordered)
                 }
