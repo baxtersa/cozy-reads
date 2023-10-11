@@ -10,3 +10,5 @@ xcuserdata/
 ## Fastlane output
 screenshots
 fastlane/Preview.html
+fastlane/README.md
+fastlane/report.xml

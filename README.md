@@ -9,8 +9,7 @@ social media community and comparison culture. Customize tags and filter graphs
 however you wish. Plan out your "To Read" list so that you are always looking
 forward to your next book.
 
-CozyReads will be available to download on iOS and iPadOS from the App Store
-soon.
+CozyReads is available to download on iOS and iPadOS from the App Store.
 
 ## Features
 
