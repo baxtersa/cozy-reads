@@ -41,13 +41,6 @@ struct DashboardView : View {
     @State private var overviewYear: Year = .year(Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023)
 
     var body: some View {
-        let books = books.filter{ $0.profile == profile.wrappedValue }
-        let readThisYear = books.filter{$0.year == overviewYear}
-        let booksRead = ChartModel(title: "Books read this year", metric: Float(readThisYear.count), symbol: "book")
-        let avgRating = ChartModel(title: "Average rating", metric: readThisYear.reduce(0.0, { accum, book in
-            accum + Float(book.rating)
-        }) / Float(readThisYear.count), symbol: "star")
-
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 let years = Array(Set(books.map{ $0.year })).sorted()
