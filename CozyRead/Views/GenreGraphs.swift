@@ -41,7 +41,7 @@ struct GenreGraphs : View {
                     }
                 }
             } label: {
-                Graph(title: "Books Read", data: data, id: \.key, isLink: true) { genre, count in
+                Graph(title: "Books Read", data: data.prefix(5), id: \.key, isLink: true) { genre, count in
                     let xp: PlottableValue = .value("Genre", genre.rawValue)
                     let yp: PlottableValue =  .value("Books Read", count)
                     BarMark(x: yp, y: xp)
@@ -51,6 +51,7 @@ struct GenreGraphs : View {
                         }
                 }
                 .chartXAxis(.hidden)
+                .frame(height: 250)
             }
 
             NavigationLink {
@@ -72,14 +73,14 @@ struct GenreGraphs : View {
                     }
                 }
             } label: {
-                Graph(title: "Average Rating", data: completed, id: \.key, isLink: true) { genre, books in
+                Graph(title: "Average Rating", data: completed.prefix(5), id: \.key, isLink: true) { genre, books in
                     let avg = books.reduce(0, { acc, book in
                         acc + Float(book.rating) / Float(books.count)
                     })
                     let xp: PlottableValue = .value("Genre", genre.rawValue)
                     let yp: PlottableValue =  .value("Rating", avg)
-                    PointMark(x: xp, y: yp)
-                        .symbolSize(CGFloat(books.count) * 150)
+                    PointMark(x: yp, y: xp)
+                        .symbolSize(CGFloat(avg) * 150)
                         .annotation(position: .overlay) {
                             Text(String(format: "%0.1f", avg))
                                 .font(.system(.caption))
@@ -88,7 +89,9 @@ struct GenreGraphs : View {
                                 .bold()
                         }
                         .foregroundStyle(by: xp)
+                        .offset(y: -10)
                 }
+                .chartXAxis(.hidden)
             }
 
             let allBooks: [BookCSVData] = completed.flatMap{$1}
@@ -125,14 +128,11 @@ struct GenreGraphs : View {
                     let xp: PlottableValue = .value("Tag", tag)
                     let yp: PlottableValue =  .value("Books Read", count)
                     
-                    if #available(iOS 17.0, *) {
-                    } else {
-                        BarMark(x: yp, y: xp)
-                            .foregroundStyle(by: xp)
-                            .annotation(position: .trailing) {
-                                Text(String(Int(count)))
-                            }
-                    }
+                    BarMark(x: yp, y: xp)
+                        .foregroundStyle(by: xp)
+                        .annotation(position: .trailing) {
+                            Text(String(Int(count)))
+                        }
                 }
                 .chartXAxis(.hidden)
                 .frame(height: 250)
