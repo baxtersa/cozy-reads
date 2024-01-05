@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Overview : View {
     let years: [Year]
-    @Binding var overviewYear: Year
+    @Binding var overviewYear: YearFilter
 
     var body: some View {
         HStack {
@@ -21,12 +21,19 @@ struct Overview : View {
             
             Spacer()
             Picker("Year", selection: $overviewYear) {
-                ForEach(years.filter{
-                    guard case .year = $0 else { return false }
-                    return true
-                }) { year in
+                Text("All-Time")
+                    .tag(YearFilter.all_time)
+                ForEach(Array(years)) { year in
                     Text(year.description)
+                        .tag(YearFilter.year(year: year))
                 }
+//
+//                ForEach(years.filter{
+//                    guard case .year = $0 else { return false }
+//                    return true
+//                }) { year in
+//                    Text(year.description)
+//                }
             }
         }
     }
@@ -38,12 +45,16 @@ struct DashboardView : View {
 
     @FetchRequest(fetchRequest: BookCSVData.getFetchRequest) var books: FetchedResults<BookCSVData>
     private let currentYear: Int = Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023
-    @State private var overviewYear: Year = .year(Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023)
+    @State private var overviewYear: YearFilter = .year(year: .year(Calendar.current.dateComponents([.year], from: Date.now).year ?? 2023))
 
     var body: some View {
+        let books = books
+            .filter{ $0.profile == profile.wrappedValue }
+
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                let years = Array(Set(books.map{ $0.year })).sorted()
+                let readYears = books.map{ $0.year }
+                let years = Array(Set(readYears + [.year(currentYear)])).sorted()
                 
                 // TODO: Decide what to do about XP/Leveling System
                 //                ProfileView()
@@ -52,13 +63,19 @@ struct DashboardView : View {
 
                 VStack {
                     Overview(years: years, overviewYear: $overviewYear)
-                
+                                    
                     DynamicStack {
                         DailyGoalsView()
-                        if UIDevice.current.userInterfaceIdiom == .pad {
-                            Divider()
+
+                        TotalsGraphs(books: books, year: $overviewYear)
+                        .padding(.horizontal)
+
+                        if case let .year(year) = overviewYear {
+                            if UIDevice.current.userInterfaceIdiom == .pad {
+                                Divider()
+                            }
+                            ReadingProgress(year: year)
                         }
-                        ReadingProgress(year: overviewYear)
                     }
                 }
                 CurrentlyReadingView()

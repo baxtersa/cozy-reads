@@ -53,24 +53,14 @@ struct AuthorGraphs : View {
     
     let books: [String:[BookCSVData]]
     @Binding var year: YearFilter
-    
-    var completed: [String:[BookCSVData]] {
-        books.mapValues{ $0.filter{
-            if case let .year(year) = year {
-                return $0.year == year
-            } else {
-                return $0.year != .tbr && $0.year != .reading
-            }
-        }}
-        .filter{ !$1.isEmpty }
-    }
 
     var body: some View {
-        let completed = completed
+        let completed = books
             .sorted(by: { $0.value.count > $1.value.count })
+            .filter{ !$1.isEmpty }
 
         VStack {
-            MostRead(completed: self.completed)
+            MostRead(completed: self.books)
             
             let sortedByRating = completed.sorted(by: { first, second in
                 let avg1 = first.value.reduce(0.0, { acc, book in

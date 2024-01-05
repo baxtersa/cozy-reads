@@ -14,20 +14,10 @@ struct GenreGraphs : View {
 
     let books: [Genre:[BookCSVData]]
 
-    var completed: [Genre:[BookCSVData]] {
-        books.mapValues{ $0.filter{
-            if case let .year(year) = year {
-                return $0.year == year
-            } else {
-                return $0.year != .tbr && $0.year != .reading
-            }
-        } }
-    }
-
     @Binding var year: YearFilter
 
     var body: some View {
-        let completed = completed.sorted(by: { $0.value.count > $1.value.count }).filter{ !$1.isEmpty }
+        let completed = books.sorted(by: { $0.value.count > $1.value.count }).filter{ !$1.isEmpty }
         let data = completed.flatMap{ genre, books in
             [genre:Double(books.count)]
         }

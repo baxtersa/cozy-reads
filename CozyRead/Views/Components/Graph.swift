@@ -55,8 +55,8 @@ struct Graph<Data: RandomAccessCollection, ID: Hashable, Content: ChartContent, 
                     .font(.system(.title2))
                     .bold()
                     .padding([.leading, .top])
-                if isLink {
                     Spacer()
+                if isLink {
                     Image(systemName: "chevron.right")
                         .padding([.trailing, .top])
                 }
@@ -67,26 +67,31 @@ struct Graph<Data: RandomAccessCollection, ID: Hashable, Content: ChartContent, 
             }
             
             ZStack {
-                Chart(data, id: id) { element in
-                    content(element)
-                }
-                .chartLegend(.hidden)
-                .chartXAxis {
-                    AxisMarks(values: .automatic) { value in
-                        AxisValueLabel()
+                if !data.isEmpty {
+                    Chart(data, id: id) { element in
+                        content(element)
                     }
-                    AxisMarks(values: .stride(by: .month)) { value in
-                        AxisValueLabel()
+                    .chartLegend(.hidden)
+                    .chartXAxis {
+                        AxisMarks(values: .automatic) { value in
+                            AxisValueLabel()
+                        }
+                        AxisMarks(values: .stride(by: .month)) { value in
+                            AxisValueLabel()
+                        }
                     }
-                }
-                .chartYAxis {
-                    AxisMarks(values: .automatic) { value in
-                        AxisValueLabel()
+                    .chartYAxis {
+                        AxisMarks(values: .automatic) { value in
+                            AxisValueLabel()
+                        }
                     }
+                } else {
+                    EmptyView()
                 }
             }
             .padding()
         }
+        .frame(maxWidth: .infinity)
         .background {
             RoundedRectangle(cornerRadius: 20).fill(Color(uiColor: .systemBackground))
         }
